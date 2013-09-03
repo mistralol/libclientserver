@@ -12,6 +12,8 @@ Thread::~Thread()
 {
 	if (IsRunning())
 		Stop();
+
+	delete m_thread;
 }
 
 void Thread::Start()
@@ -23,6 +25,9 @@ void Thread::Start()
 void Thread::Stop()
 {
 #ifdef DEBUG
+	if (IsDetached() == true)
+		abort();
+
 	if (m_IsRunning == false)
 	{
 		abort();	//Attempted to stop an already stopped thread
@@ -36,9 +41,20 @@ void Thread::Stop()
 	}
 }
 
+void Thread::Detatch()
+{
+	m_thread->detach();
+	m_IsDetached = true;
+}
+
 bool Thread::IsRunning()
 {
 	return m_IsRunning;
+}
+
+bool Thread::IsDetached()
+{
+	return m_IsDetached;
 }
 
 void Thread::Run()
