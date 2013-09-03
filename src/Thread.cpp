@@ -41,7 +41,7 @@ void Thread::Stop()
 	}
 }
 
-void Thread::Detatch()
+void Thread::Detach()
 {
 	m_thread->detach();
 	m_IsDetached = true;

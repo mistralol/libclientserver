@@ -15,11 +15,14 @@ ServerManager::~ServerManager()
 void ServerManager::ServerAdd(IServer *Server)
 {
 	m_Servers.push_back(Server);
+	Server->Start(this);
 }
 
 void ServerManager::ServerRemove(IServer *Server)
 {
-	throw;
+	Server->Stop();
+	ConnectionRemoveAll(Server);
+	abort();
 }
 
 void ServerManager::ServerRemoveAll()
@@ -30,24 +33,24 @@ void ServerManager::ServerRemoveAll()
 	}
 }
 
-void ConnectionAdd()
+void ServerManager::ConnectionAdd(IServerConnection *Connection)
 {
-	throw;
+	abort();
 }
 
-void ConnectionRemove()
+void ServerManager::ConnectionRemove(IServerConnection *Connection)
 {
-	throw;
+	abort();
 }
 
-void ConnectionRemoveAll()
+void ServerManager::ConnectionRemoveAll()
 {
-	throw;
+	abort();
 }
 
-void ConnectionRemoveAll(IServer *Server)
+void ServerManager::ConnectionRemoveAll(IServer *Server)
 {
-	throw;
+	abort();
 }
 
 

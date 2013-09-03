@@ -3,7 +3,7 @@
 class IServerConnection
 {
 	public:
-		virtual ~IServerConnection();
+		virtual ~IServerConnection() { }
 
 };
 

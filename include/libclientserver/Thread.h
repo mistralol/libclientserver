@@ -9,7 +9,7 @@ class Thread
 		void Start();
 		void Stop();
 
-		void Detatch();
+		void Detach();
 		
 		bool IsRunning();
 		bool IsDetached();	
