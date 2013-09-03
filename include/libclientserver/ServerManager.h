@@ -11,11 +11,17 @@ class ServerManager
 		void ServerRemove(IServer *Server);
 		void ServerRemoveAll();
 		
-		void ConnectionAdd();
-		void ConnectionRemove();
+		void ConnectionAdd(IServerConnection *Connection);
+		void ConnectionRemove(IServerConnection *Connection);
 		void ConnectionRemoveAll();
 		void ConnectionRemoveAll(IServer *Server);
-		
+
+		void RaisePreNewConnection();
+		void RaisePostNewConnection(IServerConnection *Connection);
+		void RaiseDisconnect(IServerConnection *Connection);
+		void RaiseRequest(IServerConnection *Connection, Request *request, Request *response);
+		void RaiseCommand(IServerConnection *Connection, Request *request);
+	
 	private:
 		IServerHandler *m_handler;
 		std::list<IServer *> m_Servers;

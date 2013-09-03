@@ -1,14 +1,12 @@
 
-CPP=g++
-CPPFLAGS+=-Wall -Werror -DDEBUG -D_GNU_SOURCE -ggdb -std=gnu++0x -fPIC
-INCLUDE+=-I../include
-MKDEP=gcc -E -MM
+include ../Makefile.Rules
 
 SRCS= 	HexEncode.cpp	\
 		Thread.cpp \
 		Request.cpp \
 		ServerManager.cpp \
-		ServerUnix.cpp
+		ServerUnix.cpp \
+		ServerUnixConnection.cpp
 
 OBJS=$(SRCS:%.cpp=%.o)
 

@@ -15,6 +15,7 @@ class ServerUnix : public IServer, protected Thread
 		int m_fd;
 		int m_backlog;
 		bool m_quit;
+		ServerManager *m_manager;
 		
 };		
 
