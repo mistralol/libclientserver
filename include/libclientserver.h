@@ -21,3 +21,7 @@
 #include <libclientserver/IServerHandler.h>
 #include <libclientserver/ServerManager.h>
 
+#include <libclientserver/ClientBase.h>
+#include <libclientserver/ClientUnix.h>
+
+
