@@ -8,7 +8,8 @@ SRCS= 	HexEncode.cpp	\
 		ServerUnix.cpp \
 		ServerUnixConnection.cpp \
 		ClientBase.cpp \
-		ClientUnix.cpp
+		ClientUnix.cpp \
+		Client.cpp
 
 OBJS=$(SRCS:%.cpp=%.o)
 

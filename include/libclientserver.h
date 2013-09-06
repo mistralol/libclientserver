@@ -23,5 +23,5 @@
 
 #include <libclientserver/ClientBase.h>
 #include <libclientserver/ClientUnix.h>
-
+#include <libclientserver/Client.h>
 

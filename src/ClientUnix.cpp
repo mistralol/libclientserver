@@ -32,12 +32,12 @@ void ClientUnix::Disconnect()
 
 void ClientUnix::DoSendRequest(Request *request, Request *response)
 {
-
+	abort();
 }
 
 void ClientUnix::DoSendCommand(Request *request)
 {
-
+	abort();
 }
 
 void ClientUnix::Run()
