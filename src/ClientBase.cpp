@@ -11,6 +11,19 @@ void ClientBase::Init()
 	m_HardTimeout.tv_sec = 30;
 }
 
+void ClientBase::WaitForConnect()
+{
+	struct timespec ts;
+	ts.tv_sec = 1;
+	ts.tv_nsec = 0;
+	while(WaitForConnect(&ts) == false) { }
+}
+
+bool ClientBase::WaitForConnect(const struct timespec *Timeout)
+{
+	abort();
+}
+
 void ClientBase::SetReConnectTimeout(const struct timespec *Timeout)
 {
 	memcpy(&m_ReConnectTimeout, Timeout, sizeof(m_ReConnectTimeout));

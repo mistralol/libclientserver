@@ -7,7 +7,7 @@ class ClientBase
 		virtual void Connect() = 0;
 		virtual void Disconnect() = 0;
 		void WaitForConnect(); //Forever!
-		void WaitForConnect(const struct timespec *Timeout);
+		bool WaitForConnect(const struct timespec *Timeout);
 
 		void SetReConnectTimeout(const struct timespec *Timeout);
 		void SetSoftTimeout(const struct timespec *SoftTimeout);
