@@ -6,6 +6,7 @@ class ClientUnix : public ClientBase, Thread
 		virtual ~ClientUnix();
 
 		void Connect();
+		bool IsConnected();
 		void Disconnect();
 
 	protected:
@@ -19,5 +20,6 @@ class ClientUnix : public ClientBase, Thread
 		bool m_quit;
 		std::string m_path;
 		int m_fd;
+		bool m_connected;
 };
 

@@ -24,6 +24,11 @@ void ClientUnix::Connect()
 	Thread::Start();
 }
 
+bool ClientUnix::IsConnected()
+{
+	return m_connected;
+}
+
 void ClientUnix::Disconnect()
 {
 	m_quit = true;
@@ -60,14 +65,20 @@ void ClientUnix::Run()
 
 		if (connect(m_fd, (struct sockaddr *) &addr, addr_len) < 0)
 		{
+			RaiseOnConnectError(errno, Errno::ToStr());
 			if (close(m_fd) < 0)
 				abort();
 			m_fd = -1;
 		}
 
-		//Write Data!!
+		m_connected = true;
+		RaiseOnConnect();
+		//Write Data From Queue!!
 
 		abort();
+
+		m_connected = false;
+		//RaiseOnDisconnect();
 	}
 }
 

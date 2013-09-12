@@ -21,7 +21,26 @@ void ClientBase::WaitForConnect()
 
 bool ClientBase::WaitForConnect(const struct timespec *Timeout)
 {
+	//FIXME: Should be try lock
+/*
+	if (m_ConnectedMutex.lock() == false)
+		return false;
+*/
+	m_ConnectedMutex.lock();
+
+	if (IsConnected() == true)
+	{
+		m_ConnectedMutex.unlock();
+		return true;
+	}
+
+	//m_ConnectedCond.timed_wait(m_ConnectedMutex);
+
+	m_ConnectedMutex.unlock();
 	abort();
+
+	m_ConnectedCond.notify_all();
+	return false;
 }
 
 void ClientBase::SetReConnectTimeout(const struct timespec *Timeout)
@@ -58,4 +77,31 @@ void ClientBase::SendCommand(Request *command)
 {
 	abort();
 }
+
+void ClientBase::RaiseOnConnect()
+{
+	abort();
+}
+
+void ClientBase::RaiseOnConnectError(int err, const std::string &str)
+{
+	abort();
+}
+
+void ClientBase::RaiseOnDisconnect(int err, const std::string &str)
+{
+	abort();
+}
+
+void ClientBase::RaiseOnResponse()
+{
+	abort();
+}
+
+void ClientBase::RaiseOnEvent()
+{
+	abort();
+}
+
+
 
