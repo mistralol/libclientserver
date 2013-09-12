@@ -9,6 +9,8 @@
 
 #include <libclientserver/HexEncode.h>
 #include <libclientserver/Thread.h>
+#include <libclientserver/Errno.h>
+
 #include <libclientserver/Request.h>
 
 
