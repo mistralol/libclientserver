@@ -21,25 +21,17 @@ void ClientBase::WaitForConnect()
 
 bool ClientBase::WaitForConnect(const struct timespec *Timeout)
 {
-	//FIXME: Should be try lock
-/*
-	if (m_ConnectedMutex.lock() == false)
-		return false;
-*/
-	m_ConnectedMutex.lock();
+	boost::system_time timeout = Time::CalcTimeout(Timeout);
+	boost::mutex::scoped_lock lock(m_ConnectedMutex);
 
-	if (IsConnected() == true)
+	while(IsConnected() == true)
 	{
-		m_ConnectedMutex.unlock();
-		return true;
+		if (m_ConnectedCond.timed_wait(lock, timeout) == false)
+		{
+			return IsConnected();
+		}
 	}
 
-	//m_ConnectedCond.timed_wait(m_ConnectedMutex);
-
-	m_ConnectedMutex.unlock();
-	abort();
-
-	m_ConnectedCond.notify_all();
 	return false;
 }
 
@@ -61,6 +53,11 @@ void ClientBase::SetHardTimeout(const struct timespec *HardTimeout)
 void ClientBase::SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout, const struct timespec *HardTimeout)
 {
 	abort();
+	//Add To Request Map
+	//Clear KeepAlive Flag
+	//Send The Request
+	//Wait For Timeout On Request Map
+	//if no Request Avilable Look for KeepAlive - restart if still under the timeout
 }
 
 void ClientBase::SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout)
@@ -80,7 +77,12 @@ void ClientBase::SendCommand(Request *command)
 
 void ClientBase::RaiseOnConnect()
 {
-	abort();
+	boost::mutex::scoped_lock lock(m_ConnectedMutex);
+#ifdef DEBUG
+	if (IsConnected() == false)
+		abort();	//Apparently Not Connected. This is a bug in the dervied class for Raiseing the event when not connected
+#endif
+	m_ConnectedCond.notify_all();
 }
 
 void ClientBase::RaiseOnConnectError(int err, const std::string &str)
