@@ -42,17 +42,27 @@ bool Request::HasArg(const std::string &Name)
 
 std::string Request::GetArg(const std::string *Key)
 {
-	abort();
+	std::map<std::string, std::string>::iterator it = m_args.find(*Key);
+#ifdef DEBUG
+	if (it == m_args.end())
+		abort();
+#endif
+	return it->second;
 }
 
 void Request::SetArg(const std::string *Key, const std::string *Value)
 {
-	abort();
+	m_args[*Key] = *Value;
 }
 
 void Request::RemoveArg(const std::string *Key)
 {
-	abort();
+	std::map<std::string, std::string>::iterator it = m_args.find(*Key);
+#ifdef DEBUG
+	if (it == m_args.end())
+		abort();
+#endif
+	m_args.erase(it);
 }
 
 std::string Request::Encode() {
