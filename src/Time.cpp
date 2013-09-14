@@ -17,3 +17,11 @@ boost::system_time Time::CalcTimeout(const struct timeval *Timeout)
 	return timeout;
 }
 
+void Time::Sleep(const struct timespec *Timeout)
+{
+	struct timespec rem;
+	int ret = nanosleep(Timeout, &rem);
+	if (ret < 0)
+		abort();
+}
+

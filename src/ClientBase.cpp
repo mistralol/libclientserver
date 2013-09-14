@@ -9,6 +9,8 @@ void ClientBase::Init()
 	m_ReConnectTimeout.tv_sec = 1;
 	m_SoftTimeout.tv_sec = 5;
 	m_HardTimeout.tv_sec = 30;
+	
+	m_Handler = NULL;
 }
 
 void ClientBase::WaitForConnect()
@@ -50,6 +52,11 @@ void ClientBase::SetHardTimeout(const struct timespec *HardTimeout)
 	memcpy(&m_HardTimeout, HardTimeout, sizeof(m_HardTimeout));
 }
 
+void ClientBase::SetHandler(IClientHandler *Handler)
+{
+	m_Handler = Handler;
+}
+
 void ClientBase::SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout, const struct timespec *HardTimeout)
 {
 	abort();
@@ -83,26 +90,33 @@ void ClientBase::RaiseOnConnect()
 		abort();	//Apparently Not Connected. This is a bug in the dervied class for Raiseing the event when not connected
 #endif
 	m_ConnectedCond.notify_all();
+	
+	if (m_Handler != NULL)
+		m_Handler->OnConnect();
 }
 
 void ClientBase::RaiseOnConnectError(int err, const std::string &str)
 {
-	abort();
+	if (m_Handler != NULL)
+		m_Handler->OnConnectError(err, str);
 }
 
 void ClientBase::RaiseOnDisconnect(int err, const std::string &str)
 {
-	abort();
+	if (m_Handler != NULL)
+		m_Handler->OnDisconnect(err, str);
 }
 
 void ClientBase::RaiseOnResponse()
 {
-	abort();
+	if (m_Handler != NULL)
+		m_Handler->OnResponse();
 }
 
 void ClientBase::RaiseOnEvent()
 {
-	abort();
+	if (m_Handler != NULL)
+		m_Handler->OnEvent();
 }
 
 

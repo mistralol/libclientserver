@@ -13,6 +13,7 @@
 #include <libclientserver/Thread.h>
 #include <libclientserver/Errno.h>
 #include <libclientserver/Time.h>
+#include <libclientserver/ReadBuffer.h>
 
 #include <libclientserver/Request.h>
 
@@ -26,6 +27,7 @@
 #include <libclientserver/IServerHandler.h>
 #include <libclientserver/ServerManager.h>
 
+#include <libclientserver/IClientHandler.h>
 #include <libclientserver/ClientBase.h>
 #include <libclientserver/ClientUnix.h>
 #include <libclientserver/Client.h>

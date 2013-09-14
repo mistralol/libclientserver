@@ -15,6 +15,8 @@ class ClientBase
 		void SetSoftTimeout(const struct timespec *SoftTimeout);
 		void SetHardTimeout(const struct timespec *HardTimeout);
 
+		void SetHandler(IClientHandler *Handler);
+
 		void SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout, const struct timespec *HardTimeout);
 		void SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout);
 		void SendRequest(Request *request, Request *response);
@@ -40,6 +42,8 @@ class ClientBase
 
 		boost::mutex m_ConnectedMutex;
 		boost::condition_variable m_ConnectedCond;
+		
+		IClientHandler *m_Handler;
 
 };
 
