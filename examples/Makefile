@@ -19,6 +19,6 @@ include .depend
 endif
 
 clean:
-	$(RM) SimpleServer
+	$(RM) SimpleServer SimpleClient
 	
 	
