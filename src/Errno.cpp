@@ -12,6 +12,6 @@ const std::string Errno::ToStr(int err)
 	std::string str;
 
 	str = strerror_r(err, buf, sizeof(buf));
-	return 0;
+	return str;
 }
 
