@@ -12,6 +12,7 @@ SRCS= 	HexEncode.cpp	\
 		Client.cpp	\
 		Errno.cpp \
 		Time.cpp \
+		Mutex.cpp \
 		ReadBuffer.cpp
 
 OBJS=$(SRCS:%.cpp=%.o)
