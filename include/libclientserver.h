@@ -3,6 +3,8 @@
 #include <map>
 #include <list>
 
+#include <pthread.h>
+
 #include <boost/thread/thread.hpp>
 #include <boost/thread/thread_time.hpp>
 

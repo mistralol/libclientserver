@@ -2,14 +2,17 @@
 #include <libclientserver.h>
 
 Mutex::Mutex() {
-	m_mutex = PTHREAD_MUTEX_INITIALIZER;
+	if (pthread_mutex_init(&m_mutex, NULL) != 0)
+		abort();
 	m_locked = false;
-	
 }
 
 Mutex::~Mutex() {
 	if (m_locked)
 		abort(); //Attempts to free mutex that is locked
+
+	if (pthread_mutex_destroy(&m_mutex) != 0)
+		abort();
 }
 		
 void Mutex::Lock() {
