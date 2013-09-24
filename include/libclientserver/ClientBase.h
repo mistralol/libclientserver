@@ -17,17 +17,18 @@ class ClientBase
 
 		void SetHandler(IClientHandler *Handler);
 
-		void SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout, const struct timespec *HardTimeout);
-		void SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout);
-		void SendRequest(Request *request, Request *response);
+		bool SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout, const struct timespec *HardTimeout);
+		bool SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout);
+		bool SendRequest(Request *request, Request *response);
 
-		void SendCommand(Request *command);
+		bool SendCommand(Request *command);
 
+		uint64_t GetNextID();
 	protected:
 		void Init();
 
-		virtual void DoSendRequest(Request *request, Request *response) = 0; //Should Never Block!
-		virtual void DoSendCommand(Request *request) = 0; //Should never block!
+		virtual bool DoSendRequest(Request *request, Request *response) = 0; //Should Never Block!
+		virtual bool DoSendCommand(Request *request) = 0; //Should never block!
 
 		void RaiseOnConnect();
 		void RaiseOnConnectError(int err, const std::string &str);
@@ -42,6 +43,9 @@ class ClientBase
 		struct timespec m_HardTimeout;
 
 		Mutex m_ConnectedMutex;
+
+		Mutex m_LastIDMutex;
+		uint64_t m_LastID;
 		
 		IClientHandler *m_Handler;
 

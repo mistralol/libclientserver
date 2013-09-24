@@ -10,8 +10,8 @@ class ClientUnix : public ClientBase, Thread
 		void Disconnect();
 
 	protected:
-		void DoSendRequest(Request *request, Request *response);
-		void DoSendCommand(Request *command);
+		bool DoSendRequest(Request *request, Request *response);
+		bool DoSendCommand(Request *command);
 
 	private:
 		void Run();

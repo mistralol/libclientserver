@@ -59,7 +59,7 @@ void ClientBase::SetHandler(IClientHandler *Handler)
 	m_Handler = Handler;
 }
 
-void ClientBase::SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout, const struct timespec *HardTimeout)
+bool ClientBase::SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout, const struct timespec *HardTimeout)
 {
 	abort();
 	//Add To Request Map
@@ -67,21 +67,29 @@ void ClientBase::SendRequest(Request *request, Request *response, const struct t
 	//Send The Request
 	//Wait For Timeout On Request Map
 	//if no Request Avilable Look for KeepAlive - restart if still under the timeout
+	return DoSendRequest(request, response);
 }
 
-void ClientBase::SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout)
+bool ClientBase::SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout)
 {
-	SendRequest(request, response, SoftTimeout, &m_HardTimeout);
+	return SendRequest(request, response, SoftTimeout, &m_HardTimeout);
 }
 
-void ClientBase::SendRequest(Request *request, Request *response)
+bool ClientBase::SendRequest(Request *request, Request *response)
 {
-	SendRequest(request, response, &m_SoftTimeout, &m_HardTimeout);
+	return SendRequest(request, response, &m_SoftTimeout, &m_HardTimeout);
 }
 
-void ClientBase::SendCommand(Request *command)
+bool ClientBase::SendCommand(Request *command)
 {
-	abort();
+	return DoSendCommand(command);
+}
+
+uint64_t ClientBase::GetNextID()
+{
+	ScopedLock lock(&m_LastIDMutex);
+	m_LastID++;
+	return m_LastID;
 }
 
 void ClientBase::RaiseOnConnect()
@@ -91,7 +99,7 @@ void ClientBase::RaiseOnConnect()
 	if (IsConnected() == false)
 		abort();	//Apparently Not Connected. This is a bug in the dervied class for Raiseing the event when not connected
 #endif
-	m_ConnectedMutex.WakeUp();
+	m_ConnectedMutex.WakeUpAll();
 	
 	if (m_Handler != NULL)
 		m_Handler->OnConnect();

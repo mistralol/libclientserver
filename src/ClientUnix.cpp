@@ -14,7 +14,6 @@ ClientUnix::ClientUnix(const std::string path)
 	m_connected = false;
 }
 
-
 ClientUnix::~ClientUnix()
 {
 	Disconnect();
@@ -37,12 +36,12 @@ void ClientUnix::Disconnect()
 	Thread::Stop();
 }
 
-void ClientUnix::DoSendRequest(Request *request, Request *response)
+bool ClientUnix::DoSendRequest(Request *request, Request *response)
 {
 	abort();
 }
 
-void ClientUnix::DoSendCommand(Request *request)
+bool ClientUnix::DoSendCommand(Request *request)
 {
 	abort();
 }
