@@ -8,6 +8,7 @@ class Mutex {
 		
 		void Lock();
 		int TryLock();
+		int TimedLock(const struct timespec *Timeout);
 		void Unlock();
 
 		void Wait();

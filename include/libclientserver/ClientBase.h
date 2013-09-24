@@ -40,8 +40,7 @@ class ClientBase
 		struct timespec m_SoftTimeout;
 		struct timespec m_HardTimeout;
 
-		boost::mutex m_ConnectedMutex;
-		boost::condition_variable m_ConnectedCond;
+		Mutex m_ConnectedMutex;
 		
 		IClientHandler *m_Handler;
 

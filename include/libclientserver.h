@@ -11,6 +11,7 @@
 #include <libclientserver/Errno.h>
 #include <libclientserver/Time.h>
 #include <libclientserver/Mutex.h>
+#include <libclientserver/ScopedLock.h>
 #include <libclientserver/ReadBuffer.h>
 
 #include <libclientserver/Request.h>

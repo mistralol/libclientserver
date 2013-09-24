@@ -26,6 +26,17 @@ int Mutex::TryLock() {
 	return 0;
 }
 
+int Mutex::TimedLock(const struct timespec *Timeout)
+{
+	int ret = pthread_mutex_timedlock(&m_mutex, Timeout);
+	if (ret == 0)
+	{
+		m_locked = true;
+		return 0;
+	}
+	return -errno;
+}
+
 void Mutex::Unlock() {
 	if (pthread_mutex_unlock(&m_mutex) < 0)
 		abort(); //Could not unlock mutex

@@ -23,12 +23,11 @@ void ClientBase::WaitForConnect()
 
 bool ClientBase::WaitForConnect(const struct timespec *Timeout)
 {
-	boost::system_time timeout = Time::CalcTimeout(Timeout);
-	boost::mutex::scoped_lock lock(m_ConnectedMutex);
+	ScopedLock lock(&m_ConnectedMutex);
 
 	while(IsConnected() == true)
 	{
-		if (m_ConnectedCond.timed_wait(lock, timeout) == false)
+		if (m_ConnectedMutex.Wait(Timeout) == false)
 		{
 			return IsConnected();
 		}
@@ -84,12 +83,12 @@ void ClientBase::SendCommand(Request *command)
 
 void ClientBase::RaiseOnConnect()
 {
-	boost::mutex::scoped_lock lock(m_ConnectedMutex);
+	ScopedLock lock(&m_ConnectedMutex);
 #ifdef DEBUG
 	if (IsConnected() == false)
 		abort();	//Apparently Not Connected. This is a bug in the dervied class for Raiseing the event when not connected
 #endif
-	m_ConnectedCond.notify_all();
+	m_ConnectedMutex.WakeUp();
 	
 	if (m_Handler != NULL)
 		m_Handler->OnConnect();
