@@ -27,8 +27,8 @@ class ClientBase
 	protected:
 		void Init();
 
-		virtual bool DoSendRequest(Request *request, Request *response) = 0; //Should Never Block!
-		virtual bool DoSendCommand(Request *request) = 0; //Should never block!
+		virtual bool DoSendRequest(Request *request, const timespec *SoftTimeout) = 0; //Should Never Block!
+		virtual bool DoSendCommand(Request *request, const timespec *SoftTimeout) = 0; //Should never block!
 
 		void RaiseOnConnect();
 		void RaiseOnConnectError(int err, const std::string &str);

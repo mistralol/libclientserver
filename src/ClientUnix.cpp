@@ -36,14 +36,39 @@ void ClientUnix::Disconnect()
 	Thread::Stop();
 }
 
-bool ClientUnix::DoSendRequest(Request *request, Request *response)
+bool ClientUnix::DoSendRequest(Request *request, const timespec *SoftTimeout)
 {
-	abort();
+	std::string str = "REQUEST " + request->Encode() + "\n";
+	return SendLine(str, SoftTimeout);
 }
 
-bool ClientUnix::DoSendCommand(Request *request)
+bool ClientUnix::DoSendCommand(Request *request, const timespec *SoftTimeout)
 {
-	abort();
+	std::string str = "COMMAND " + request->Encode() + "\n";
+	return SendLine();
+}
+
+bool SendLine(const std::string *str, const timespec *SoftTimeout)
+{
+	ScopedLock lock1(&m_WriterMutex);
+	if (IsConnected() == false)
+		return false;
+
+	//FIXME: m_fd needs protected by a Mutex as well this includes the reader side
+	int err = write(m_fd, str.c_str(), str.length();
+	if (err == str->length())
+		return true;
+	err = -errno;
+	abort(); //RaiseOnWriteError?
+	//Either Way We are screwed! kill the connection. The reading side takes care of the state for this
+	if (m_fd >= 0)
+	{
+		if (close(m_fd) < 0)
+		{
+			abort();
+		}
+	}
+	return false;
 }
 
 void ClientUnix::Run()
