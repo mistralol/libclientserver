@@ -10,11 +10,11 @@ class ClientUnix : public ClientBase, Thread
 		void Disconnect();
 
 	protected:
-		bool DoSendRequest(Request *request, const timespec *SoftTimeout);
-		bool DoSendCommand(Request *command, const timespec *SoftTimeout);
+		bool DoSendRequest(Request *request, const struct timespec *Timeout);
+		bool DoSendCommand(Request *command, const struct timespec *Timeout);
 
 	private:
-		bool SendLine(const std::string *str, const timespec *SoftTimeout);
+		bool SendLine(const std::string *str, const struct timespec *Timeout);
 		void Run();
 
 

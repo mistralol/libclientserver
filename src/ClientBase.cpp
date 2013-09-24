@@ -67,7 +67,9 @@ bool ClientBase::SendRequest(Request *request, Request *response, const struct t
 	//Send The Request
 	//Wait For Timeout On Request Map
 	//if no Request Avilable Look for KeepAlive - restart if still under the timeout
-	return DoSendRequest(request, response);
+
+	//We only use soft timeout here because it has no chance of having a keepalive returned until this function returns
+	return DoSendRequest(request, SoftTimeout); 
 }
 
 bool ClientBase::SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout)
@@ -80,9 +82,14 @@ bool ClientBase::SendRequest(Request *request, Request *response)
 	return SendRequest(request, response, &m_SoftTimeout, &m_HardTimeout);
 }
 
+bool ClientBase::SendCommand(Request *command, const struct timespec *Timeout)
+{
+	return DoSendCommand(command, Timeout);
+}
+
 bool ClientBase::SendCommand(Request *command)
 {
-	return DoSendCommand(command);
+	return SendCommand(command, &m_SoftTimeout);
 }
 
 uint64_t ClientBase::GetNextID()

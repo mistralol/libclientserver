@@ -36,27 +36,27 @@ void ClientUnix::Disconnect()
 	Thread::Stop();
 }
 
-bool ClientUnix::DoSendRequest(Request *request, const timespec *SoftTimeout)
+bool ClientUnix::DoSendRequest(Request *request, const struct timespec *Timeout)
 {
 	std::string str = "REQUEST " + request->Encode() + "\n";
-	return SendLine(str, SoftTimeout);
+	return SendLine(&str, Timeout);
 }
 
-bool ClientUnix::DoSendCommand(Request *request, const timespec *SoftTimeout)
+bool ClientUnix::DoSendCommand(Request *request, const struct timespec *Timeout)
 {
 	std::string str = "COMMAND " + request->Encode() + "\n";
-	return SendLine();
+	return SendLine(&str, Timeout);
 }
 
-bool SendLine(const std::string *str, const timespec *SoftTimeout)
+bool ClientUnix::SendLine(const std::string *str, const struct timespec *Timeout)
 {
 	ScopedLock lock1(&m_WriterMutex);
 	if (IsConnected() == false)
 		return false;
 
 	//FIXME: m_fd needs protected by a Mutex as well this includes the reader side
-	int err = write(m_fd, str.c_str(), str.length();
-	if (err == str->length())
+	int err = write(m_fd, str->c_str(), str->length());
+	if (err == (int) str->length())
 		return true;
 	err = -errno;
 	abort(); //RaiseOnWriteError?

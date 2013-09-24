@@ -21,14 +21,15 @@ class ClientBase
 		bool SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout);
 		bool SendRequest(Request *request, Request *response);
 
+		bool SendCommand(Request *command, const struct timespec *Timeout);
 		bool SendCommand(Request *command);
 
 		uint64_t GetNextID();
 	protected:
 		void Init();
 
-		virtual bool DoSendRequest(Request *request, const timespec *SoftTimeout) = 0; //Should Never Block!
-		virtual bool DoSendCommand(Request *request, const timespec *SoftTimeout) = 0; //Should never block!
+		virtual bool DoSendRequest(Request *request, const struct timespec *SoftTimeout) = 0; //Should Never Block!
+		virtual bool DoSendCommand(Request *request, const struct timespec *SoftTimeout) = 0; //Should never block!
 
 		void RaiseOnConnect();
 		void RaiseOnConnectError(int err, const std::string &str);
