@@ -32,8 +32,9 @@ class ClientBase
 		void RaiseOnConnect();
 		void RaiseOnConnectError(int err, const std::string &str);
 		void RaiseOnDisconnect(int err, const std::string &str); //With Error String?
-		void RaiseOnResponse();	//Should be Raised from Helper
-		void RaiseOnEvent(); //Should be Raised from helper
+		void RaiseOnResponse();
+		void RaiseOnEvent();
+		void RaiseOnData(const std::string *str);
 
 	protected:
 		struct timespec m_ReConnectTimeout;

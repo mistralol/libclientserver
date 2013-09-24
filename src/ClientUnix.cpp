@@ -11,6 +11,7 @@ ClientUnix::ClientUnix(const std::string path)
 	Init();
 	m_fd = -1;
 	m_path = path;
+	m_connected = false;
 }
 
 
@@ -57,7 +58,9 @@ void ClientUnix::Run()
 		m_fd = socket(AF_UNIX, SOCK_STREAM, 0);
 		if (m_fd < 0)
 		{
-			abort();
+			RaiseOnConnectError(errno, Errno::ToStr());
+			Time::Sleep(&m_ReConnectTimeout);
+			continue;
 		}
 
 		memset(&addr, addr_len, 0);
@@ -85,49 +88,24 @@ void ClientUnix::Run()
 			int ret = Buffer.Read(m_fd);
 			if (ret <= 0)
 			{
+				m_connected = false;
 				RaiseOnDisconnect(ret, Errno::ToStr(ret));
 				if (close(m_fd) < 0)
 					abort();
 				m_fd = -1;
+				break;
 			}
 
-			bool Found = false;
-			do { //There can be more that one request per read!
-				char *tmp = Buffer.GetStartPtr();
-				size_t pos = Buffer.GetPosition();
-			
-				//Find End Marker
-				char *lf = (char *) memchr(tmp, '\n', pos);
-				if (lf == NULL)
-				{
-					Found = false;
-					break;
-				}
-				else
-				{
-					Found = true;
-				}
-	
-				char *space = (char *) memchr(tmp, ' ', (size_t) (lf - pos));
-				if (space == NULL) //Protocol Error Bail!
-				{
-					RaiseOnDisconnect(ret, Errno::ToStr(ret));
-					if (close(m_fd) < 0)
-						abort();
-					m_fd = -1;
-					break;
-				}
-				*space = 0;
-				printf("%s\n", tmp);
-				abort(); //Parsing Is Required!
-			
-				Buffer.Shift((size_t) (lf - pos));
-			} while(Found);
+			//Read Line at a time
+			std::string line;
+			bool HasLine = Buffer.GetLine(&line);
+			while(HasLine == true)
+			{
+				RaiseOnData(&line);
+				HasLine = Buffer.GetLine(&line);
+			}
 		}
-
-		m_connected = false;
-		//RaiseOnDisconnect();
-	}
+	} //m_quit == false
 }
 
 

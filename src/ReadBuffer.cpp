@@ -9,6 +9,7 @@
 ReadBuffer::ReadBuffer(size_t MaxSize)
 {
 	m_maxsize = MaxSize;
+	m_position = 0;
 	m_buffer = (char *) malloc(MaxSize * sizeof(*m_buffer));
 	if (!m_buffer)
 		abort();
@@ -44,6 +45,23 @@ int ReadBuffer::Read(int fd)
 		return -errno;
 	
 	return ret;
+}
+
+bool ReadBuffer::GetLine(std::string *str)
+{
+	if (m_position == 0)
+		return false;
+
+	char *lf = (char *) memchr(m_buffer, '\n', m_position);
+	if (lf == NULL)
+		return false;
+	*lf = 0; //Add NULL Terminator
+
+	*str = m_buffer;
+
+	size_t Offset = lf - m_buffer;
+	Shift(Offset);
+	return false;
 }
 
 void ReadBuffer::Shift(size_t offset)

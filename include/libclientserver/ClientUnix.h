@@ -17,9 +17,9 @@ class ClientUnix : public ClientBase, Thread
 		void Run();
 
 	private:
-		bool m_quit;
+		volatile bool m_quit;
 		std::string m_path;
 		int m_fd;
-		bool m_connected;
+		volatile bool m_connected;
 };
 
