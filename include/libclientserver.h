@@ -17,7 +17,8 @@
 #include <libclientserver/ReadBuffer.h>
 
 #include <libclientserver/Request.h>
-
+#include <libclientserver/RequestMapEntry.h>
+#include <libclientserver/RequestMap.h>
 
 #include <libclientserver/IServer.h>
 #include <libclientserver/ServerUnix.h>
