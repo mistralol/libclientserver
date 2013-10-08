@@ -61,15 +61,25 @@ void ClientBase::SetHandler(IClientHandler *Handler)
 
 bool ClientBase::SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout, const struct timespec *HardTimeout)
 {
-	abort();
-	//Add To Request Map
-	//Clear KeepAlive Flag
-	//Send The Request
-	//Wait For Timeout On Request Map
-	//if no Request Avilable Look for KeepAlive - restart if still under the timeout
+//	struct timespec StartTime;
+	struct RequestMapEntry Entry;
 
-	//We only use soft timeout here because it has no chance of having a keepalive returned until this function returns
-	return DoSendRequest(request, SoftTimeout); 
+	memset(&Entry, 0, sizeof(Entry));
+	Entry.id = 0;
+	Entry.Response = response;
+	Entry.ValidResponse = false;
+	Entry.KeepAlive = false;
+	
+	m_rmap.Add(&Entry);
+	if (DoSendRequest(request, SoftTimeout) == false)	//Get Out quickly option - happens when we are disconnected
+	{
+		m_rmap.Remove(&Entry);
+		return false;
+	}
+	m_rmap.Wait(&Entry, SoftTimeout, HardTimeout);
+	m_rmap.Remove(&Entry);
+
+	return Entry.ValidResponse;
 }
 
 bool ClientBase::SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout)

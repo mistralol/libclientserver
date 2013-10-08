@@ -4,6 +4,7 @@ include ../Makefile.Rules
 SRCS= 	HexEncode.cpp	\
 		Thread.cpp \
 		Request.cpp \
+		RequestMap.cpp \
 		ServerManager.cpp \
 		ServerUnix.cpp \
 		ServerUnixConnection.cpp \

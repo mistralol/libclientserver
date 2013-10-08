@@ -47,6 +47,8 @@ class ClientBase
 
 		Mutex m_LastIDMutex;
 		uint64_t m_LastID;
+
+		RequestMap m_rmap;
 		
 		IClientHandler *m_Handler;
 
