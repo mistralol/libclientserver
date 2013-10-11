@@ -33,6 +33,7 @@ class ClientBase
 
 		void RaiseOnConnect();
 		void RaiseOnConnectError(int err, const std::string &str);
+		void RaiseOnSendError(int err, const std::string &str);
 		void RaiseOnDisconnect(int err, const std::string &str); //With Error String?
 		void RaiseOnResponse();
 		void RaiseOnEvent();

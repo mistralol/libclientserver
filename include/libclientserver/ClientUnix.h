@@ -24,6 +24,7 @@ class ClientUnix : public ClientBase, Thread
 		int m_fd;
 		volatile bool m_connected;
 
+		RWLock m_WriterLock;
 		Mutex m_WriterMutex;
 };
 

@@ -128,6 +128,12 @@ void ClientBase::RaiseOnConnectError(int err, const std::string &str)
 		m_Handler->OnConnectError(err, str);
 }
 
+void ClientBase::RaiseOnSendError(int err, const std::string &str)
+{
+	if (m_Handler != NULL)
+		m_Handler->OnSendError(err, str);
+}
+
 void ClientBase::RaiseOnDisconnect(int err, const std::string &str)
 {
 	if (m_Handler != NULL)

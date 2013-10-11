@@ -33,6 +33,13 @@ bool ClientUnix::IsConnected()
 void ClientUnix::Disconnect()
 {
 	m_quit = true;
+	ScopedReadLock rlock(&m_WriterLock);
+	if (m_fd >= 0)
+	{
+		if (shutdown(m_fd, SHUT_WR) < 0)
+			abort();	//FIXME:
+	}
+
 	Thread::Stop();
 }
 
@@ -54,20 +61,12 @@ bool ClientUnix::SendLine(const std::string *str, const struct timespec *Timeout
 	if (IsConnected() == false)
 		return false;
 
-	//FIXME: m_fd needs protected by a Mutex as well this includes the reader side
+	ScopedReadLock rlock(&m_WriterLock);
 	int err = write(m_fd, str->c_str(), str->length());
 	if (err == (int) str->length())
 		return true;
-	err = -errno;
-	abort(); //RaiseOnWriteError?
-	//Either Way We are screwed! kill the connection. The reading side takes care of the state for this
-	if (m_fd >= 0)
-	{
-		if (close(m_fd) < 0)
-		{
-			abort();
-		}
-	}
+
+	RaiseOnSendError(errno, Errno::ToStr());
 	return false;
 }
 
@@ -114,6 +113,7 @@ void ClientUnix::Run()
 			{
 				m_connected = false;
 				RaiseOnDisconnect(ret, Errno::ToStr(ret));
+				ScopedWriteLock wlock(&m_WriterLock);	//We need to protect m_fd from the writer side while we close it
 				if (close(m_fd) < 0)
 					abort();
 				m_fd = -1;
