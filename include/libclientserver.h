@@ -3,6 +3,7 @@
 #include <map>
 #include <list>
 
+#include <errno.h>
 #include <pthread.h>
 
 #include <boost/thread/thread.hpp>
@@ -14,6 +15,9 @@
 #include <libclientserver/Time.h>
 #include <libclientserver/Mutex.h>
 #include <libclientserver/ScopedLock.h>
+#include <libclientserver/RWLock.h>
+#include <libclientserver/ScopedReadLock.h>
+#include <libclientserver/ScopedWriteLock.h>
 #include <libclientserver/ReadBuffer.h>
 
 #include <libclientserver/Request.h>

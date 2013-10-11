@@ -15,6 +15,9 @@ SRCS= 	HexEncode.cpp	\
 		Time.cpp \
 		Mutex.cpp \
 		ScopedLock.cpp \
+		RWLock.cpp \
+		ScopedReadLock.cpp \
+		ScopedWriteLock.cpp \
 		ReadBuffer.cpp
 
 OBJS=$(SRCS:%.cpp=%.o)
