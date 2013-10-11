@@ -2,14 +2,17 @@
 
 include ../Makefile.Rules
 
+LIBS+=-lboost_thread
+LIBS+=-lboost_system
+LIBS+=-lpthread
 
 all: SimpleServer SimpleClient
 
 SimpleServer: ../libclientserver.a .depend SimpleServer.cpp
-	$(CPP) $(CPPFLAGS) $(INCLUDE) SimpleServer.cpp -o SimpleServer ../libclientserver.a -lboost_thread -lboost_system
+	$(CPP) $(CPPFLAGS) $(INCLUDE) SimpleServer.cpp -o SimpleServer ../libclientserver.a $(LIBS)
 
 SimpleClient: ../libclientserver.a .depend SimpleClient.cpp
-	$(CPP) $(CPPFLAGS) $(INCLUDE) SimpleClient.cpp -o SimpleClient ../libclientserver.a -lboost_thread -lboost_system
+	$(CPP) $(CPPFLAGS) $(INCLUDE) SimpleClient.cpp -o SimpleClient ../libclientserver.a $(LIBS)
 
 .depend: $(SRCS)
 	$(MKDEP) $(INCLUDE) SimpleServer.cpp > .depend
