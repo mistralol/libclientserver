@@ -12,7 +12,8 @@ void ClientBase::Init()
 	m_HardTimeout.tv_sec = 30;
 
 	m_ReConnectTimeout.tv_sec = 2;
-	
+	m_LastID = 1;
+
 	m_Handler = NULL;
 }
 
@@ -65,7 +66,7 @@ bool ClientBase::SendRequest(Request *request, Request *response, const struct t
 	struct RequestMapEntry Entry;
 
 	memset(&Entry, 0, sizeof(Entry));
-	Entry.id = 0;
+	Entry.id = m_LastID++;
 	Entry.Response = response;
 	Entry.ValidResponse = false;
 	Entry.KeepAlive = false;

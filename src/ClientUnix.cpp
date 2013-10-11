@@ -37,7 +37,7 @@ void ClientUnix::Disconnect()
 	if (m_fd >= 0)
 	{
 		if (shutdown(m_fd, SHUT_WR) < 0)
-			abort();	//FIXME:
+			abort();	//FIXME: This can be a valid error case
 	}
 
 	Thread::Stop();
