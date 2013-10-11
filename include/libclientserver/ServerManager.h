@@ -25,7 +25,11 @@ class ServerManager
 	private:
 		IServerHandler *m_handler;
 		std::list<IServer *> m_Servers;
-		
+		Mutex m_ServersMutex;
+
+		std::list<IServerConnection *> m_Connections;
+		Mutex m_ConnectionsMutex;
+
 };
 
 
