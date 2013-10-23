@@ -4,12 +4,19 @@
 Mutex::Mutex() {
 	if (pthread_mutex_init(&m_mutex, NULL) != 0)
 		abort();
+
+	if (pthread_cond_init(&m_cond, NULL) != 0)
+		abort();
+
 	m_locked = false;
 }
 
 Mutex::~Mutex() {
 	if (m_locked)
 		abort(); //Attempts to free mutex that is locked
+
+	if (pthread_cond_destroy(&m_cond) != 0)
+		abort();
 
 	if (pthread_mutex_destroy(&m_mutex) != 0)
 		abort();
@@ -47,6 +54,11 @@ void Mutex::Unlock() {
 }
 
 void Mutex::Wait() {
+#ifdef DEBUG
+	if (m_locked == false)
+		abort();
+#endif
+
 	m_locked = false;
 	int ret = pthread_cond_wait(&m_cond, &m_mutex);
 	if (ret < 0)
@@ -55,19 +67,35 @@ void Mutex::Wait() {
 }
 
 int Mutex::Wait(const struct timespec *abstime) {
+#ifdef DEBUG
+	if (m_locked == false)
+		abort();
+#endif
+	struct timeval now;
+	struct timespec ts1, ts2;
+
+	if (gettimeofday(&now, NULL) < 0)
+		abort();
+
+	Time::TimeValtoTimeSpec(&now, &ts1);
+	Time::Add(abstime, &ts1, &ts2);
+
 	m_locked = false;
-	int ret = pthread_cond_timedwait(&m_cond, &m_mutex, abstime);
-	if (ret < 0) {
-		switch(errno) {
+	int ret = pthread_cond_timedwait(&m_cond, &m_mutex, &ts2);
+	m_locked = true;
+	if (ret != 0) {
+		switch(ret) {
 			case ETIMEDOUT:
-				ret = -errno;
+				return -ETIMEDOUT;
 				break;
+			case EBUSY:
+			case EINTR:
+				return 0;
 			default:
 				abort(); //pthread_cond_timedwait failed
 				break;
 		}
 	}
-	m_locked = true;
 	return ret;
 }
 

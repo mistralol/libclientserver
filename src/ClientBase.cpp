@@ -20,7 +20,7 @@ void ClientBase::Init()
 void ClientBase::WaitForConnect()
 {
 	struct timespec ts;
-	ts.tv_sec = 1;
+	ts.tv_sec = 30;
 	ts.tv_nsec = 0;
 	while(WaitForConnect(&ts) == false) { }
 }
@@ -29,7 +29,7 @@ bool ClientBase::WaitForConnect(const struct timespec *Timeout)
 {
 	ScopedLock lock(&m_ConnectedMutex);
 
-	while(IsConnected() == true)
+	while(IsConnected() == false)
 	{
 		if (m_ConnectedMutex.Wait(Timeout) == false)
 		{
@@ -37,7 +37,7 @@ bool ClientBase::WaitForConnect(const struct timespec *Timeout)
 		}
 	}
 
-	return false;
+	return IsConnected();
 }
 
 void ClientBase::SetReConnectTimeout(const struct timespec *Timeout)
