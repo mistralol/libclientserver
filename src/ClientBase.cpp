@@ -31,13 +31,14 @@ bool ClientBase::WaitForConnect(const struct timespec *Timeout)
 
 	while(IsConnected() == false)
 	{
-		if (m_ConnectedMutex.Wait(Timeout) == false)
+		if (m_ConnectedMutex.Wait(Timeout) == 0)
 		{
-			return IsConnected();
+			if (IsConnected())
+				return true;
 		}
 	}
 
-	return IsConnected();
+	return false;
 }
 
 void ClientBase::SetReConnectTimeout(const struct timespec *Timeout)
