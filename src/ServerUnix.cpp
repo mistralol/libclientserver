@@ -7,16 +7,29 @@
 
 ServerUnix::ServerUnix(const std::string &path)
 {
-	m_backlog = 32;
+	Init();
 	m_path = path;
-	m_fd = -1;
-	m_quit = true;
+}
+
+ServerUnix::ServerUnix(const std::string &path, mode_t perms)
+{
+	Init();
+	m_path = path;
+	m_perms = perms;
 }
 
 ServerUnix::~ServerUnix()
 {
 	if (IsRunning())
 		abort();	//Attempted to remove an active server
+}
+
+void ServerUnix::Init()
+{
+	m_backlog = 32;
+	m_perms = S_IRUSR | S_IWUSR;
+	m_fd = -1;
+	m_quit = true;
 }
 
 void ServerUnix::Start(ServerManager *Manager)
@@ -32,8 +45,6 @@ void ServerUnix::Start(ServerManager *Manager)
         throw(err);
     }
 
-	//FIXME: Change File Permissions
-
     memset(&addr, addr_len, 0);
 
     addr.sun_family = AF_UNIX;
@@ -46,6 +57,12 @@ void ServerUnix::Start(ServerManager *Manager)
 			abort();
         throw(err);
     }
+    
+    if (chmod(m_path.c_str(), m_perms) < 0)
+	{
+        std::string err = strerror(errno);
+		throw(err);
+	}
 
     if(listen(m_fd, m_backlog) < 0) {
         std::string err = strerror(errno);

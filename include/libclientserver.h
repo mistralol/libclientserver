@@ -6,6 +6,8 @@
 #include <errno.h>
 #include <pthread.h>
 
+#include <sys/stat.h>
+
 #include <boost/thread/thread.hpp>
 #include <boost/thread/thread_time.hpp>
 
