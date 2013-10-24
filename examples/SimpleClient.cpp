@@ -9,7 +9,6 @@ bool Ping(ClientBase *Client)
 
 	request.SetCommand("PING");
 
-	printf("Sending Ping\n");
 	return Client->SendRequest(&request, &response);
 }
 
@@ -33,7 +32,9 @@ int main(int argc, char **argv)
 
 	for(int i=0;i<10;i++)
 	{
-		Ping(Client);
+		printf("Sending Ping\n");
+		if (Ping(Client) == false)
+			printf("Failed\n");
 	}
 
 	printf("Disconnecting\n");

@@ -63,7 +63,6 @@ void ClientBase::SetHandler(IClientHandler *Handler)
 
 bool ClientBase::SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout, const struct timespec *HardTimeout)
 {
-//	struct timespec StartTime;
 	struct RequestMapEntry Entry;
 
 	memset(&Entry, 0, sizeof(Entry));

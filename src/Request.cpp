@@ -5,7 +5,8 @@
 
 Request::Request()
 {
-
+	m_id = -1;
+	m_command = "";
 }
 
 Request::~Request()
@@ -66,20 +67,13 @@ void Request::RemoveArg(const std::string *Key)
 }
 
 std::string Request::Encode() {
-	std::string str;
-	str += m_command;
-	str += " ";
-	str += m_id;
-	str += " ";
-	for(std::map<std::string, std::string>::iterator it = m_args.begin(); it != m_args.end(); it++) {
-		str += it->first;
-		str += '=';
-		str += HexEncode(it->second);
-		str += ' ';
-	}
-	str += "\n";
+	std::stringstream ss;
 
-	return str;
+	ss << m_command << " " << m_id;
+	for(std::map<std::string, std::string>::iterator it = m_args.begin(); it != m_args.end(); it++) {
+		ss << " " << it->first << "=" << HexEncode(it->second);
+	}
+	return ss.str();
 }
 
 void Request::Decode(const std::string *str)

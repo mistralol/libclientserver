@@ -62,7 +62,9 @@ bool ClientUnix::SendLine(const std::string *str, const struct timespec *Timeout
 		return false;
 
 	ScopedReadLock rlock(&m_WriterLock);
-	int err = write(m_fd, str->c_str(), str->length());
+	printf("Writing(%d): %s\n", m_fd, str->c_str());
+	int err = write(m_fd, str->c_str(), str->size());
+	//FIXME: Deal with partial write
 	if (err == (int) str->length())
 		return true;
 
@@ -78,11 +80,13 @@ void ClientUnix::Run()
 	while(m_quit == false)
 	{
 		ReadBuffer Buffer(1024 * 2048);
-		m_fd = socket(AF_UNIX, SOCK_STREAM, 0);
-		if (m_fd < 0)
+		int fd = socket(AF_UNIX, SOCK_STREAM, 0);
+		if (fd < 0)
 		{
 			RaiseOnConnectError(errno, Errno::ToStr());
 			Time::Sleep(&m_ReConnectTimeout);
+			if (close(fd) < 0)
+				abort();
 			continue;
 		}
 
@@ -91,17 +95,17 @@ void ClientUnix::Run()
 		addr.sun_family = AF_UNIX;
 		snprintf(addr.sun_path, sizeof(addr.sun_path), "%s", m_path.c_str());
 
-		if (connect(m_fd, (struct sockaddr *) &addr, addr_len) < 0)
+		if (connect(fd, (struct sockaddr *) &addr, addr_len) < 0)
 		{
 			RaiseOnConnectError(errno, Errno::ToStr());
-			if (close(m_fd) < 0)
+			if (close(fd) < 0)
 				abort();
-			m_fd = -1;
 			
 			Time::Sleep(&m_ReConnectTimeout);
 			continue;
 		}
 
+		m_fd = fd;	//Allow write to access this now that we are connected
 		m_connected = true;
 		RaiseOnConnect();
 
