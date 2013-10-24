@@ -78,6 +78,6 @@ std::string Request::Encode() {
 
 void Request::Decode(const std::string *str)
 {
-	abort();	
+	abort();
 }
 

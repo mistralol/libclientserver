@@ -110,6 +110,7 @@ void ClientUnix::Run()
 		RaiseOnConnect();
 
 		//Read Responses / Events / Etc....
+		//FIXME: Need converted to non-blocking or a dead connection / server stops the disconnect from working!
 		while(m_quit == false && m_fd >= 0)
 		{
 			int ret = Buffer.Read(m_fd);
