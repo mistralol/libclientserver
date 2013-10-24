@@ -70,6 +70,8 @@ bool ClientBase::SendRequest(Request *request, Request *response, const struct t
 	Entry.ValidResponse = false;
 	Entry.KeepAlive = false;
 	
+	request->SetID(Entry.id);
+	
 	m_rmap.Add(&Entry);
 	if (DoSendRequest(request, SoftTimeout) == false)	//Get Out quickly option - happens when we are disconnected
 	{
