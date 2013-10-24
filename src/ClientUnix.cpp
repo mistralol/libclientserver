@@ -39,6 +39,7 @@ void ClientUnix::Disconnect()
 		if (shutdown(m_fd, SHUT_WR) < 0)
 			abort();	//FIXME: This can be a valid error case
 	}
+	rlock.Unlock();
 
 	Thread::Stop();
 }
