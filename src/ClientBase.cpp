@@ -7,11 +7,10 @@ void ClientBase::Init()
 	memset(&m_HardTimeout, 0, sizeof(m_HardTimeout));
 	memset(&m_ReConnectTimeout, 0, sizeof(m_ReConnectTimeout));
 	
-	m_ReConnectTimeout.tv_sec = 1;
 	m_SoftTimeout.tv_sec = 5;
 	m_HardTimeout.tv_sec = 30;
+	m_ReConnectTimeout.tv_sec = 1;
 
-	m_ReConnectTimeout.tv_sec = 2;
 	m_LastID = 1;
 
 	m_Handler = NULL;
