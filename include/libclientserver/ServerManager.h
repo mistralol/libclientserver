@@ -16,6 +16,8 @@ class ServerManager
 		void ConnectionRemoveAll();
 		void ConnectionRemoveAll(IServer *Server);
 
+		void ProcessLine(IServerConnection *Connection, const std::string *line);
+
 		void RaisePreNewConnection();
 		void RaisePostNewConnection(IServerConnection *Connection);
 		void RaiseDisconnect(IServerConnection *Connection);

@@ -61,7 +61,7 @@ bool ReadBuffer::GetLine(std::string *str)
 
 	size_t Offset = lf - m_buffer;
 	Shift(Offset);
-	return false;
+	return true;
 }
 
 void ReadBuffer::Shift(size_t offset)

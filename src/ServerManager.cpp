@@ -86,4 +86,8 @@ void ServerManager::ConnectionRemoveAll(IServer *Server)
 	abort();
 }
 
+void ServerManager::ProcessLine(IServerConnection *Connection, const std::string *line)
+{
+	abort();
+}
 

@@ -36,7 +36,28 @@ void ServerUnixConnection::Run()
 {
 	while(m_quit == false)
 	{
-		abort(); //Work Required
+		ReadBuffer Buffer(1024 * 2048);
+
+		printf("Waiting for Data\n");
+		int ret = Buffer.Read(m_fd);
+		printf("%d\n", ret);
+		if (ret <= 0)
+		{
+			m_manager->ConnectionRemove(this);
+			m_quit = true;
+			if (close(m_fd) < 0)
+				abort();
+			return;
+		}
+
+		//Read Line at a time
+		std::string line;
+		bool HasLine = Buffer.GetLine(&line);
+		while(HasLine == true)
+		{
+			printf("Line: %s\n", line.c_str());
+			HasLine = Buffer.GetLine(&line);
+		}
 	}
 }
 
