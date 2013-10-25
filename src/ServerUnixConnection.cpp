@@ -38,9 +38,7 @@ void ServerUnixConnection::Run()
 	{
 		ReadBuffer Buffer(1024 * 2048);
 
-		printf("Waiting for Data\n");
 		int ret = Buffer.Read(m_fd);
-		printf("%d\n", ret);
 		if (ret <= 0)
 		{
 			m_manager->ConnectionRemove(this);
@@ -55,7 +53,7 @@ void ServerUnixConnection::Run()
 		bool HasLine = Buffer.GetLine(&line);
 		while(HasLine == true)
 		{
-			printf("Line: %s\n", line.c_str());
+			m_manager->ProcessLine(this, &line);
 			HasLine = Buffer.GetLine(&line);
 		}
 	}

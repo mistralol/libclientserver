@@ -88,6 +88,6 @@ void ServerManager::ConnectionRemoveAll(IServer *Server)
 
 void ServerManager::ProcessLine(IServerConnection *Connection, const std::string *line)
 {
-	abort();
+	printf("Line: %s\n", line->c_str());
 }
 
