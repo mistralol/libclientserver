@@ -6,14 +6,24 @@
 
 #include <libclientserver.h>
 
-ReadBuffer::ReadBuffer(size_t MaxSize)
+ReadBuffer::ReadBuffer(size_t Size)
 {
-	m_maxsize = MaxSize;
+	m_maxsize = Size;
+	m_size = Size;
 	m_position = 0;
-	m_buffer = (char *) malloc(MaxSize * sizeof(*m_buffer));
+	m_buffer = (char *) malloc(Size * sizeof(*m_buffer));
 	if (!m_buffer)
 		abort();
+}
 
+ReadBuffer::ReadBuffer(size_t Size, size_t MaxSize)
+{
+	m_maxsize = MaxSize;
+	m_size = Size;
+	m_position = 0;
+	m_buffer = (char *) malloc(Size * sizeof(*m_buffer));
+	if (!m_buffer)
+		abort();
 }
 
 ReadBuffer::~ReadBuffer()
@@ -33,8 +43,24 @@ size_t ReadBuffer::GetPosition()
 
 int ReadBuffer::Read(int fd)
 {
+	//Make buffer large if it is required. This should be up to maxsize at which point reject it.
 	if (m_maxsize - m_position == 0)
-		abort();	//FIXME: Buffer Going to be Exceeded
+	{
+		if (m_size < m_maxsize)
+		{
+			size_t newsize = m_size *= 2;	//Double buffer size
+			if (newsize > m_maxsize)
+				newsize = m_maxsize;		//Truncate it to max length
+			if (newsize == m_size)
+				return -ENOBUFS;			//Fail if we are already at maxlength
+
+			char *tmp = (char *) realloc(m_buffer, newsize * sizeof(*m_buffer));
+			if (!tmp)
+				return -ENOMEM;
+			m_buffer = tmp;
+			m_size = newsize;
+		}
+	}
 
 	int ret = read(fd, &m_buffer[m_position], m_maxsize - m_position);
 	if (ret > 0)

@@ -2,7 +2,8 @@
 class ReadBuffer
 {
 	public:
-		ReadBuffer(size_t MaxSize);
+		ReadBuffer(size_t Size);
+		ReadBuffer(size_t Size, size_t MaxSize);
 		~ReadBuffer();
 
 		char *GetStartPtr();
@@ -17,6 +18,7 @@ class ReadBuffer
 		char *m_buffer;
 		size_t m_position;
 		size_t m_maxsize;
+		size_t m_size;
 
 };
 
