@@ -1,4 +1,11 @@
 
+/** @class ClientBase
+ *
+ * Client base Class
+ *
+ *
+ */
+
 class ClientBase
 {
 	public:
