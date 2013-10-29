@@ -4,7 +4,15 @@
 
 #include <libclientserver.h>
 
-std::string HexEncode(std::string str) {
+/**
+ * HexEncode
+ * @param[in] str the string value to be encoded
+ * @return The encoded value
+ *
+ * HexEncode encodes a string and returns the same string encoded in hex.
+ * An example would be " " will be returned as "20"
+ */
+std::string HexEncode(const std::string &str) {
 	std::string tmp;
 	const char *c = str.c_str();
 	char buf[3];
@@ -18,7 +26,15 @@ std::string HexEncode(std::string str) {
 	return tmp;
 }
 
-std::string HexDecode(std::string str) {
+/**
+ * HexEncode
+ * @param[in] str the string value to be decoded
+ * @return The decoded value
+ *
+ * HexDecode decode a string of hex and returns the same decoded value
+ * An example would be "20" will be returned as " "
+ */
+std::string HexDecode(const std::string &str) {
 	std::string tmp;
 	const char *c = str.c_str();
 	unsigned int x;
