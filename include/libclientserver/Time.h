@@ -1,8 +1,12 @@
 
+/** @class Time
+ * @brief Utility / Helper Functions for time operations on structures / functions
+ * Provides various utility functions for helping to deal with time date / time structures and functions
+ */
+
 class Time
 {
 	public:
-		
 		static void Sleep(const struct timespec *Timeout);
 		static void Sleep(const struct timeval *Timeout);
 
@@ -18,13 +22,10 @@ class Time
 		static void Diff(const struct timespec *ts1, const struct timespec *ts2, struct timespec *res);
 		static void Diff(const struct timeval *tv1, const struct timeval *tv2, struct timeval *res);
 
-		//if (ts1 < ts2)
 		static bool IsLess(const struct timespec *ts1, const struct timespec *ts2);
 		static bool IsLess(const struct timeval *tv1, const struct timeval *tv2);
 
-		//if (ts1 > ts2)
 		static bool IsGreater(const struct timespec *ts1, const struct timespec *ts2);
 		static bool IsGreater(const struct timeval *tv1, const struct timeval *tv2);
-
 };
 
