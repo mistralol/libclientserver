@@ -1,5 +1,10 @@
 
-
+/**
+ * @class Errno
+ * @brief Utility functions for C++ to deal with errno
+ *
+ * Utility functions for C++ to deal with errno
+ */
 class Errno
 {
 	public:
