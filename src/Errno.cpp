@@ -3,7 +3,7 @@
 
 /**
  * ToStr
- * @retrun Return the string error of errno
+ * @return Return the string error of errno
  *
  * Convert errno to a string
  */
