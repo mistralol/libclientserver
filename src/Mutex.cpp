@@ -123,7 +123,7 @@ void Mutex::Wait() {
 
 /**
  * Wait
- * @params[in] Timeout The length of time to wait until we return
+ * @param[in] Timeout The length of time to wait until we return
  * @return Return 0 on success. Or -errno
  *
  * Wait until another thread calls WakeUp or WakeUpAll. Or the Timeout expires. If the Timeout is reached -ETIMEOUT will be returned.
