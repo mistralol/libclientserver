@@ -16,13 +16,15 @@ class ServerManager
 		void ConnectionRemoveAll();
 		void ConnectionRemoveAll(IServer *Server);
 
-		void ProcessLine(IServerConnection *Connection, const std::string *line);
+		bool ProcessLine(IServerConnection *Connection, const std::string *line);
 
 		void RaisePreNewConnection();
 		void RaisePostNewConnection(IServerConnection *Connection);
 		void RaiseDisconnect(IServerConnection *Connection);
-		void RaiseRequest(IServerConnection *Connection, Request *request, Request *response);
-		void RaiseCommand(IServerConnection *Connection, Request *request);
+
+		void RaiseBadLine(IServerConnection *Connection, const std::string *line);
+		bool RaiseRequest(IServerConnection *Connection, Request *request, Request *response);
+		bool RaiseCommand(IServerConnection *Connection, Request *request);
 	
 	private:
 		IServerHandler *m_handler;
@@ -31,6 +33,9 @@ class ServerManager
 
 		std::list<IServerConnection *> m_Connections;
 		Mutex m_ConnectionsMutex;
+
+		uint64_t m_TotalRequests;
+		uint64_t m_TotalCommands;
 
 };
 

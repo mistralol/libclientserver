@@ -17,7 +17,7 @@ class Request
 		void RemoveArg(const std::string *Key);
 
 		std::string Encode();
-		void Decode(const std::string *str);
+		bool Decode(const std::string *str);
 
 	protected:
 		void Clear();

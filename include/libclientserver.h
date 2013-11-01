@@ -14,6 +14,7 @@
 #include <libclientserver/HexEncode.h>
 #include <libclientserver/Thread.h>
 #include <libclientserver/Errno.h>
+#include <libclientserver/String.h>
 #include <libclientserver/Time.h>
 #include <libclientserver/Mutex.h>
 #include <libclientserver/ScopedLock.h>

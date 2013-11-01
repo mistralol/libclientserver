@@ -14,27 +14,34 @@ public:
 
 	void OnPreNewConnection()
 	{
-		abort();
+		printf("PreNewConnection\n");
 	}
 
 	void OnPostNewConnection(IServerConnection *Connection)
 	{
-		abort();
+		printf("PostNewConnection\n");
 	}
 		
 	void OnDisconnect(IServerConnection *Connection)
 	{
-		abort();
+		printf("Disconnect\n");
 	}
 		
-	void OnRequest(IServerConnection *Connection, Request *request, Request *response)
+	bool OnRequest(IServerConnection *Connection, Request *request, Request *response)
 	{
-		abort();	
+		printf("OnRequest: %s\n", request->GetCommand().c_str());
+		return false;
 	}
 	
-	void OnCommand(IServerConnection *Connection, Request *request)
+	bool OnCommand(IServerConnection *Connection, Request *request)
 	{
-		abort();	
+		printf("OnCommand: %s\n", request->GetCommand().c_str());
+		return false;
+	}
+
+	void OnBadLine(IServerConnection *Connection, const std::string *line)
+	{
+		printf("Bad Line: %s\n", line->c_str());
 	}
 
 	void Wait()

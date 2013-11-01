@@ -52,10 +52,12 @@ void ServerManager::ConnectionAdd(IServerConnection *Connection)
 {
 	ScopedLock lock(&m_ConnectionsMutex);
 	m_Connections.push_back(Connection);
+	RaisePostNewConnection(Connection);
 }
 
 void ServerManager::ConnectionRemove(IServerConnection *Connection)
 {
+	RaiseDisconnect(Connection);
 	ScopedLock lock(&m_ConnectionsMutex);
 	std::list<IServerConnection *>::iterator it;
 	for(it = m_Connections.begin(); it != m_Connections.end(); it++)
@@ -86,8 +88,81 @@ void ServerManager::ConnectionRemoveAll(IServer *Server)
 	abort();
 }
 
-void ServerManager::ProcessLine(IServerConnection *Connection, const std::string *line)
+bool ServerManager::ProcessLine(IServerConnection *Connection, const std::string *line)
 {
-	printf("Line: %s\n", line->c_str());
+	std::string command = "";
+	std::string args = "";
+
+	if (String::SplitOne(line, &command, &args, " ") == false)
+	{
+		RaiseBadLine(Connection, line);
+		return false;
+	}
+
+	if (command == "REQUEST")
+	{
+		Request request;
+		Request response;
+
+		if (request.Decode(&args) == false)
+		{
+			RaiseBadLine(Connection, line);
+			return false;
+		}
+		
+		m_TotalRequests++;
+		bool retvalue = RaiseRequest(Connection, &request, &response);
+
+		//FIXME: Send Response
+		return retvalue;
+	}
+
+	if (command == "COMMAND")
+	{
+		Request request;
+
+		if (request.Decode(&args) == false)
+		{
+			RaiseBadLine(Connection, line);
+			return false;
+		}
+
+		m_TotalCommands++;
+		return RaiseCommand(Connection, &request);
+	}
+
+	RaiseBadLine(Connection, line);
+	return false;
 }
+
+void ServerManager::RaisePreNewConnection()
+{
+	m_handler->OnPreNewConnection();
+}
+
+void ServerManager::RaisePostNewConnection(IServerConnection *Connection)
+{
+	m_handler->OnPostNewConnection(Connection);
+}
+
+void ServerManager::RaiseDisconnect(IServerConnection *Connection)
+{
+	m_handler->OnDisconnect(Connection);
+}
+
+void ServerManager::RaiseBadLine(IServerConnection *Connection, const std::string *line)
+{
+	m_handler->OnBadLine(Connection, line);
+}
+
+bool ServerManager::RaiseRequest(IServerConnection *Connection, Request *request, Request *response)
+{
+	return m_handler->OnRequest(Connection, request, response);
+}
+
+bool ServerManager::RaiseCommand(IServerConnection *Connection, Request *request)
+{
+	return m_handler->OnCommand(Connection, request);
+}
+
 

@@ -12,6 +12,7 @@ SRCS= 	HexEncode.cpp	\
 		ClientUnix.cpp \
 		Client.cpp	\
 		Errno.cpp \
+		String.cpp \
 		Time.cpp \
 		Mutex.cpp \
 		ScopedLock.cpp \

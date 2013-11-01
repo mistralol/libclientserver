@@ -69,15 +69,32 @@ void Request::RemoveArg(const std::string *Key)
 std::string Request::Encode() {
 	std::stringstream ss;
 
-	ss << m_command << " " << m_id;
+	ss << m_id << " " << m_command << " ";
 	for(std::map<std::string, std::string>::iterator it = m_args.begin(); it != m_args.end(); it++) {
 		ss << " " << it->first << "=" << HexEncode(it->second);
 	}
 	return ss.str();
 }
 
-void Request::Decode(const std::string *str)
+bool Request::Decode(const std::string *str)
 {
-	abort();
+	std::string sid = "";
+	std::string args = "";
+	std::string right = "";
+
+	if (String::SplitOne(str, &sid, &right, " ") == false)
+		return false;
+
+	m_id = strtoull(sid.c_str(), NULL, 10);
+	if (errno != 0)
+		return false;
+	
+	if (String::SplitOne(&right, &m_command, &args, " ") == false)
+		return false;
+
+	printf("DECODE: %s\n", str->c_str());
+	//FIXME: Decode arguments
+
+	return true;
 }
 
