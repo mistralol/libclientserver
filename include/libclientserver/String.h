@@ -1,4 +1,9 @@
 
+/** 
+ * @class String
+ * @brief Utility / Helper Functions for strings
+ * Provides various utility functions for helping to deal with string operations
+ */
 
 class String
 {

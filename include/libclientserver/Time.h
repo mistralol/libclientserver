@@ -1,5 +1,6 @@
 
-/** @class Time
+/** 
+ * @class Time
  * @brief Utility / Helper Functions for time operations on structures / functions
  * Provides various utility functions for helping to deal with time date / time structures and functions
  */
