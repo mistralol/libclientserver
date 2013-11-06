@@ -1,4 +1,14 @@
 
+
+/**
+ * @class IServerHandler
+ * @brief Main interface to drive the server from client command.
+ *
+ * A server will be required to impement this interface and add it to the ServerManager
+ * This interface will drive all inbound events / commands / requests comming from clients.
+ *
+ */
+
 class IServerHandler {
 	public:
 		virtual ~IServerHandler() { }

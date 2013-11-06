@@ -1,5 +1,17 @@
 
-
+/**
+ * @class ServerManager
+ * @brief Manager class for tracking and controlling various methods of communication
+ *
+ * This class tracks / controls instances of various inbound communication methods.
+ * It will also provides a means to pass through various server errors that can occur
+ * if certain clients decide to send poor information.
+ *
+ * The events in this class are only passed onto the IServerHandler class.
+ * But can be raised from many different connection / server types.
+ * 
+ *
+ */
 
 class ServerManager
 {

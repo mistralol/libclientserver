@@ -1,4 +1,9 @@
 
+/** 
+ * @class RWLock
+ * @brief A Lock providing multiple readers and a single exclusive writer
+ * A Lock providing multiple readers and a single exclusive writer
+ */
 
 class RWLock
 {

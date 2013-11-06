@@ -1,4 +1,10 @@
 
+/**
+ * @class IDataType
+ * @brief Interface for encoding / decoding a class
+ *
+ * Interface for encoding / decoding a class
+ */
 
 class IDataType
 {

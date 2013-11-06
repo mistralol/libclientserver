@@ -1,6 +1,13 @@
 
 class ServerManager;
 
+/**
+ * @class IServer
+ * @brief Interface for a server implementation
+ *
+ * Interface to control the server. eg Start / Stop.
+ */
+
 class IServer
 {
 	public:

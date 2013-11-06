@@ -1,4 +1,14 @@
 
+/**
+ * @class Request
+ * @brief Serializable class for Sending / Processing Requests
+ *
+ * This class is implemented to be serializable. It support a command name / sequence number
+ * and an unlimited number of key / value pairs which will be encoded to a line of text.
+ * 
+ * It will also support decoding the same line of text.
+ */
+
 class Request
 {
 	public:

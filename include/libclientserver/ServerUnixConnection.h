@@ -1,4 +1,10 @@
 
+/**
+ * @class ServerUnixConnection
+ * @brief Unix Server Connection implementation
+ *
+ * Implements the IServerConnection interface and is specific to unix sockets.
+ */
 
 class ServerUnixConnection : public IServerConnection, Thread
 {

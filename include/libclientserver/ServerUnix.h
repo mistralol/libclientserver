@@ -1,4 +1,11 @@
 
+/**
+ * @class ServerUnix
+ * @brief Implementation for server side of unix sockets
+ *
+ * Implements the server side of the client / server support for unix sockets.
+ *
+ */
 
 class ServerUnix : public IServer, protected Thread
 {

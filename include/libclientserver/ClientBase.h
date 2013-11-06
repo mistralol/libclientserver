@@ -1,8 +1,11 @@
 
-/** @class ClientBase
- *
- * Client base Class
- *
+/** 
+ * @class ClientBase
+ * @brief Main client interface class.
+ * 
+ * The main interface that should be used on the client side of the program.
+ * It is expect that this class will normally be used by a wrapper to export
+ * an api to the program wishing to communicate with the server.
  *
  */
 

@@ -1,4 +1,11 @@
 
+/**
+ * @class ClientUni
+ * @brief Implementation for Unix Sockets
+ *
+ * Provides client side implementation using unix sockets.
+ */
+
 class ClientUnix : public ClientBase, Thread
 {
 	public:
