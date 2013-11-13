@@ -71,7 +71,7 @@ std::string Request::Encode() {
 
 	ss << m_id << " " << m_command << " ";
 	for(std::map<std::string, std::string>::iterator it = m_args.begin(); it != m_args.end(); it++) {
-		ss << " " << it->first << "=" << HexEncode(it->second);
+		ss << " " << it->first << "=" << Encoder::Str2Hex(it->second);
 	}
 	return ss.str();
 }

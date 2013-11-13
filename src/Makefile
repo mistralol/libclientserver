@@ -1,8 +1,7 @@
 
 include ../Makefile.Rules
 
-SRCS= 	HexEncode.cpp	\
-		Thread.cpp \
+SRCS= 	Thread.cpp \
 		Request.cpp \
 		RequestMap.cpp \
 		ServerManager.cpp \
@@ -19,7 +18,9 @@ SRCS= 	HexEncode.cpp	\
 		RWLock.cpp \
 		ScopedReadLock.cpp \
 		ScopedWriteLock.cpp \
-		ReadBuffer.cpp
+		ReadBuffer.cpp \
+		Encoder.cpp \
+		Decoder.cpp
 
 OBJS=$(SRCS:%.cpp=%.o)
 

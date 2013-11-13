@@ -11,7 +11,6 @@
 #include <boost/thread/thread.hpp>
 #include <boost/thread/thread_time.hpp>
 
-#include <libclientserver/HexEncode.h>
 #include <libclientserver/Thread.h>
 #include <libclientserver/Errno.h>
 #include <libclientserver/String.h>
@@ -22,6 +21,9 @@
 #include <libclientserver/ScopedReadLock.h>
 #include <libclientserver/ScopedWriteLock.h>
 #include <libclientserver/ReadBuffer.h>
+
+#include <libclientserver/Encoder.h>
+#include <libclientserver/Decoder.h>
 
 #include <libclientserver/Request.h>
 #include <libclientserver/RequestMapEntry.h>
