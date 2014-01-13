@@ -7,7 +7,6 @@ Thread::Thread()
 {
 	m_IsRunning = false;
 	m_IsDetached = false;
-	m_thread = NULL;
 }
 
 Thread::~Thread()
