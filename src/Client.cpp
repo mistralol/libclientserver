@@ -1,13 +1,10 @@
 
 #include <libclientserver.h>
 
-#include <boost/algorithm/string.hpp>
-#include <boost/asio.hpp>
-
 ClientBase *Client::CreateUnix(const std::string &ConnectionString)
 {
 	std::vector<std::string> lst;
-	boost::split(lst, ConnectionString, boost::is_any_of(":"));
+	String::Split(&ConnectionString, ":", &lst);
 
 	if (lst.size() != 2)
 		return NULL;
@@ -23,14 +20,14 @@ ClientBase *Client::CreateTcp(const std::string &ConnectionString)
 ClientBase *Client::Create(const std::string &ConnectionString)
 {
 	std::vector<std::string> lst;
-	boost::split(lst, ConnectionString, boost::is_any_of(":"));
+	String::Split(&ConnectionString, ":", &lst);
 
 	if (lst.size() == 0)
 		return NULL;
 
 	if (lst[0] == "unix")
 		return CreateUnix(ConnectionString);
-	if (lst[1] == "tcp")
+	if (lst[0] == "tcp")
 		return CreateTcp(ConnectionString);
 
 	//etc...
