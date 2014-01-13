@@ -15,13 +15,13 @@ Thread::~Thread()
 	if (IsRunning())
 		Stop();
 
-	delete m_thread;
 }
 
 void Thread::Start()
 {
 	m_IsRunning = true;
-	m_thread = new boost::thread( boost::bind (RunInternal, this) );
+	if (pthread_create(&m_thread, NULL, RunInternal, this) != 0)
+		abort();
 }
 
 void Thread::Stop()
@@ -35,17 +35,14 @@ void Thread::Stop()
 		abort();	//Attempted to stop an already stopped thread
 	}
 #endif
-	if (m_thread != NULL)
-	{
-		m_thread->join();
-		delete m_thread;
-		m_thread = NULL;
-	}
+	if (pthread_join(m_thread, NULL) != 0)
+		abort();
 }
 
 void Thread::Detach()
 {
-	m_thread->detach();
+	if (pthread_detach(m_thread) != 0)
+		abort();
 	m_IsDetached = true;
 }
 
@@ -64,8 +61,10 @@ void Thread::Run()
 	abort();	//You should override this function
 }
 
-void Thread::RunInternal(Thread *self)
+void *Thread::RunInternal(void *ptr)
 {
+	class Thread *self = (Thread *) ptr;
 	self->Run();
+	return NULL;
 }
 

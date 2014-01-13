@@ -2,9 +2,7 @@
 
 include ../Makefile.Rules
 
-LIBS+=-lboost_thread
-LIBS+=-lboost_system
-LIBS+=-lpthread
+LIBS+=-lpthread -lrt
 
 all: SimpleServer SimpleClient
 
