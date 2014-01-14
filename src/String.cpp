@@ -37,10 +37,14 @@ bool String::SplitOne(const std::string *str, std::string *left, std::string *ri
  * This function can fail if the deliminator is not in the string.
  * This function will also remvoe the deliminator from the output strings.
  *
+ * If the function fails or cannot find any occurances of the delimineter then an empty list
+ * will be returned
+ *
  */
 bool String::Split(const std::string *str, const std::string delim, std::list<std::string> *lst)
 {
 	size_t position = str->find_first_of(delim);
+	lst->clear();
 
 	if (position == std::string::npos)
 		return false;
@@ -77,10 +81,13 @@ bool String::Split(const std::string *str, const std::string delim, std::list<st
  * This function can fail if the deliminator is not in the string.
  * This function will also remvoe the deliminator from the output strings.
  *
+ * If the function fails or cannot find any occurances of the delimineter then an empty list
+ * will be returned
  */
 bool String::Split(const std::string *str, const std::string delim, std::vector<std::string> *lst)
 {
 	size_t position = str->find_first_of(delim);
+	lst->clear();
 
 	if (position == std::string::npos)
 		return false;
