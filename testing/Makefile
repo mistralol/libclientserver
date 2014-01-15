@@ -5,7 +5,9 @@ include ../Makefile.Rules
 LIBS+=../libclientserver.a -lpthread -lrt
 DEPS=../libclientserver.a
 
-SRCS=	StringSplitVector.cpp	\
+SRCS=	\
+		StringSplitOne.cpp		\
+		StringSplitVector.cpp	\
 		StringSplitList.cpp
 
 
