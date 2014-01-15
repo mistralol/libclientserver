@@ -1,0 +1,34 @@
+
+
+include ../Makefile.Rules
+
+LIBS+=../libclientserver.a -lpthread -lrt
+DEPS=../libclientserver.a
+
+SRCS=	StringSplitVector.cpp	\
+		StringSplitList.cpp
+
+
+OBJS=$(SRCS:%.cpp=%.o)
+EXES=$(SRCS:%.cpp=%.exe)
+
+
+all: $(EXES)
+
+%.o: %.cpp $(DEPS)
+	$(CPP) $(CPPFLAGS) $(INCLUDE) -o $@ -c $<
+
+%.exe: %.o
+	$(CPP) -o $@ $< $(LIBS)
+
+.depend: $(SRCS_CPP)
+	$(MKDEP) $(INCLUDE) $(SRCS) > .depend
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif
+
+clean:
+	$(RM) $(OBJS) $(EXES)
+	
+

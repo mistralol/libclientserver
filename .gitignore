@@ -15,3 +15,5 @@
 core
 *.swp
 *~
+*.exe
+
