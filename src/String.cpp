@@ -68,7 +68,50 @@ bool String::Split(const std::string *str, const std::string delim, std::list<st
 	}
 
 	return true;
+}
 
+/**
+ * Split
+ * @param[in] str The source string
+ * @param[in] delim1 the outer value to split on
+ * @param[in] delim2 the inner value to split on
+ * @param[out] lst the output list if items found
+ * @return will return true if the operation succeeds.
+ *
+ * This function can fail if the deliminator is not in the outer string.
+ * This function will also fail if the deliminator is not in the inner string.
+ * This functions will also fail if it produced a duplucate map value;
+ *
+ * Example: Split("HELLO=WORLD IT=WORKS", " ", "=", map);
+ *
+ */
+bool String::Split(const std::string *str, const std::string delim1, const std::string delim2, std::map<std::string, std::string> *map)
+{
+	std::list<std::string> lst;
+	map->clear();
+
+	if (Split(str, delim1, &lst) == false)
+		return false;
+
+	std::list<std::string>::iterator it = lst.begin();
+	while(it != lst.end())
+	{
+		std::string innerstr = *it;
+		std::string left;
+		std::string right;
+
+		if (SplitOne(&innerstr, &left, &right, delim2) == false)
+			return false;
+
+		//Find a duplicate
+		if (map->find(left) != map->end())
+			return false;
+
+		map->insert( std::pair<std::string, std::string>(left, right));
+		it++;
+	}
+
+	return true;
 }
 
 /**

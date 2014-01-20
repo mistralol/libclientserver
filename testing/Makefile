@@ -9,6 +9,7 @@ SRCS=	\
 		StringSplitOne.cpp		\
 		StringSplitVector.cpp	\
 		StringSplitList.cpp		\
+		StringSplitMap.cpp		\
 		StringJoinVector.cpp	\
 		StringJoinList.cpp
 
