@@ -8,7 +8,9 @@ DEPS=../libclientserver.a
 SRCS=	\
 		StringSplitOne.cpp		\
 		StringSplitVector.cpp	\
-		StringSplitList.cpp
+		StringSplitList.cpp		\
+		StringJoinVector.cpp	\
+		StringJoinList.cpp
 
 
 OBJS=$(SRCS:%.cpp=%.o)

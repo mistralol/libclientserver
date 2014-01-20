@@ -13,6 +13,9 @@ class String
 		static bool Split(const std::string *str, const std::string delim, std::list<std::string> *lst);
 		static bool Split(const std::string *str, const std::string delim, std::vector<std::string> *lst);
 
+		static std::string Join(const std::vector<std::string> *vec, const std::string &delim);
+		static std::string Join(const std::list<std::string> *vec, const std::string &delim);
+
 };
 
 

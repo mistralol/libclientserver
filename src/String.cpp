@@ -113,3 +113,48 @@ bool String::Split(const std::string *str, const std::string delim, std::vector<
 	return true;
 }
 
+/**
+ * Join
+ * @param[in] vec A vector of string
+ * @param[in] delim the value to join with
+ * @return the output string
+ *
+ * This function will join string together seperated by the delim paramater.
+ */
+std::string String::Join(const std::vector<std::string> *vec, const std::string &delim)
+{
+	std::vector<std::string>::const_iterator it = vec->begin();
+	std::string str = "";
+	while(it != vec->end())
+	{
+		str += *it;
+		it++;
+		if (it != vec->end())
+			str += delim;
+	}
+	return str;
+}
+
+/**
+ * Join
+ * @param[in] lst A list of strings
+ * @param[in] delim the value to join with
+ * @param[out] str the output string
+ *
+ * This function will join string together seperated by the delim paramater.
+ */
+std::string String::Join(const std::list<std::string> *lst, const std::string &delim)
+{
+	std::list<std::string>::const_iterator it = lst->begin();
+	std::string str = "";
+	while(it != lst->end())
+	{
+		str += *it;
+		it++;
+		if (it != lst->end())
+			str += delim;
+	}
+	return str;
+}
+
+
