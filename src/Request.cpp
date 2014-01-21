@@ -70,6 +70,7 @@ std::string Request::Encode() {
 	std::stringstream ss;
 
 	ss << m_id << " " << m_command << " ";
+
 	for(std::map<std::string, std::string>::iterator it = m_args.begin(); it != m_args.end(); it++) {
 		ss << " " << it->first << "=" << Encoder::Str2Hex(it->second);
 	}
@@ -88,12 +89,15 @@ bool Request::Decode(const std::string *str)
 	m_id = strtoull(sid.c_str(), NULL, 10);
 	if (errno != 0)
 		return false;
-	
+
 	if (String::SplitOne(&right, &m_command, &args, " ") == false)
 		return false;
 
-	printf("DECODE: %s\n", str->c_str());
-	//FIXME: Decode arguments
+	if (args.size() > 0)
+	{
+		if (String::Split(&right, " ", "=", &m_args) == false)
+			return false;
+	}
 
 	return true;
 }
