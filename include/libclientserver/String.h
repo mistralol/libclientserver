@@ -17,7 +17,7 @@ class String
 
 		static std::string Join(const std::vector<std::string> *vec, const std::string &delim);
 		static std::string Join(const std::list<std::string> *vec, const std::string &delim);
-
+		static std::string Join(const std::map<std::string, std::string> *map, const std::string &delim1, const std::string &delim2);
 };
 
 

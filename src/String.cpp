@@ -182,7 +182,7 @@ std::string String::Join(const std::vector<std::string> *vec, const std::string 
  * Join
  * @param[in] lst A list of strings
  * @param[in] delim the value to join with
- * @param[out] str the output string
+ * @return The output string
  *
  * This function will join string together seperated by the delim paramater.
  */
@@ -197,6 +197,33 @@ std::string String::Join(const std::list<std::string> *lst, const std::string &d
 		if (it != lst->end())
 			str += delim;
 	}
+	return str;
+}
+
+/**
+ * Join
+ * @param[in] lst A list of strings
+ * @param[in] delim1 the value to join with
+ * @param[in] delim2 the value to join with
+ * @return The output string
+ *
+ * This function will join string together seperated by the delim paramater.
+ */
+std::string String::Join(const std::map<std::string, std::string> *map, const std::string &delim1, const std::string &delim2)
+{
+	std::map<std::string, std::string>::const_iterator it = map->begin();
+	std::string str = "";
+
+	while(it != map->end())
+	{
+		str += it->first;
+		str += delim2;
+		str += it->second;
+		it++;
+		if (it != map->end())
+			str += delim1;
+	}
+
 	return str;
 }
 
