@@ -207,7 +207,7 @@ std::string String::Join(const std::list<std::string> *lst, const std::string &d
  * @param[in] delim2 the value to join with
  * @return The output string
  *
- * This function will join string together seperated by the delim paramater.
+ * This function will join together a map<std::string, std::string> to the format of Key<delim2>Pair<delim1>Key<delim2>Pair
  */
 std::string String::Join(const std::map<std::string, std::string> *map, const std::string &delim1, const std::string &delim2)
 {
