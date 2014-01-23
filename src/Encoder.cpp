@@ -23,7 +23,6 @@ std::string Encoder::Str2Hex(const std::string &str) {
 	return tmp;
 }
 
-
 std::string Encoder::Buf2Hex(const char *c, size_t buflen)
 {
 	std::string tmp;
