@@ -24,59 +24,88 @@ std::string Encoder::Str2Hex(const std::string &str) {
 }
 
 
-std::string Encoder::Buf2Hex(const char *buf, size_t buflen)
+std::string Encoder::Buf2Hex(const char *c, size_t buflen)
 {
-	abort();
+	std::string tmp;
+	char buf[3];
+	
+	for(size_t i = 0;i<buflen;i++)
+	{
+		sprintf(buf, "%02X", (unsigned char) c[i]);
+		tmp += buf;
+	}
+
+	return tmp;
 }
 
 std::string Encoder::Char2Str(char value)
 {
-	abort();
+	char buf[2];
+	sprintf(buf, "%c", value);
+	return std::string(buf);
 }
 
 std::string Encoder::UChar2Str(unsigned char value)
 {
-	abort();
+	char buf[32];
+	sprintf(buf, "%d", value);
+	return std::string(buf);
 }
 
 std::string Encoder::Short2Str(short value)
 {
-	abort();
+	char buf[32];
+	sprintf(buf, "%d", value);
+	return std::string(buf);
 }
 
 std::string Encoder::UShort2Str(unsigned short value)
 {
-	abort();
+	char buf[32];
+	sprintf(buf, "%d", value);
+	return std::string(buf);
 }
 
 std::string Encoder::Int2Str(int value)
 {
-	abort();
+	char buf[32];
+	sprintf(buf, "%d", value);
+	return std::string(buf);
 }
 
 std::string Encoder::UInt2Str(unsigned int value)
 {
-	abort();
+	char buf[32];
+	sprintf(buf, "%d", value);
+	return std::string(buf);
 }
 
 std::string Encoder::Long2Str(long value)
 {
-	abort();
+	char buf[32];
+	sprintf(buf, "%ld", value);
+	return std::string(buf);
 }
 
 std::string Encoder::ULong2Str(unsigned long value)
 {
-	abort();
+	char buf[32];
+	sprintf(buf, "%lu", value);
+	return std::string(buf);
 }
 
 std::string Encoder::Float2Str(float value)
 {
-	abort();
+	char buf[32];
+	sprintf(buf, "%f", value);
+	return std::string(buf);
 }
 
 std::string Encoder::Double2Str(double value)
 {
-	abort();
+	char buf[32];
+	sprintf(buf, "%f", value);
+	return std::string(buf);
 }
 
 
