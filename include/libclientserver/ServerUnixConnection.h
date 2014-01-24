@@ -15,6 +15,8 @@ class ServerUnixConnection : public IServerConnection, Thread
 		virtual void Start();
 		virtual void Stop();
 
+		bool SendLine(const std::string *str);
+
 	private:
 		virtual void Run();
 
@@ -23,6 +25,7 @@ class ServerUnixConnection : public IServerConnection, Thread
 		IServer *m_server;
 		int m_fd;
 		bool m_quit;
+		RWLock m_WriterLock;
 
 };
 

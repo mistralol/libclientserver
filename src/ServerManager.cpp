@@ -112,9 +112,15 @@ bool ServerManager::ProcessLine(IServerConnection *Connection, const std::string
 		
 		m_TotalRequests++;
 		bool retvalue = RaiseRequest(Connection, &request, &response);
+		if (retvalue == false)
+		{
+			//FIXME: Send default error response
+			//FIXME: Send Error By Exception?
+			return false;
+		}
 
-		//FIXME: Send Response
-		return retvalue;
+		std::string ResponseStr = response.Encode();
+		return Connection->SendLine(&ResponseStr);
 	}
 
 	if (command == "COMMAND")

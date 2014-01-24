@@ -28,8 +28,9 @@ void ServerUnixConnection::Stop()
 {
 	m_quit = true;
 	m_manager->ConnectionRemove(this);
+	ScopedWriteLock wlock(&m_WriterLock);	//We need to protect m_fd from the writer side while we close it
 	if (close(m_fd) < 0)
-		abort();	//Possible Race Here?
+		abort();
 }
 
 void ServerUnixConnection::Run()
@@ -43,8 +44,10 @@ void ServerUnixConnection::Run()
 		{
 			m_manager->ConnectionRemove(this);
 			m_quit = true;
+			ScopedWriteLock wlock(&m_WriterLock);	//We need to protect m_fd from the writer side while we close it
 			if (close(m_fd) < 0)
 				abort();
+			m_fd = -1;
 			return;
 		}
 
@@ -58,5 +61,17 @@ void ServerUnixConnection::Run()
 		}
 	}
 }
+
+bool ServerUnixConnection::SendLine(const std::string *str)
+{
+	ScopedReadLock rlock(&m_WriterLock);
+	int err = write(m_fd, str->c_str(), str->size());
+	//FIXME: Deal with partial write
+	if (err == (int) str->length())
+		return true;
+
+	return false;
+}
+
 
 
