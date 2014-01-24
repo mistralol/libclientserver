@@ -20,7 +20,8 @@ SRCS= 	Thread.cpp \
 		ScopedWriteLock.cpp \
 		ReadBuffer.cpp \
 		Encoder.cpp \
-		Decoder.cpp
+		Decoder.cpp \
+		PIDFile.cpp
 
 OBJS=$(SRCS:%.cpp=%.o)
 

@@ -12,7 +12,8 @@ SRCS=	\
 		StringSplitMap.cpp		\
 		StringJoinVector.cpp	\
 		StringJoinList.cpp		\
-		StringJoinMap.cpp
+		StringJoinMap.cpp		\
+		PIDFile.cpp
 
 
 OBJS=$(SRCS:%.cpp=%.o)

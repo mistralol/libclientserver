@@ -55,8 +55,7 @@ public:
 
 };
 
-
-int main(int argc, char **argv)
+void Start()
 {
 	Handler SrvHandler;
 	ServerManager Manager(&SrvHandler);
@@ -66,8 +65,22 @@ int main(int argc, char **argv)
 	Manager.ServerAdd(&Unix);
 	SrvHandler.Wait();
 	Manager.ServerRemove(&Unix);
+}
+
+int main(int argc, char **argv)
+{
+	std::string PFilename = "/tmp/SimpleServer.pid";
+	PIDFile PFile(PFilename);
 	
-	return 0;
+	if (PFile.Create() == false)
+	{
+		printf("Cannot Create PID File '%s'\n", PFilename.c_str());
+		return EXIT_FAILURE;
+	}
+	
+	Start();
+	
+	return EXIT_SUCCESS;
 }
 
 

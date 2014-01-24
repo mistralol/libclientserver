@@ -46,3 +46,6 @@
 #include <libclientserver/ClientUnix.h>
 #include <libclientserver/Client.h>
 
+#include <libclientserver/PIDFile.h>
+
+
