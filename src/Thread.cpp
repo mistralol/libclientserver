@@ -36,6 +36,7 @@ void Thread::Stop()
 #endif
 	if (pthread_join(m_thread, NULL) != 0)
 		abort();
+	m_IsRunning = false;
 }
 
 void Thread::Detach()
