@@ -23,7 +23,6 @@ PIDFile::~PIDFile()
 {
 	if (IsOwner())
 	{
-
 		Remove();
 	}
 }
@@ -96,8 +95,8 @@ void PIDFile::Remove()
 		abort(); //Your not the owner
 
 	if (unlink(m_filename.c_str()) < 0)
-		abort(); //Something has removed our own file!
-		
+		abort(); //We should be the owner of this file
+
 	m_IsOwner = false;
 }
 
