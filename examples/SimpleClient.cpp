@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 	Client->WaitForConnect();
 	printf("Connected\n");
 
-	for(int i=0;i<10;i++)
+	for(int i=0;i<3;i++)
 	{
 		printf("Sending Ping\n");
 		if (Ping(Client) == false)
