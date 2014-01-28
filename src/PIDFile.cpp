@@ -66,7 +66,7 @@ bool PIDFile::Create()
 							return false; //The pid in the file matchs us and is a valid process
 					}
 					
-					if (unlink(m_filename.c_str()) < 0); //Not "us" just overwrite it
+					if (unlink(m_filename.c_str()) < 0) //Not "us" just overwrite it
 							abort();
 					
 					fd = open(m_filename.c_str(), O_CREAT | O_EXCL | O_RDWR, S_IRUSR | S_IWUSR | S_IRGRP);
@@ -84,7 +84,7 @@ bool PIDFile::Create()
 	FILE *fp = fdopen(fd, "w");
 	if (!fp)
 		abort();	//Should never happen
-	fprintf(fp, "%d", getpid());
+	fprintf(fp, "%d\n", getpid());
 	fclose(fp);
 	m_IsOwner = true;
 	return true;
@@ -122,7 +122,7 @@ bool PIDFile::GetPIDExePath(int pid, std::string *name)
 	char buf2[256];
 	
 	sprintf(buf1, "/proc/%d/exe", pid);
-	if (readlink("/proc/self/exe", buf2, sizeof(buf2)) < 0)
+	if (readlink(buf1, buf2, sizeof(buf2)) < 0)
 		return false;
 	*name = buf2;
 	return true;
