@@ -51,9 +51,24 @@ std::string Request::GetArg(const std::string *Key)
 	return it->second;
 }
 
+std::string Request::GetArg(const std::string &Key)
+{
+	std::map<std::string, std::string>::iterator it = m_args.find(Key);
+#ifdef DEBUG
+	if (it == m_args.end())
+		abort();
+#endif
+	return it->second;
+}
+
 void Request::SetArg(const std::string *Key, const std::string *Value)
 {
 	m_args[*Key] = *Value;
+}
+
+void Request::SetArg(const std::string &Key, const std::string *Value)
+{
+	m_args[Key] = *Value;
 }
 
 void Request::RemoveArg(const std::string *Key)
@@ -97,6 +112,8 @@ bool Request::Decode(const std::string *str)
 	{
 		if (String::Split(&right, " ", "=", &m_args) == false)
 			return false;
+
+		//FIXME: Each Map Item needs Hex2Str called on it!
 	}
 
 	return true;

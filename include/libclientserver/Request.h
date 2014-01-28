@@ -23,7 +23,9 @@ class Request
 
 		bool HasArg(const std::string &Name);
 		std::string GetArg(const std::string *Key);
+		std::string GetArg(const std::string &Key);
 		void SetArg(const std::string *Key, const std::string *Value);
+		void SetArg(const std::string &Key, const std::string *Value);
 		void RemoveArg(const std::string *Key);
 
 		std::string Encode();

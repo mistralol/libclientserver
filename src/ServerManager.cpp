@@ -111,15 +111,25 @@ bool ServerManager::ProcessLine(IServerConnection *Connection, const std::string
 		}
 		
 		m_TotalRequests++;
-		bool retvalue = RaiseRequest(Connection, &request, &response);
-		if (retvalue == false)
+		try
 		{
-			//FIXME: Send default error response
-			//FIXME: Send Error By Exception?
-			return false;
+			bool retvalue = RaiseRequest(Connection, &request, &response);
+			if (retvalue == false)
+				throw ServerException("Unknown Error Or Unsupported command");
+		}
+		catch(ServerException &e)
+		{
+			Request tmp;
+			std::string err = e.what();
+
+			tmp.SetArg("_ERROR", &err);
+			response = tmp;
 		}
 
-		std::string ResponseStr = response.Encode();
+		response.SetCommand(request.GetCommand());
+		response.SetID(request.GetID());
+
+		std::string ResponseStr = "RESPONSE " + response.Encode() + "\n";
 		return Connection->SendLine(&ResponseStr);
 	}
 

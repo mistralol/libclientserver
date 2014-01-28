@@ -3,6 +3,7 @@
 #include <map>
 #include <list>
 #include <vector>
+#include <exception>
 
 #include <stdlib.h>
 #include <string.h>
@@ -40,6 +41,7 @@
 
 #include <libclientserver/IServerHandler.h>
 #include <libclientserver/ServerManager.h>
+#include <libclientserver/ServerException.h>
 
 #include <libclientserver/IClientHandler.h>
 #include <libclientserver/ClientBase.h>

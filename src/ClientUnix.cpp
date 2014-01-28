@@ -64,7 +64,7 @@ bool ClientUnix::SendLine(const std::string *str, const struct timespec *Timeout
 		return false;
 
 	ScopedReadLock rlock(&m_WriterLock);
-	printf("Writing(%d): %s\n", m_fd, str->c_str());
+	printf("Writing(%d): %s", m_fd, str->c_str());
 	int err = write(m_fd, str->c_str(), str->size());
 	//FIXME: Deal with partial write
 	if (err == (int) str->length())
