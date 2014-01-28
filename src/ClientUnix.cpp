@@ -16,7 +16,8 @@ ClientUnix::ClientUnix(const std::string path)
 
 ClientUnix::~ClientUnix()
 {
-	Disconnect();
+	if (m_quit == false)
+		Disconnect();
 }
 
 void ClientUnix::Connect()
@@ -136,6 +137,7 @@ void ClientUnix::Run()
 			}
 		}
 	} //m_quit == false
+	m_connected = false;
 }
 
 
