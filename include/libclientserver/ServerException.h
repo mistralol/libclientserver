@@ -1,4 +1,12 @@
 
+/**
+ * @class ServerExcetpion
+ * @brief exception which is suitable for throwing error while processing COMMANDs or REQUESTs
+ *
+ * Exception which is suitable for throwing error while processing COMMANDs or REQUESTs
+ *
+ */
+
 class ServerException : public std::exception
 {
 	public:

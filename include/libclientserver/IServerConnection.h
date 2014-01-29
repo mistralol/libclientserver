@@ -1,4 +1,11 @@
 
+/** 
+ * @class IServerConnection
+ * @brief Interface for Server Connections
+ * 
+ * Interface that every server connection must implement.
+ */
+
 
 class IServerConnection
 {

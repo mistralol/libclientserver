@@ -1,4 +1,13 @@
 
+/**
+ * @class PIDFile
+ * @brief Used for managment of a PID file
+ *
+ * This class is capable of managing a PID file on the fileystem
+ * so the external processes can find our PID in an easy manner.
+ * Or to prevent a process from starting multiple instances of its self.
+ */
+
 class PIDFile
 {
 	public:
