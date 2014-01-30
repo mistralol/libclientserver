@@ -65,11 +65,34 @@ void ServerUnixConnection::Run()
 bool ServerUnixConnection::SendLine(const std::string *str)
 {
 	ScopedReadLock rlock(&m_WriterLock);
-	int err = write(m_fd, str->c_str(), str->size());
-	//FIXME: Deal with partial write
-	if (err == (int) str->length())
-		return true;
 
+	const char *c = str->c_str();
+	size_t offset = 0;
+	size_t length = str->size();
+	size_t ret = 0;
+
+restart:
+	ret = write(m_fd, &c[offset], length);
+	if (ret < 0)
+	{
+		switch(errno)
+		{
+			case EINTR:
+				goto restart;
+				break;
+			default:
+				return false;
+		}
+	}
+
+	if (ret < length - offset)
+	{
+		length -= ret;
+		offset += ret;
+		goto restart;
+	}
+
+	//Success!
 	return false;
 }
 

@@ -49,7 +49,7 @@ bool PIDFile::Create()
 				ret = fscanf(file, "%d", &tpid);
 				fclose(file);
 				
-				if (ret != 1) //FIXME: Issue here is that we have an unparsable pid file. Should we remove it?
+				if (ret != 1) //Issue here is that we have an unparsable pid file. Should we remove it?
 					return false;
 
 				do {

@@ -65,13 +65,36 @@ bool ClientUnix::SendLine(const std::string *str, const struct timespec *Timeout
 
 	ScopedReadLock rlock(&m_WriterLock);
 	printf("Writing(%d): %s", m_fd, str->c_str());
-	int err = write(m_fd, str->c_str(), str->size());
-	//FIXME: Deal with partial write
-	if (err == (int) str->length())
-		return true;
 
-	RaiseOnSendError(errno, Errno::ToStr());
-	return false;
+	const char *c = str->c_str();
+	size_t offset = 0;
+	size_t length = str->size();
+	size_t ret = 0;
+
+restart:
+	ret = write(m_fd, &c[offset], length);
+	if (ret < 0)
+	{
+		switch(errno)
+		{
+			case EINTR:
+				goto restart;
+				break;
+			default:
+				RaiseOnSendError(errno, Errno::ToStr());
+				return false;
+		}
+	}
+
+	if (ret < length - offset)
+	{
+		length -= ret;
+		offset += ret;
+		goto restart;
+	}
+
+	//Success!
+	return true;
 }
 
 void ClientUnix::Run()
