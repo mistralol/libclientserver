@@ -142,22 +142,101 @@ void ClientBase::RaiseOnDisconnect(int err, const std::string &str)
 		m_Handler->OnDisconnect(err, str);
 }
 
-void ClientBase::RaiseOnResponse()
+void ClientBase::RaiseOnResponse(Request *response)
 {
 	if (m_Handler != NULL)
-		m_Handler->OnResponse();
+	{
+		if (m_Handler->OnResponse(response) == false)
+		{
+			return;
+		}
+	}
+	abort();
 }
 
-void ClientBase::RaiseOnEvent()
+void ClientBase::RaiseOnKeepAlive(Request *response)
 {
 	if (m_Handler != NULL)
-		m_Handler->OnEvent();
+	{
+		if (m_Handler->OnKeepAlive(response) == false)
+		{
+			return;
+		}
+	}
+	abort();
+}
+
+void ClientBase::RaiseOnEvent(Request *event)
+{
+	if (m_Handler != NULL)
+	{
+		if (m_Handler->OnEvent(event) == false)
+		{
+			return;
+		}
+	}
+	abort();
 }
 
 void ClientBase::RaiseOnData(const std::string *str)
 {
-	printf("Unknown Data: %s\n", str->c_str());
-	abort();
+	std::string command = "";
+	std::string args = "";
+
+	if (String::SplitOne(str, &command, &args, " ") == false)
+	{
+		RaiseOnBadLine(str);
+		return;
+	}
+
+	if (command == "RESPONSE")
+	{
+		Request response;
+		if (response.Decode(&args) == false)
+		{
+			RaiseOnBadLine(str);
+			return;
+		}
+		printf("Response: %s\n", str->c_str());
+		RaiseOnResponse(&response);
+		return;
+	}
+
+	if (command == "KEEPALIVE")
+	{
+		Request keepalive;
+		if (keepalive.Decode(&args) == false)
+		{
+			RaiseOnBadLine(str);
+			return;
+		}
+		printf("KeepAlive: %s", str->c_str());
+		RaiseOnKeepAlive(&keepalive);
+		return;
+	}
+
+	if (command == "EVENT")
+	{
+		Request event;
+		if (event.Decode(&args) == false)
+		{
+			RaiseOnBadLine(str);
+			return;
+		}
+		printf("Event: %s", str->c_str());
+		RaiseOnEvent(&event);
+		return;
+	}
+
+	RaiseOnBadLine(str);
+	return;
 }
 
+void ClientBase::RaiseOnBadLine(const std::string *str)
+{
+	if (m_Handler != NULL)
+		m_Handler->OnBadLine(str);
+
+	printf("BadLine: %s", str->c_str());
+}
 

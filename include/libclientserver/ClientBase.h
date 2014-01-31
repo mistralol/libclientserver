@@ -45,9 +45,11 @@ class ClientBase
 		void RaiseOnConnectError(int err, const std::string &str);
 		void RaiseOnSendError(int err, const std::string &str);
 		void RaiseOnDisconnect(int err, const std::string &str); //With Error String?
-		void RaiseOnResponse();
-		void RaiseOnEvent();
+		void RaiseOnResponse(Request *response);
+		void RaiseOnKeepAlive(Request *response);
+		void RaiseOnEvent(Request *event);
 		void RaiseOnData(const std::string *str);
+		void RaiseOnBadLine(const std::string *str);
 
 	protected:
 		struct timespec m_ReConnectTimeout;

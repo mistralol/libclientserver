@@ -20,8 +20,14 @@ class IClientHandler
 		virtual void OnConnectError(int err, const std::string &str) {}
 		virtual void OnSendError(int err, const std::string &str) {}
 		virtual void OnDisconnect(int err, const std::string &str) {}
-		virtual void OnResponse() {}
-		virtual void OnEvent() {}
+
+		/* Permit the Client Implementation of Override these by returning false */
+		/* Or just use them for logging purposes */
+		virtual bool OnResponse(Request *response) { return true; }
+		virtual bool OnKeepAlive(Request *response) { return true; }
+		virtual bool OnEvent(Request *event) { return true; }
+
+		virtual void OnBadLine(const std::string *str) { abort(); }
 
 };
 
