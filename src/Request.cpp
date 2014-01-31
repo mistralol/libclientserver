@@ -84,7 +84,7 @@ void Request::RemoveArg(const std::string *Key)
 std::string Request::Encode() {
 	std::stringstream ss;
 
-	ss << m_id << " " << m_command << " ";
+	ss << m_id << " " << m_command;
 
 	for(std::map<std::string, std::string>::iterator it = m_args.begin(); it != m_args.end(); it++) {
 		ss << " " << it->first << "=" << Encoder::Str2Hex(it->second);
@@ -106,12 +106,17 @@ bool Request::Decode(const std::string *str)
 		return false;
 
 	if (String::SplitOne(&right, &m_command, &args, " ") == false)
-		return false;
+	{
+		m_command = right;
+		return true; //No Args
+	}
 
 	if (args.size() > 0)
 	{
-		if (String::Split(&right, " ", "=", &m_args) == false)
+		if (String::Split(&args, " ", "=", &m_args) == false)
+		{
 			return false;
+		}
 
 		//FIXME: Each Map Item needs Hex2Str called on it!
 	}
