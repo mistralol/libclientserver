@@ -14,10 +14,13 @@ bool Decoder::Hex2Str(const std::string &str, std::string &out) {
 	const char *c = str.c_str();
 	unsigned int x;
 
+	//Must be an even length
+	if (str.size() % 2 != 0)
+		return false;
+
 	out = "";
 	
-	while(*c != 0) {
-		//FIXME: fail on poor data
+	while(c[0] != 0) {
 		sscanf(c, "%2X", &x);
 		out += x;
 		c += 2;
