@@ -91,7 +91,9 @@ bool String::Split(const std::string *str, const std::string delim1, const std::
 	map->clear();
 
 	if (Split(str, delim1, &lst) == false)
-		return false;
+	{
+		lst.push_back(*str); //We may only have a single item
+	}
 
 	std::list<std::string>::iterator it = lst.begin();
 	while(it != lst.end())
@@ -101,7 +103,9 @@ bool String::Split(const std::string *str, const std::string delim1, const std::
 		std::string right;
 
 		if (SplitOne(&innerstr, &left, &right, delim2) == false)
+		{
 			return false;
+		}
 
 		//Find a duplicate
 		if (map->find(left) != map->end())
