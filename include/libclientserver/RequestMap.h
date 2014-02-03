@@ -23,9 +23,9 @@ class RequestMap
 		void Remove(struct RequestMapEntry *Entry);
 		bool Exists(struct RequestMapEntry *Entry);
 
-		void Wait(struct RequestMapEntry *Entry, const struct timespec *SoftTimeout, const struct timespec *HardTimeout);
-		void WakeUp(uint64_t id, const std::string *str);
-		void KeepAlive(uint64_t id);
+		bool Wait(struct RequestMapEntry *Entry, const struct timespec *SoftTimeout, const struct timespec *HardTimeout);
+		bool WakeUp(Request *response);
+		bool KeepAlive(Request *response);
 
 	private:
 		std::map<uint64_t, struct RequestMapEntry *> m_map;

@@ -44,13 +44,13 @@ bool RequestMap::Exists(struct RequestMapEntry *Entry)
 	return true;
 }
 
-void RequestMap::Wait(struct RequestMapEntry *Entry, const struct timespec *SoftTimeout, const struct timespec *HardTimeout)
+bool RequestMap::Wait(struct RequestMapEntry *Entry, const struct timespec *SoftTimeout, const struct timespec *HardTimeout)
 {
 	ScopedLock lock(&m_Mutex);
 	uint64_t id = Entry->id;
 	std::map<uint64_t, struct RequestMapEntry *>::iterator it = m_map.find(id);
 	if (it == m_map.end())
-		abort(); //Trying to wait on something that does not exist
+		return false; //Trying to wait on something that does not exist
 
 	//FIXME: Current this is only precise to 1 second. It should be better!
 	struct timespec CurrentTime;
@@ -73,10 +73,10 @@ void RequestMap::Wait(struct RequestMapEntry *Entry, const struct timespec *Soft
 
 		//If we cross a dead line give up
 		if (CurrentTime.tv_sec > DeadLine.tv_sec)
-			return;
+			return false;
 
 		if (CurrentTime.tv_sec > HardLine.tv_sec)
-			return;
+			return false;
 
 		//If keepalive is flagged
 		if (Entry->KeepAlive == true)
@@ -96,26 +96,31 @@ void RequestMap::Wait(struct RequestMapEntry *Entry, const struct timespec *Soft
 
 		m_Mutex.Wait(&rem); //Wait for WakeUpAll to be called
 	}
+	return true;
 }
 
-void RequestMap::WakeUp(uint64_t id, const std::string *str)
+bool RequestMap::WakeUp(Request *response)
 {
 	ScopedLock lock(&m_Mutex);
+	uint64_t id = response->GetID();
 	std::map<uint64_t, struct RequestMapEntry *>::iterator it = m_map.find(id);
 	if (it == m_map.end())
-		return;	//Nothing left to wakeup
+		return false; //Nothing left to wakeup
 
-	it->second->Response->Decode(str);
+	*it->second->Response = *response;
 	it->second->ValidResponse = true;
 	m_Mutex.WakeUpAll();
+	return true;
 }
 
-void RequestMap::KeepAlive(uint64_t id)
+bool RequestMap::KeepAlive(Request *response)
 {
 	ScopedLock lock(&m_Mutex);
+	uint64_t id = response->GetID();
 	std::map<uint64_t, struct RequestMapEntry *>::iterator it = m_map.find(id);
 	if (it == m_map.end())
-		return;
+		return false;
 	it->second->KeepAlive = true;
+	return true;
 }
 

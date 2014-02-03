@@ -151,7 +151,7 @@ void ClientBase::RaiseOnResponse(Request *response)
 			return;
 		}
 	}
-	abort();
+	m_rmap.WakeUp(response);
 }
 
 void ClientBase::RaiseOnKeepAlive(Request *response)
@@ -163,7 +163,7 @@ void ClientBase::RaiseOnKeepAlive(Request *response)
 			return;
 		}
 	}
-	abort();
+	m_rmap.KeepAlive(response);
 }
 
 void ClientBase::RaiseOnEvent(Request *event)
@@ -175,7 +175,6 @@ void ClientBase::RaiseOnEvent(Request *event)
 			return;
 		}
 	}
-	abort();
 }
 
 void ClientBase::RaiseOnData(const std::string *str)
