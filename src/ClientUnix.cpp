@@ -72,7 +72,7 @@ bool ClientUnix::SendLine(const std::string *str, const struct timespec *Timeout
 	size_t ret = 0;
 
 restart:
-	ret = write(m_fd, &c[offset], length);
+	ret = send(m_fd, &c[offset], length, MSG_NOSIGNAL);
 	if (ret < 0)
 	{
 		switch(errno)
