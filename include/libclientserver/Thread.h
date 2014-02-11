@@ -2,7 +2,9 @@
 /** 
  * @class Thread
  * @brief Inherit this class for adding a thread function
+ *
  * An easy to use class for making a thread on an object to background longer operations.
+ *
  */
 
 class Thread

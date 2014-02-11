@@ -16,6 +16,11 @@ Thread::~Thread()
 
 }
 
+/**
+ * Start
+ *
+ * Start the thread running
+ */
 void Thread::Start()
 {
 	m_IsRunning = true;
@@ -23,6 +28,14 @@ void Thread::Start()
 		abort();
 }
 
+/**
+ * Stop
+ *
+ * This will cause the thread to stop.
+ * However please be aware you should signal to your thread first that it should stop executing.
+ * As this is really just a cleanup function that calls join. It will not interrupt a currently executing thread.
+ * It also will not return until the thread exits. If this happens it is a bug elsewhere
+ */
 void Thread::Stop()
 {
 #ifdef DEBUG
@@ -39,6 +52,14 @@ void Thread::Stop()
 	m_IsRunning = false;
 }
 
+/**
+ * Detach
+ *
+ * This will detatch the thread.
+ * If this function is called it will also be safe to destroy an instance of the thread object.
+ * You may then NEVER call stop on a detatched thread as it will NEVER return
+ * 
+ */
 void Thread::Detach()
 {
 	if (pthread_detach(m_thread) != 0)
@@ -46,21 +67,41 @@ void Thread::Detach()
 	m_IsDetached = true;
 }
 
+/**
+ * IsRunning
+ *
+ * Reports if the thread is actually running
+ */
 bool Thread::IsRunning()
 {
 	return m_IsRunning;
 }
 
+/**
+ * IsDetached
+ *
+ * Reports if the thread has been Detatched
+ */
 bool Thread::IsDetached()
 {
 	return m_IsDetached;
 }
 
+/**
+ * Run
+ *
+ * This is up to the derived class to implement
+ */
 void Thread::Run()
 {
 	abort();	//You should override this function
 }
 
+/**
+ * RunInternal
+ *
+ * Simple "bounce" function to call the Run function after starting the thread
+ */
 void *Thread::RunInternal(void *ptr)
 {
 	class Thread *self = (Thread *) ptr;
