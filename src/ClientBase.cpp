@@ -217,6 +217,15 @@ bool ClientBase::SendCommand(Request *command)
 	return SendCommand(command, &m_SoftTimeout);
 }
 
+/**
+ * DoSendRequest
+ * @param[in] request
+ * @param[in] Timeout
+ *
+ * This function is used to sending the request for the client.
+ * Note that the soft timeout value should be passed to the timeout argument to this function.
+ * The hard timeout value is no longer required as the server does not have the request until we complete.
+ */
 bool ClientBase::DoSendRequest(Request *request, const struct timespec *Timeout)
 {
 	//FIXME: request should be const
@@ -224,6 +233,15 @@ bool ClientBase::DoSendRequest(Request *request, const struct timespec *Timeout)
 	return SendLine(&str, Timeout);
 }
 
+/**
+ * DoSendCommand
+ * @param[in] request
+ * @param[in] Timeout
+ *
+ * This function is used to sending the request for the client.
+ * Note that the soft timeout value should be passed to the timeout argument to this function.
+ * the hard timeout value is not used for commands
+ */
 bool ClientBase::DoSendCommand(Request *request, const struct timespec *Timeout)
 {
 	//FIXME: request should be const
