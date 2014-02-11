@@ -183,6 +183,7 @@ bool ClientBase::SendRequest(Request *request, Request *response, const struct t
  */
 bool ClientBase::SendRequest(Request *request, Request *response)
 {
+	//FIXME: request should be const
 	return SendRequest(request, response, &m_SoftTimeout, &m_HardTimeout);
 }
 
