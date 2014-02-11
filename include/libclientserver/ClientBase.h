@@ -4,8 +4,10 @@
  * @brief Main client interface class.
  * 
  * The main interface that should be used on the client side of the program.
- * It is expect that this class will normally be used by a wrapper to export
+ * It is expected that this class will normally be used by a wrapper to export
  * an api to the program wishing to communicate with the server.
+ *
+ * You should only every create an instance of this class from the factory Client::Create
  *
  */
 
@@ -38,8 +40,10 @@ class ClientBase
 	protected:
 		void Init();
 
-		virtual bool DoSendRequest(Request *request, const struct timespec *SoftTimeout) = 0; //Should Never Block!
-		virtual bool DoSendCommand(Request *request, const struct timespec *SoftTimeout) = 0; //Should never block!
+		bool DoSendRequest(Request *request, const struct timespec *SoftTimeout);
+		bool DoSendCommand(Request *request, const struct timespec *SoftTimeout);
+
+		virtual bool SendLine(const std::string *str, const struct timespec *Timeout) = 0; //Should Never Block!
 
 		void RaiseOnConnect();
 		void RaiseOnConnectError(int err, const std::string &str);

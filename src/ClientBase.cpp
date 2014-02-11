@@ -216,6 +216,21 @@ bool ClientBase::SendCommand(Request *command)
 	return SendCommand(command, &m_SoftTimeout);
 }
 
+bool ClientBase::DoSendRequest(Request *request, const struct timespec *Timeout)
+{
+	//FIXME: request should be const
+	std::string str = "REQUEST " + request->Encode() + "\n";
+	return SendLine(&str, Timeout);
+}
+
+bool ClientBase::DoSendCommand(Request *request, const struct timespec *Timeout)
+{
+	//FIXME: request should be const
+	std::string str = "COMMAND " + request->Encode() + "\n";
+	return SendLine(&str, Timeout);
+}
+
+
 /**
  * GetNextID
  * @return The next avilable ID

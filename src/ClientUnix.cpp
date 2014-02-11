@@ -45,18 +45,6 @@ void ClientUnix::Disconnect()
 	Thread::Stop();
 }
 
-bool ClientUnix::DoSendRequest(Request *request, const struct timespec *Timeout)
-{
-	std::string str = "REQUEST " + request->Encode() + "\n";
-	return SendLine(&str, Timeout);
-}
-
-bool ClientUnix::DoSendCommand(Request *request, const struct timespec *Timeout)
-{
-	std::string str = "COMMAND " + request->Encode() + "\n";
-	return SendLine(&str, Timeout);
-}
-
 bool ClientUnix::SendLine(const std::string *str, const struct timespec *Timeout)
 {
 	ScopedLock lock1(&m_WriterMutex);
