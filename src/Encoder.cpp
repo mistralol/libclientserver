@@ -6,7 +6,7 @@
  * @param[in] str the string value to be encoded
  * @return The encoded value
  *
- * HexEncode encodes a string and returns the same string encoded in hex.
+ * Str2Hex encodes a string and returns the same string encoded in hex.
  * An example would be " " will be returned as "20"
  */
 std::string Encoder::Str2Hex(const std::string &str) {
@@ -23,6 +23,13 @@ std::string Encoder::Str2Hex(const std::string &str) {
 	return tmp;
 }
 
+/**
+ * Buf2Str
+ * @param[in] c The pointer to the buffer
+ * @param[in] buflen The length of the buffer
+ *
+ * Buf2Str encodes a buffer to a string
+ */
 std::string Encoder::Buf2Hex(const char *c, size_t buflen)
 {
 	std::string tmp;
