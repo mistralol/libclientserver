@@ -12,7 +12,7 @@ ServerUnixConnection::ServerUnixConnection(ServerManager *Manager, IServer *Serv
 ServerUnixConnection::~ServerUnixConnection()
 {
 	if (IsRunning())
-		abort();
+		Stop();
 }
 
 void ServerUnixConnection::Start()
@@ -21,7 +21,6 @@ void ServerUnixConnection::Start()
 	m_manager->ConnectionAdd(this);
 
 	Thread::Start();
-	Thread::Detach();
 }
 
 void ServerUnixConnection::Stop()
@@ -31,6 +30,8 @@ void ServerUnixConnection::Stop()
 	ScopedWriteLock wlock(&m_WriterLock);	//We need to protect m_fd from the writer side while we close it
 	if (close(m_fd) < 0)
 		abort();
+
+	Thread::Stop();
 }
 
 void ServerUnixConnection::Run()
@@ -60,6 +61,7 @@ void ServerUnixConnection::Run()
 			HasLine = Buffer.GetLine(&line);
 		}
 	}
+	delete this;
 }
 
 bool ServerUnixConnection::SendLine(const std::string *str)
