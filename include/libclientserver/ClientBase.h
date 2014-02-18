@@ -23,7 +23,7 @@ class ClientBase
 		void WaitForConnect(); //Forever!
 		bool WaitForConnect(const struct timespec *Timeout);
 
-		void SetReConnectTimeout(const struct timespec *Timeout);
+		void SetReConnectDelay(const struct timespec *Timeout);
 		void SetSoftTimeout(const struct timespec *SoftTimeout);
 		void SetHardTimeout(const struct timespec *HardTimeout);
 
@@ -56,7 +56,7 @@ class ClientBase
 		void RaiseOnBadLine(const std::string *str);
 
 	protected:
-		struct timespec m_ReConnectTimeout;
+		struct timespec m_ReConnectDelay;
 		struct timespec m_SoftTimeout;
 		struct timespec m_HardTimeout;
 

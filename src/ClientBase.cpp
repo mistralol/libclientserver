@@ -11,11 +11,11 @@ void ClientBase::Init()
 {
 	memset(&m_SoftTimeout, 0, sizeof(m_SoftTimeout));
 	memset(&m_HardTimeout, 0, sizeof(m_HardTimeout));
-	memset(&m_ReConnectTimeout, 0, sizeof(m_ReConnectTimeout));
+	memset(&m_ReConnectDelay, 0, sizeof(m_ReConnectDelay));
 	
 	m_SoftTimeout.tv_sec = 5;
 	m_HardTimeout.tv_sec = 30;
-	m_ReConnectTimeout.tv_sec = 1;
+	m_ReConnectDelay.tv_sec = 1;
 
 	m_LastID = 1;
 
@@ -62,16 +62,15 @@ bool ClientBase::WaitForConnect(const struct timespec *Timeout)
 }
 
 /**
- * SetReConnectTimeout
+ * SetReConnectDelay
  * @param[in] Timeout The time to wait before retrying a connection
  *
  * This function sets the retry time between connections to the server.
  *
  */
-void ClientBase::SetReConnectTimeout(const struct timespec *Timeout)
+void ClientBase::SetReConnectDelay(const struct timespec *Timeout)
 {
-	//FIXME: This should be called SetReconnectDelay
-	memcpy(&m_ReConnectTimeout, Timeout, sizeof(m_ReConnectTimeout));
+	memcpy(&m_ReConnectDelay, Timeout, sizeof(m_ReConnectDelay));
 }
 
 /**

@@ -97,7 +97,7 @@ void ClientUnix::Run()
 		if (fd < 0)
 		{
 			RaiseOnConnectError(errno, Errno::ToStr());
-			Time::Sleep(&m_ReConnectTimeout);
+			Time::Sleep(&m_ReConnectDelay);
 			if (close(fd) < 0)
 				abort();
 			continue;
@@ -114,7 +114,7 @@ void ClientUnix::Run()
 			if (close(fd) < 0)
 				abort();
 			
-			Time::Sleep(&m_ReConnectTimeout);
+			Time::Sleep(&m_ReConnectDelay);
 			continue;
 		}
 
