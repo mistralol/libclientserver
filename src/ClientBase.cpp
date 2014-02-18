@@ -340,7 +340,6 @@ void ClientBase::RaiseOnDisconnect(int err, const std::string &str)
  */
 void ClientBase::RaiseOnResponse(Request *response)
 {
-	//FIXME: repsonse should be const
 	if (m_Handler != NULL)
 	{
 		if (m_Handler->OnResponse(response) == false)
@@ -359,7 +358,6 @@ void ClientBase::RaiseOnResponse(Request *response)
  */
 void ClientBase::RaiseOnKeepAlive(Request *response)
 {
-	//FIXME: repsonse should be const
 	if (m_Handler != NULL)
 	{
 		if (m_Handler->OnKeepAlive(response) == false)
@@ -378,7 +376,6 @@ void ClientBase::RaiseOnKeepAlive(Request *response)
  */
 void ClientBase::RaiseOnEvent(Request *event)
 {
-	//FIXME: event should be const
 	if (m_Handler != NULL)
 	{
 		if (m_Handler->OnEvent(event) == false)

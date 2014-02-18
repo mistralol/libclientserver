@@ -35,15 +35,23 @@ public:
 
 		ss << "OnRequest: " << request->GetCommand() << " ";
 
-		if (Command == "PING")
-			return 0;
-
 		for(std::list<std::string>::iterator it = lst.begin(); it != lst.end(); it++)
 		{
 			ss << *it << "=" << request->GetArg(*it) << " ";
 		}
 
 		printf("%s\n", ss.str().c_str());
+
+		if (Command == "PING")
+			return 0;
+
+		if (Command == "QUIT")
+		{
+			m_quit = true;
+			return 0;
+		}
+
+		
 		return -ENOSYS;
 	}
 	
