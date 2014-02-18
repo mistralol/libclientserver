@@ -35,8 +35,8 @@ class ServerManager
 		void RaiseDisconnect(IServerConnection *Connection);
 
 		void RaiseBadLine(IServerConnection *Connection, const std::string *line);
-		bool RaiseRequest(IServerConnection *Connection, Request *request, Request *response);
-		bool RaiseCommand(IServerConnection *Connection, Request *request);
+		int RaiseRequest(IServerConnection *Connection, Request *request, Request *response);
+		int RaiseCommand(IServerConnection *Connection, Request *request);
 	
 	private:
 		IServerHandler *m_handler;

@@ -61,7 +61,7 @@ std::string Request::GetArg(const std::string *Key)
 	return it->second;
 }
 
-std::string Request::GetArg(const std::string &Key)
+std::string Request::GetArg(const std::string Key)
 {
 	std::map<std::string, std::string>::iterator it = m_args.find(Key);
 #ifdef DEBUG

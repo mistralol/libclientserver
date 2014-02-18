@@ -128,9 +128,8 @@ void ClientBase::SetHandler(IClientHandler *Handler)
  *
  * If the function returns false. The contents of the response will be undefined.
  */
-bool ClientBase::SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout, const struct timespec *HardTimeout)
+int ClientBase::SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout, const struct timespec *HardTimeout)
 {
-	//FIXME: request should be const
 	struct RequestMapEntry Entry;
 
 	memset(&Entry, 0, sizeof(Entry));
@@ -148,10 +147,25 @@ bool ClientBase::SendRequest(Request *request, Request *response, const struct t
 	if (DoSendRequest(request, SoftTimeout) == false)	//Get Out quickly option - happens when we are disconnected
 	{
 		m_rmap.Remove(&Entry);
-		return false;
+		return -ETIMEDOUT;
 	}
 	m_rmap.Wait(&Entry, SoftTimeout, HardTimeout);
 	m_rmap.Remove(&Entry);
+
+	if (Entry.ValidResponse == false)
+		return -ETIMEDOUT;
+
+	if (response->HasArg("_ERRNO"))
+	{
+		int myerr = 0;
+		if (Decoder::ToInt(response->GetArg("_ERRNO"), &myerr) == false)
+			return -EINVAL;
+		return -myerr;
+	}
+	else
+	{
+		abort(); //This is a bug - Ntoe the fact that this calls abort. The fact that you should never reach here!
+	}
 
 	return Entry.ValidResponse;
 }
@@ -169,9 +183,8 @@ bool ClientBase::SendRequest(Request *request, Request *response, const struct t
  *
  * For more details please read the documentation on the full function.
  */
-bool ClientBase::SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout)
+int ClientBase::SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout)
 {
-	//FIXME: request should be const
 	return SendRequest(request, response, SoftTimeout, &m_HardTimeout);
 }
 
@@ -183,9 +196,8 @@ bool ClientBase::SendRequest(Request *request, Request *response, const struct t
  * This is the basic function for sending a request where the default values of Soft/Hard timeout will be used.
  * For more details please read the documentation on the full function.
  */
-bool ClientBase::SendRequest(Request *request, Request *response)
+int ClientBase::SendRequest(Request *request, Request *response)
 {
-	//FIXME: request should be const
 	return SendRequest(request, response, &m_SoftTimeout, &m_HardTimeout);
 }
 
@@ -198,9 +210,8 @@ bool ClientBase::SendRequest(Request *request, Request *response)
  * Note this function can return True even when sending the command is not successful. It Only states that the command was queued to be send to the server.
  * If the Client is not Connected to the server then this function will immeditatly return false.
  */
-bool ClientBase::SendCommand(Request *command, const struct timespec *Timeout)
+int ClientBase::SendCommand(Request *command, const struct timespec *Timeout)
 {
-	//FIXME: command should be const
 	return DoSendCommand(command, Timeout);
 }
 
@@ -213,9 +224,8 @@ bool ClientBase::SendCommand(Request *command, const struct timespec *Timeout)
  * Note this function can return True even when sending the command is not successful. It Only states that the command was queued to be send to the server.
  * If the Client is not Connected to the server then this function will immeditatly return false.
  */
-bool ClientBase::SendCommand(Request *command)
+int ClientBase::SendCommand(Request *command)
 {
-	//FIXME: command should be const
 	return SendCommand(command, &m_SoftTimeout);
 }
 
@@ -230,7 +240,6 @@ bool ClientBase::SendCommand(Request *command)
  */
 bool ClientBase::DoSendRequest(Request *request, const struct timespec *Timeout)
 {
-	//FIXME: request should be const
 	std::string str = "REQUEST " + request->Encode() + "\n";
 	return SendLine(&str, Timeout);
 }
@@ -246,7 +255,6 @@ bool ClientBase::DoSendRequest(Request *request, const struct timespec *Timeout)
  */
 bool ClientBase::DoSendCommand(Request *request, const struct timespec *Timeout)
 {
-	//FIXME: request should be const
 	std::string str = "COMMAND " + request->Encode() + "\n";
 	return SendLine(&str, Timeout);
 }

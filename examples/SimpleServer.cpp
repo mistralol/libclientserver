@@ -27,12 +27,16 @@ public:
 		printf("Disconnect\n");
 	}
 		
-	bool OnRequest(IServerConnection *Connection, Request *request, Request *response)
+	int OnRequest(IServerConnection *Connection, Request *request, Request *response)
 	{
 		std::list<std::string> lst = request->GetArgList();
 		std::stringstream ss;
+		std::string Command = request->GetCommand();
 
 		ss << "OnRequest: " << request->GetCommand() << " ";
+
+		if (Command == "PING")
+			return 0;
 
 		for(std::list<std::string>::iterator it = lst.begin(); it != lst.end(); it++)
 		{
@@ -40,14 +44,13 @@ public:
 		}
 
 		printf("%s\n", ss.str().c_str());
-//		printf("OnRequest: %s\n", request->GetCommand().c_str());
-		return false;
+		return -ENOSYS;
 	}
 	
-	bool OnCommand(IServerConnection *Connection, Request *request)
+	int OnCommand(IServerConnection *Connection, Request *request)
 	{
 		printf("OnCommand: %s\n", request->GetCommand().c_str());
-		return false;
+		return -ENOSYS;
 	}
 
 	void OnBadLine(IServerConnection *Connection, const std::string *line)

@@ -113,16 +113,18 @@ bool ServerManager::ProcessLine(IServerConnection *Connection, const std::string
 		m_TotalRequests++;
 		try
 		{
-			bool retvalue = RaiseRequest(Connection, &request, &response);
-			if (retvalue == false)
-				throw ServerException("Unknown Error Or Unsupported command");
+			int retvalue = RaiseRequest(Connection, &request, &response);
+			if (retvalue < 0)
+				throw ServerException(ENOSYS, "Unknown Error Or Unsupported command");
+			response.SetArg("_ERRNO", "0");
+			response.SetArg("_ERROR", "Success");
 		}
 		catch(ServerException &e)
 		{
 			Request tmp;
-			std::string err = e.what();
 
-			tmp.SetArg("_ERROR", &err);
+			tmp.SetArg("_ERRNO", Encoder::ToStr(e.GetErrorNo()));
+			tmp.SetArg("_ERROR", e.GetErrorMessage());
 			response = tmp;
 		}
 
@@ -171,12 +173,12 @@ void ServerManager::RaiseBadLine(IServerConnection *Connection, const std::strin
 	m_handler->OnBadLine(Connection, line);
 }
 
-bool ServerManager::RaiseRequest(IServerConnection *Connection, Request *request, Request *response)
+int ServerManager::RaiseRequest(IServerConnection *Connection, Request *request, Request *response)
 {
 	return m_handler->OnRequest(Connection, request, response);
 }
 
-bool ServerManager::RaiseCommand(IServerConnection *Connection, Request *request)
+int ServerManager::RaiseCommand(IServerConnection *Connection, Request *request)
 {
 	return m_handler->OnCommand(Connection, request);
 }

@@ -29,12 +29,12 @@ class ClientBase
 
 		void SetHandler(IClientHandler *Handler);
 
-		bool SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout, const struct timespec *HardTimeout);
-		bool SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout);
-		bool SendRequest(Request *request, Request *response);
+		int SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout, const struct timespec *HardTimeout);
+		int SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout);
+		int SendRequest(Request *request, Request *response);
 
-		bool SendCommand(Request *command, const struct timespec *Timeout);
-		bool SendCommand(Request *command);
+		int SendCommand(Request *command, const struct timespec *Timeout);
+		int SendCommand(Request *command);
 
 		uint64_t GetNextID();
 	protected:

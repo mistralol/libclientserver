@@ -2,21 +2,14 @@
 
 #include <libclientserver.h>
 
-bool Ping(ClientBase *Client)
+int Ping(ClientBase *Client)
 {
-	struct timespec ts;
 	Request request;
 	Request response;
 
-	clock_gettime(CLOCK_MONOTONIC, &ts);
-
 	request.SetCommand("PING");
-	request.SetArg("TIME", Encoder::ToStr(&ts));
 
-	if (Client->SendRequest(&request, &response) == false)
-		return false;
-
-	return true;
+	return Client->SendRequest(&request, &response);
 }
 
 bool TestCommand(ClientBase *Client)
@@ -31,6 +24,7 @@ bool TestCommand(ClientBase *Client)
 int main(int argc, char **argv)
 {
 	ClientBase *Client = Client::Create("unix:/tmp/SimpleServer");
+	bool Fail = false;
 
 	Client->Connect();
 	printf("Connecting\n");
@@ -40,8 +34,12 @@ int main(int argc, char **argv)
 	for(int i=0;i<3;i++)
 	{
 		printf("Sending Ping\n");
-		if (Ping(Client) == false)
-			printf("Failed\n");
+		int ret = Ping(Client);
+		if (ret < 0)
+		{
+			printf("Failed: %d / %s\n", ret, strerror(ret));
+			Fail = true;
+		}
 	}
 
 	printf("Disconnecting\n");
@@ -50,6 +48,16 @@ int main(int argc, char **argv)
 	delete Client;
 
 	printf("CleanExit\n");
+
+	if (Fail)
+	{
+		printf("Test: FAILED\n");
+	}
+	else
+	{
+		printf("Test: PASSED\n");
+	}
+
 	return 0;
 }
 
