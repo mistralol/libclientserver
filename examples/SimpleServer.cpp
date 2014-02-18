@@ -47,7 +47,7 @@ public:
 
 		if (Command == "QUIT")
 		{
-			m_quit = true;
+			m_Quit = true;
 			return 0;
 		}
 
