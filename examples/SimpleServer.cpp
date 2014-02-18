@@ -71,7 +71,7 @@ public:
 		while(m_Quit == false)
 		{
 			printf("Running\n");
-			sleep(10);
+			sleep(1);
 		}
 	}
 
@@ -102,6 +102,7 @@ int main(int argc, char **argv)
 	
 	Start();
 	
+	printf("Main Thread Exit\n");
 	return EXIT_SUCCESS;
 }
 

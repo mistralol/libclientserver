@@ -68,15 +68,12 @@ void ServerManager::ConnectionRemove(IServerConnection *Connection)
 			return;
 		}
 	}
-#ifdef DEBUG
-	abort();
-#endif
 }
 
 void ServerManager::ConnectionRemoveAll()
 {
 	ScopedLock lock(&m_ConnectionsMutex);
-	while(m_Servers.size() > 0)
+	while(m_Connections.size() > 0)
 	{
 		ConnectionRemove(m_Connections.front());
 	}
@@ -84,8 +81,10 @@ void ServerManager::ConnectionRemoveAll()
 
 void ServerManager::ConnectionRemoveAll(IServer *Server)
 {
-	ScopedLock lock(&m_ConnectionsMutex);
-	abort();
+	//ScopedLock lock(&m_ConnectionsMutex);
+
+	//FIXME: This should select only for the current server being removed not all of the connections
+	ConnectionRemoveAll();
 }
 
 bool ServerManager::ProcessLine(IServerConnection *Connection, const std::string *line)

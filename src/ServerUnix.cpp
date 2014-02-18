@@ -79,8 +79,7 @@ void ServerUnix::Start(ServerManager *Manager)
 
 void ServerUnix::Stop()
 {
-	if (close(m_fd) < 0)
-		abort();
+	m_quit = true;
 
 	m_manager = NULL;
 	Thread::Stop();
@@ -90,17 +89,45 @@ void ServerUnix::Run()
 {
 	while(m_quit == false)
 	{
+		fd_set fds;
 		struct sockaddr_un addr;
+		struct timeval tv;
 		socklen_t addr_len = sizeof(addr);
-		int fd = accept(m_fd, (struct sockaddr *) &addr, &addr_len);
-		if (fd < 0) {
-			std::string err = strerror(errno);
-			//Logger("Server::Unix::Run() -> accept: %s", err.c_str());
-			continue;
+
+		tv.tv_sec = 1;
+		tv.tv_usec = 0;
+
+		FD_ZERO(&fds);
+		FD_SET(m_fd, &fds);
+		int ret = select(m_fd + 1, &fds, NULL, NULL, &tv);
+		if (ret < 0)
+		{
+			switch(errno)
+			{
+				case EINTR:
+				case ETIMEDOUT:
+					continue;
+					break;
+				default:
+					abort();
+			}
 		}
 
-		ServerUnixConnection *Connection = new ServerUnixConnection(m_manager, this, fd);
-		Connection->Start();
+		if (FD_ISSET(m_fd, &fds))
+		{
+			int fd = accept(m_fd, (struct sockaddr *) &addr, &addr_len);
+			if (fd < 0) {
+				std::string err = strerror(errno);
+				//Logger("Server::Unix::Run() -> accept: %s", err.c_str());
+				continue;
+			}
+
+			ServerUnixConnection *Connection = new ServerUnixConnection(m_manager, this, fd);
+			Connection->Start();
+		}
 	}
+
+	if (close(m_fd) < 0)
+		abort();
 }
 
