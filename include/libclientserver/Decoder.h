@@ -9,19 +9,23 @@
 class Decoder
 {
 	public:
-		static bool Hex2Str(const std::string &str, std::string &out);
-		static bool Str2Buf(const std::string &str, char **buf, size_t *buflen);
+		static bool ToStr(const std::string &str, std::string &out);
 
-		static bool Str2Char(const std::string &str, char value);
-		static bool Str2UChar(const std::string &str, unsigned char value);
-		static bool Str2Short(const std::string &str, short value);
-		static bool Str2UShort(const std::string &str, unsigned short value);
-		static bool Str2Int(const std::string &str, int value);
-		static bool Str2UInt(const std::string &str, unsigned int value);
-		static bool Str2Long(const std::string &str, long value);
-		static bool Str2ULong(const std::string &str, unsigned long value);
-		static bool Str2Float(const std::string &str, float value);
-		static bool Str2Double(const std::string &str, double value);
+		static bool ToLong(const std::string &str, long *value);
+		static bool ToInt(const std::string &str, int *value);
+		static bool ToShort(const std::string &str, short *value);
+		static bool ToChar(const std::string &str, char *value);
+		static bool ToFloat(const std::string &str, float *value);
+		static bool ToDouble(const std::string &str, double *value);
+
+		static bool ToULong(const std::string &str, unsigned long *value);
+		static bool ToUInt(const std::string &str, unsigned int *value);
+		static bool ToUShort(const std::string &str, unsigned short *value);
+		static bool ToUChar(const std::string &str, unsigned char *value);
+
+		static bool ToTimeSpec(const std::string &str, struct timespec *ts);
+		static bool ToTimeVal(const std::string &str, struct timeval *ts);
+
 };
 
 

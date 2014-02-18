@@ -4,12 +4,19 @@
 
 bool Ping(ClientBase *Client)
 {
+	struct timespec ts;
 	Request request;
 	Request response;
 
-	request.SetCommand("PING");
+	clock_gettime(CLOCK_MONOTONIC, &ts);
 
-	return Client->SendRequest(&request, &response);
+	request.SetCommand("PING");
+	request.SetArg("TIME", Encoder::ToStr(&ts));
+
+	if (Client->SendRequest(&request, &response) == false)
+		return false;
+
+	return true;
 }
 
 bool TestCommand(ClientBase *Client)

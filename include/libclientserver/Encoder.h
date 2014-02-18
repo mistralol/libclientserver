@@ -9,19 +9,23 @@
 class Encoder
 {
 	public:
-		static std::string Str2Hex(const std::string &str);
-		static std::string Buf2Hex(const char *buf, size_t buflen);
+		static std::string ToStr(const std::string &str);
 
-		static std::string Char2Str(char value);
-		static std::string UChar2Str(unsigned char value);
-		static std::string Short2Str(short value);
-		static std::string UShort2Str(unsigned short value);
-		static std::string Int2Str(int value);
-		static std::string UInt2Str(unsigned int value);
-		static std::string Long2Str(long value);
-		static std::string ULong2Str(unsigned long value);
-		static std::string Float2Str(float value);
-		static std::string Double2Str(double value);
+		static std::string ToStr(const long value);
+		static std::string ToStr(const int value);
+		static std::string ToStr(const short value);
+		static std::string ToStr(const char value);
+		static std::string ToStr(const float value);
+		static std::string ToStr(const double value);
+
+		static std::string ToStr(const unsigned long value);
+		static std::string ToStr(const unsigned int value);
+		static std::string ToStr(const unsigned short value);
+		static std::string ToStr(const unsigned char value);
+
+		static std::string ToStr(const struct timespec *ts);
+		static std::string ToStr(const struct timeval *ts);
+
 };
 
 

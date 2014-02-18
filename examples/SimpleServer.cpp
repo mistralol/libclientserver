@@ -29,7 +29,18 @@ public:
 		
 	bool OnRequest(IServerConnection *Connection, Request *request, Request *response)
 	{
-		printf("OnRequest: %s\n", request->GetCommand().c_str());
+		std::list<std::string> lst = request->GetArgList();
+		std::stringstream ss;
+
+		ss << "OnRequest: " << request->GetCommand() << " ";
+
+		for(std::list<std::string>::iterator it = lst.begin(); it != lst.end(); it++)
+		{
+			ss << *it << "=" << request->GetArg(*it) << " ";
+		}
+
+		printf("%s\n", ss.str().c_str());
+//		printf("OnRequest: %s\n", request->GetCommand().c_str());
 		return false;
 	}
 	

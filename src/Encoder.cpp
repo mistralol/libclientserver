@@ -2,14 +2,14 @@
 #include <libclientserver.h>
 
 /**
- * Str2Hex
+ * ToStr
  * @param[in] str the string value to be encoded
  * @return The encoded value
  *
  * Str2Hex encodes a string and returns the same string encoded in hex.
  * An example would be " " will be returned as "20"
  */
-std::string Encoder::Str2Hex(const std::string &str) {
+std::string Encoder::ToStr(const std::string &str) {
 	std::string tmp;
 	const char *c = str.c_str();
 	char buf[3];
@@ -23,95 +23,88 @@ std::string Encoder::Str2Hex(const std::string &str) {
 	return tmp;
 }
 
-/**
- * Buf2Str
- * @param[in] c The pointer to the buffer
- * @param[in] buflen The length of the buffer
- *
- * Buf2Str encodes a buffer to a string
- */
-std::string Encoder::Buf2Hex(const char *c, size_t buflen)
+std::string Encoder::ToStr(const long value)
 {
-	std::string tmp;
-	char buf[3];
-	
-	for(size_t i = 0;i<buflen;i++)
-	{
-		sprintf(buf, "%02X", (unsigned char) c[i]);
-		tmp += buf;
-	}
-
-	return tmp;
+	std::stringstream ss;
+	ss << value;
+	return ss.str();
 }
 
-std::string Encoder::Char2Str(char value)
+std::string Encoder::ToStr(const int value)
 {
-	char buf[2];
-	sprintf(buf, "%c", value);
-	return std::string(buf);
+	std::stringstream ss;
+	ss << value;
+	return ss.str();
 }
 
-std::string Encoder::UChar2Str(unsigned char value)
+std::string Encoder::ToStr(const short value)
 {
-	char buf[32];
-	sprintf(buf, "%d", value);
-	return std::string(buf);
+	std::stringstream ss;
+	ss << value;
+	return ss.str();
 }
 
-std::string Encoder::Short2Str(short value)
+std::string Encoder::ToStr(const char value)
 {
-	char buf[32];
-	sprintf(buf, "%d", value);
-	return std::string(buf);
+	std::stringstream ss;
+	ss << value;
+	return ss.str();
 }
 
-std::string Encoder::UShort2Str(unsigned short value)
+std::string Encoder::ToStr(const float value)
 {
-	char buf[32];
-	sprintf(buf, "%d", value);
-	return std::string(buf);
+	std::stringstream ss;
+	ss << value;
+	return ss.str();
 }
 
-std::string Encoder::Int2Str(int value)
+std::string Encoder::ToStr(const double value)
 {
-	char buf[32];
-	sprintf(buf, "%d", value);
-	return std::string(buf);
+	std::stringstream ss;
+	ss << value;
+	return ss.str();
 }
 
-std::string Encoder::UInt2Str(unsigned int value)
+std::string Encoder::ToStr(const unsigned long value)
 {
-	char buf[32];
-	sprintf(buf, "%d", value);
-	return std::string(buf);
+	std::stringstream ss;
+	ss << value;
+	return ss.str();
 }
 
-std::string Encoder::Long2Str(long value)
+std::string Encoder::ToStr(const unsigned int value)
 {
-	char buf[32];
-	sprintf(buf, "%ld", value);
-	return std::string(buf);
+	std::stringstream ss;
+	ss << value;
+	return ss.str();
 }
 
-std::string Encoder::ULong2Str(unsigned long value)
+std::string Encoder::ToStr(const unsigned short value)
 {
-	char buf[32];
-	sprintf(buf, "%lu", value);
-	return std::string(buf);
+	std::stringstream ss;
+	ss << value;
+	return ss.str();
 }
 
-std::string Encoder::Float2Str(float value)
+std::string Encoder::ToStr(const unsigned char value)
 {
-	char buf[32];
-	sprintf(buf, "%f", value);
-	return std::string(buf);
+	std::stringstream ss;
+	ss << value;
+	return ss.str();
 }
 
-std::string Encoder::Double2Str(double value)
+std::string Encoder::ToStr(const struct timespec *ts)
 {
-	char buf[32];
-	sprintf(buf, "%f", value);
-	return std::string(buf);
+	std::stringstream ss;
+	ss << ts->tv_sec << ':' << ts->tv_nsec;
+	return ss.str();
+}
+
+std::string Encoder::ToStr(const struct timeval *tv)
+{
+	std::stringstream ss;
+	ss << tv->tv_sec << ':' << tv->tv_usec;
+	return ss.str();
 }
 
 

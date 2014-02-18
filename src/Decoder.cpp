@@ -10,7 +10,7 @@
  * HexDecode decode a string of hex and returns the same decoded value
  * An example would be "20" will be returned as " "
  */
-bool Decoder::Hex2Str(const std::string &str, std::string &out) {
+bool Decoder::ToStr(const std::string &str, std::string &out) {
 	const char *c = str.c_str();
 	unsigned int x;
 
@@ -29,70 +29,89 @@ bool Decoder::Hex2Str(const std::string &str, std::string &out) {
 	return true;
 }
 
-bool Decoder::Str2Buf(const std::string &str, char **buf, size_t *buflen)
+bool Decoder::ToLong(const std::string &str, long *value)
 {
-	abort();
-	return false;
+	std::stringstream ss(str);
+	ss >> *value;
+	return true;
 }
 
-bool Decoder::Str2Char(const std::string &str, char value)
+bool Decoder::ToInt(const std::string &str, int *value)
 {
-	abort();
-	return false;
+	std::stringstream ss(str);
+	ss >> *value;
+	return true;
 }
 
-bool Decoder::Str2UChar(const std::string &str, unsigned char value)
+bool Decoder::ToShort(const std::string &str, short *value)
 {
-	abort();
-	return false;
+	std::stringstream ss(str);
+	ss >> *value;
+	return true;
 }
 
-bool Decoder::Str2Short(const std::string &str, short value)
+bool Decoder::ToChar(const std::string &str, char *value)
 {
-	abort();
-	return false;
+	std::stringstream ss(str);
+	ss >> *value;
+	return true;
 }
 
-bool Decoder::Str2UShort(const std::string &str, unsigned short value)
+bool Decoder::ToFloat(const std::string &str, float *value)
 {
-	abort();
-	return false;
+	std::stringstream ss(str);
+	ss >> *value;
+	return true;
 }
 
-bool Decoder::Str2Int(const std::string &str, int value)
+bool Decoder::ToDouble(const std::string &str, double *value)
 {
-	abort();
-	return false;
+	std::stringstream ss(str);
+	ss >> *value;
+	return true;
 }
 
-bool Decoder::Str2UInt(const std::string &str, unsigned int value)
+bool Decoder::ToULong(const std::string &str, unsigned long *value)
 {
-	abort();
-	return false;
+	std::stringstream ss(str);
+	ss >> *value;
+	return true;
 }
 
-bool Str2Long(const std::string &str, long value)
+bool Decoder::ToUInt(const std::string &str, unsigned int *value)
 {
-	abort();
-	return false;
+	std::stringstream ss(str);
+	ss >> *value;
+	return true;
 }
 
-bool Str2ULong(const std::string &str, unsigned long value)
+bool Decoder::ToUShort(const std::string &str, unsigned short *value)
 {
-	abort();
-	return false;
+	std::stringstream ss(str);
+	ss >> *value;
+	return true;
 }
 
-bool Str2Float(const std::string &str, float value)
+bool Decoder::ToUChar(const std::string &str, unsigned char *value)
 {
-	abort();
-	return false;
+	std::stringstream ss(str);
+	ss >> *value;
+	return true;
 }
 
-bool Str2Double(const std::string &str, double value)
+bool ToTimeSpec(const std::string &str, struct timespec *ts)
 {
-	abort();
-	return false;
+	std::stringstream ss(str);
+	std::string dummy;
+	ss >> ts->tv_sec >> dummy >> ts->tv_nsec;
+	return true;
 }
 
+bool ToTimeVal(const std::string &str, struct timeval *tv)
+{
+	std::stringstream ss(str);
+	std::string dummy;
+	ss >> tv->tv_sec >> dummy >> tv->tv_usec;
+	return true;
+}
 

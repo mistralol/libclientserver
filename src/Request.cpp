@@ -41,6 +41,16 @@ bool Request::HasArg(const std::string &Name)
 	return true;
 }
 
+std::list<std::string> Request::GetArgList()
+{
+	std::list<std::string> lst;
+	for(std::map<std::string, std::string>::iterator it = m_args.begin(); it != m_args.end(); it++)
+	{
+		lst.push_back(it->first);
+	}
+	return lst;
+}
+
 std::string Request::GetArg(const std::string *Key)
 {
 	std::map<std::string, std::string>::iterator it = m_args.find(*Key);
@@ -66,7 +76,12 @@ void Request::SetArg(const std::string *Key, const std::string *Value)
 	m_args[*Key] = *Value;
 }
 
-void Request::SetArg(const std::string &Key, const std::string *Value)
+void Request::SetArg(const std::string Key, const std::string Value)
+{
+	m_args[Key] = Value;
+}
+
+void Request::SetArg(const std::string Key, const std::string *Value)
 {
 	m_args[Key] = *Value;
 }
@@ -87,7 +102,7 @@ std::string Request::Encode() {
 	ss << m_id << " " << m_command;
 
 	for(std::map<std::string, std::string>::iterator it = m_args.begin(); it != m_args.end(); it++) {
-		ss << " " << it->first << "=" << Encoder::Str2Hex(it->second);
+		ss << " " << it->first << "=" << Encoder::ToStr(it->second);
 	}
 	return ss.str();
 }
@@ -118,7 +133,12 @@ bool Request::Decode(const std::string *str)
 			return false;
 		}
 
-		//FIXME: Each Map Item needs Hex2Str called on it!
+		for(std::map<std::string, std::string>::iterator it = m_args.begin(); it != m_args.end(); it++)
+		{
+			std::string tmp;
+			Decoder::ToStr(it->second, tmp);
+			it->second = tmp;
+		}
 	}
 
 	return true;
