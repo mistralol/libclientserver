@@ -116,11 +116,8 @@ void ServerUnix::Run()
 		if (FD_ISSET(m_fd, &fds))
 		{
 			int fd = accept(m_fd, (struct sockaddr *) &addr, &addr_len);
-			if (fd < 0) {
-				std::string err = strerror(errno);
-				//Logger("Server::Unix::Run() -> accept: %s", err.c_str());
+			if (fd < 0)
 				continue;
-			}
 
 			ServerUnixConnection *Connection = new ServerUnixConnection(m_manager, this, fd);
 			Connection->Start();
