@@ -6,7 +6,6 @@ PerfCounter::PerfCounter(const std::string Key)
 	m_Key = Key;
 	if (clock_gettime(CLOCK_MONOTONIC, &m_starttime) < 0)
 		abort();
-	printf("Start: %s\n", Key.c_str());
 }
 
 PerfCounter::~PerfCounter()
@@ -20,7 +19,6 @@ PerfCounter::~PerfCounter()
 	Time::Diff(&m_starttime, &endtime, &diff);
 
 	PerfManager::UpdateCounter(m_Key, &diff);
-	printf("End: %s\n", m_Key.c_str());
 }
 
 
