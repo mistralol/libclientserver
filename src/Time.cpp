@@ -117,7 +117,7 @@ void Time::Add(const struct timeval *tv1, const struct timeval *tv2, struct time
 void Time::Sub(const struct timespec *ts1, const struct timespec *ts2, struct timespec *res)
 {
 	res->tv_sec = ts1->tv_sec - ts2->tv_sec;
-	res->tv_nsec = ts2->tv_nsec - ts2->tv_nsec;
+	res->tv_nsec = ts1->tv_nsec - ts2->tv_nsec;
 	if (res->tv_nsec < 0)
 	{
 		res->tv_sec--;
@@ -137,7 +137,7 @@ void Time::Sub(const struct timespec *ts1, const struct timespec *ts2, struct ti
 void Time::Sub(const struct timeval *tv1, const struct timeval *tv2, struct timeval *res)
 {
 	res->tv_sec = tv1->tv_sec - tv2->tv_sec;
-	res->tv_usec = tv2->tv_usec - tv2->tv_usec;
+	res->tv_usec = tv1->tv_usec - tv2->tv_usec;
 	if (res->tv_usec < 0)
 	{
 		res->tv_sec--;
