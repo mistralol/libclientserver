@@ -22,7 +22,9 @@ SRCS= 	Thread.cpp \
 		ReadBuffer.cpp \
 		Encoder.cpp \
 		Decoder.cpp \
-		PIDFile.cpp
+		PIDFile.cpp \
+		PerfCounter.cpp \
+		PerfManager.cpp
 
 OBJS=$(SRCS:%.cpp=%.o)
 

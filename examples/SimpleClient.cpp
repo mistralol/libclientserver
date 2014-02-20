@@ -4,6 +4,7 @@
 
 int Ping(ClientBase *Client)
 {
+	PerfCounter PC("PING");
 	Request request;
 	Request response;
 
@@ -41,7 +42,7 @@ int main(int argc, char **argv)
 	Client->WaitForConnect();
 	printf("Connected\n");
 
-	for(int i=0;i<3;i++)
+	for(int i=0;i<100;i++)
 	{
 		printf("Sending Ping\n");
 		int ret = Ping(Client);
@@ -62,6 +63,8 @@ int main(int argc, char **argv)
 	Client->Disconnect();
 	printf("DisConnected\n");
 	delete Client;
+
+	PerfManager::Dump();
 
 	printf("CleanExit\n");
 

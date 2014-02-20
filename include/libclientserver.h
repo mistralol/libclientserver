@@ -51,4 +51,8 @@
 
 #include <libclientserver/PIDFile.h>
 
+#include <libclientserver/PerfManager.h>
+#include <libclientserver/PerfCounter.h>
+
+
 
