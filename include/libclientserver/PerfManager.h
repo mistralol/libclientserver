@@ -13,6 +13,13 @@ struct PerfDetails_t
 	}
 };
 
+/*
+ * @class PerfManager
+ * @brief Performance Manager class to track Performance Counter Data
+ *
+ * Performance Manager class to track Performance Counter Data
+ */
+
 class PerfManager
 {
 	public:
@@ -29,4 +36,5 @@ class PerfManager
 		static std::map<std::string, struct PerfDetails_t> m_map;
 		static Mutex m_Mutex;
 };
+
 
