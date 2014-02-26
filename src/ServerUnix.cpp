@@ -119,6 +119,8 @@ void ServerUnix::Run()
 			if (fd < 0)
 				continue;
 
+			m_manager->RaisePreNewConnection();
+
 			ServerUnixConnection *Connection = new ServerUnixConnection(m_manager, this, fd);
 			Connection->Start();
 		}
