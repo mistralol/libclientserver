@@ -42,7 +42,7 @@ int main(int argc, char **argv)
 	Client->WaitForConnect();
 	printf("Connected\n");
 
-	for(int i=0;i<100;i++)
+	for(int i=0;i<5;i++)
 	{
 		printf("Sending Ping\n");
 		int ret = Ping(Client);
