@@ -6,6 +6,7 @@ SRCS= 	Thread.cpp \
 		RequestMap.cpp \
 		ServerManager.cpp \
 		ServerException.cpp \
+		IServer.cpp \
 		ServerUnix.cpp \
 		ServerUnixConnection.cpp \
 		ClientBase.cpp \

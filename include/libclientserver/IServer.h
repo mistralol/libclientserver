@@ -1,5 +1,6 @@
 
 class ServerManager;
+class IServerConnection;
 
 /**
  * @class IServer
@@ -16,10 +17,16 @@ class IServer
 		virtual void Start(ServerManager *Manager) = 0;
 		virtual void Stop() = 0;
 
+		void ConnectionAdd(IServerConnection *Connection);
+		void ConnectionRemove(IServerConnection *Connection);
+		void ConnectionRemoveAll();
+
 	protected:
 		virtual void Run() = 0;
 
 	private:
+		std::list<IServerConnection *> m_Connections;
+		Mutex m_ConnectionsMutex;
 
 };
 

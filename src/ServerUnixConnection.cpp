@@ -18,15 +18,16 @@ ServerUnixConnection::~ServerUnixConnection()
 void ServerUnixConnection::Start()
 {
 	m_quit = false;
-	m_manager->ConnectionAdd(this);
-
+	m_server->ConnectionAdd(this);
+	m_manager->RaisePostNewConnection(this);
 	Thread::Start();
 }
 
 void ServerUnixConnection::Stop()
 {
 	m_quit = true;
-	m_manager->ConnectionRemove(this);
+	m_server->ConnectionRemove(this);
+	m_manager->RaiseDisconnect(this);
 	ScopedWriteLock wlock(&m_WriterLock);	//We need to protect m_fd from the writer side while we close it
 	if (close(m_fd) < 0)
 		abort();
@@ -43,7 +44,7 @@ void ServerUnixConnection::Run()
 		int ret = Buffer.Read(m_fd);
 		if (ret <= 0)
 		{
-			m_manager->ConnectionRemove(this);
+			m_server->ConnectionRemove(this);
 			m_quit = true;
 			ScopedWriteLock wlock(&m_WriterLock);	//We need to protect m_fd from the writer side while we close it
 			if (close(m_fd) < 0)
