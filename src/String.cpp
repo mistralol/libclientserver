@@ -231,4 +231,38 @@ std::string String::Join(const std::map<std::string, std::string> *map, const st
 	return str;
 }
 
+/**
+ * Random
+ * @param[in] charset The avilable characters to use to generate the random string
+ * @param[in] length The length of the output string that is required
+ * @return The output string
+ *
+ * This function will generate a random string from specific char's for a specific length of string
+ */
+std::string String::Random(const std::string charset, int length)
+{
+	unsigned int seed = time(NULL);
+	std::string str = "";
+	int clen = charset.length();
+
+	for(int i = 0;i<length;i++) {
+		int ran = rand_r(&seed) % clen;
+		str += charset[ran];
+	}
+	return str;
+}
+
+/**
+ * Random
+ * @param[in] length The length of the output string that is required
+ * @return The output string
+ *
+ * This function will generate a random string for a specific length of string using charaters a-Z and 0-9
+ *
+ */
+std::string String::Random(int length)
+{
+	return Random("abcdefghijklmnopquvwxyzABCDEFGHIJKLMNOPQWXYZ012345789", length);
+}
+
 
