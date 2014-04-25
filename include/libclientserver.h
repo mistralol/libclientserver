@@ -27,6 +27,8 @@
 #include <libclientserver/ScopedWriteLock.h>
 #include <libclientserver/ReadBuffer.h>
 
+#include <libclientserver/Queue.h>
+
 #include <libclientserver/Encoder.h>
 #include <libclientserver/Decoder.h>
 

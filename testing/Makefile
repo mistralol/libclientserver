@@ -13,7 +13,8 @@ SRCS=	\
 		StringJoinVector.cpp	\
 		StringJoinList.cpp		\
 		StringJoinMap.cpp		\
-		PIDFile.cpp
+		PIDFile.cpp				\
+		Queueing.cpp
 
 
 OBJS=$(SRCS:%.cpp=%.o)
