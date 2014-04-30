@@ -15,7 +15,8 @@ SRCS=	\
 		StringJoinMap.cpp		\
 		PIDFile.cpp				\
 		Queueing.cpp			\
-		TestServer.cpp
+		TestServer.cpp			\
+		TestClient.cpp
 
 
 OBJS=$(SRCS:%.cpp=%.o)
