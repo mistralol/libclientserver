@@ -16,7 +16,8 @@ SRCS=	\
 		PIDFile.cpp				\
 		Queueing.cpp			\
 		TestServer.cpp			\
-		TestClient.cpp
+		TestClient.cpp			\
+		TestClientConnection.cpp
 
 
 OBJS=$(SRCS:%.cpp=%.o)
