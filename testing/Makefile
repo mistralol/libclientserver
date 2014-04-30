@@ -14,11 +14,14 @@ SRCS=	\
 		StringJoinList.cpp		\
 		StringJoinMap.cpp		\
 		PIDFile.cpp				\
-		Queueing.cpp
+		Queueing.cpp			\
+		TestServer.cpp
 
 
 OBJS=$(SRCS:%.cpp=%.o)
 EXES=$(SRCS:%.cpp=%.exe)
+
+INCLUDE+=-I.
 
 
 all: $(EXES)
