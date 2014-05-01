@@ -28,7 +28,7 @@ INCLUDE+=-I.
 
 all: $(EXES)
 
-%.o: %.cpp $(DEPS)
+%.o: %.cpp $(DEPS) .depend
 	$(CPP) $(CPPFLAGS) $(INCLUDE) -o $@ -c $<
 
 %.exe: %.o

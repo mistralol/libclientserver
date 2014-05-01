@@ -12,17 +12,17 @@ public:
 
 	void OnPreNewConnection()
 	{
-		printf("PreNewConnection\n");
+		//printf("PreNewConnection\n");
 	}
 
 	void OnPostNewConnection(IServerConnection *Connection)
 	{
-		printf("PostNewConnection\n");
+		//printf("PostNewConnection\n");
 	}
 		
 	void OnDisconnect(IServerConnection *Connection)
 	{
-		printf("Disconnect\n");
+		//printf("Disconnect\n");
 	}
 		
 	int OnRequest(IServerConnection *Connection, Request *request, Request *response)

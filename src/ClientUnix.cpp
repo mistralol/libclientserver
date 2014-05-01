@@ -119,7 +119,9 @@ void ClientUnix::Run()
 		}
 
 		m_fd = fd;	//Allow write to access this now that we are connected
+		m_ConnectedMutex.Lock();
 		m_connected = true;
+		m_ConnectedMutex.Unlock();
 		RaiseOnConnect();
 
 		//Read Responses / Events / Etc....
@@ -129,7 +131,9 @@ void ClientUnix::Run()
 			int ret = Buffer.Read(m_fd);
 			if (ret <= 0)
 			{
+				m_ConnectedMutex.Lock();
 				m_connected = false;
+				m_ConnectedMutex.Unlock();
 				RaiseOnDisconnect(ret, Errno::ToStr(ret));
 				ScopedWriteLock wlock(&m_WriterLock);	//We need to protect m_fd from the writer side while we close it
 				if (close(m_fd) < 0)
@@ -148,7 +152,9 @@ void ClientUnix::Run()
 			}
 		}
 	} //m_quit == false
+	m_ConnectedMutex.Lock();
 	m_connected = false;
+	m_ConnectedMutex.Unlock();
 }
 
 
