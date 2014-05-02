@@ -14,12 +14,12 @@ class Queue
 			Flush();
 		}
 
-		bool Add(T)
+		bool Add(T item)
 		{
 			ScopedLock lock(&m_mutex);
 			if (m_maxsize != 0 && m_queue.size() >= m_maxsize)
 				abort();
-			m_queue.push_back();
+			m_queue.push_back(item);
 			m_mutex.WakeUp();
 			return true;
 		}
