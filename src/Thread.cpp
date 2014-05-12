@@ -11,9 +11,8 @@ Thread::Thread()
 
 Thread::~Thread()
 {
-	if (IsRunning())
+	if (IsRunning() && (IsDetached() == false))
 		Stop();
-
 }
 
 /**

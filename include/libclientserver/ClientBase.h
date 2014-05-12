@@ -61,6 +61,7 @@ class ClientBase
 		struct timespec m_HardTimeout;
 
 		Mutex m_ConnectedMutex;
+		volatile bool m_connected;
 
 		Mutex m_LastIDMutex;
 		uint64_t m_LastID;

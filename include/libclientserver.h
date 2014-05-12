@@ -16,6 +16,7 @@
 
 #include <sys/time.h>
 #include <sys/stat.h>
+#include <sys/socket.h>
 
 #include <libclientserver/Thread.h>
 #include <libclientserver/Errno.h>

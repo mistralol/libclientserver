@@ -29,7 +29,6 @@ class ClientUnix : public ClientBase, Thread
 		volatile bool m_quit;
 		std::string m_path;
 		int m_fd;
-		volatile bool m_connected;
 
 		RWLock m_WriterLock;
 		Mutex m_WriterMutex;

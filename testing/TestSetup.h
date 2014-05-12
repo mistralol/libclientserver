@@ -11,6 +11,6 @@ void TestSetup()
 	signal(SIGALRM, SigAlarm);
 
 
-	alarm(60);
+	alarm(300);
 }
 

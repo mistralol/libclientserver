@@ -7,12 +7,12 @@ ServerUnixConnection::ServerUnixConnection(ServerManager *Manager, IServer *Serv
 	m_server = Server;
 	m_fd = fd;
 	m_quit = true;
+
 }
 
 ServerUnixConnection::~ServerUnixConnection()
 {
-	if (IsRunning())
-		Stop();
+
 }
 
 void ServerUnixConnection::Start()
@@ -20,19 +20,18 @@ void ServerUnixConnection::Start()
 	m_quit = false;
 	m_server->ConnectionAdd(this);
 	m_manager->RaisePostNewConnection(this);
+	ScopedWriteLock wlock(&m_WriterLock);
 	Thread::Start();
+	Thread::Detach();
 }
 
 void ServerUnixConnection::Stop()
 {
 	m_quit = true;
-	m_server->ConnectionRemove(this);
-	m_manager->RaiseDisconnect(this);
 	ScopedWriteLock wlock(&m_WriterLock);	//We need to protect m_fd from the writer side while we close it
-	if (close(m_fd) < 0)
-		abort();
+	if (m_fd >= 0)
+		shutdown(m_fd, SHUT_WR); //This error really doesnt matter
 
-	Thread::Stop();
 }
 
 void ServerUnixConnection::Run()
@@ -50,7 +49,7 @@ void ServerUnixConnection::Run()
 			if (close(m_fd) < 0)
 				abort();
 			m_fd = -1;
-			return;
+			goto doexit;
 		}
 
 		//Read Line at a time
@@ -62,6 +61,11 @@ void ServerUnixConnection::Run()
 			HasLine = Buffer.GetLine(&line);
 		}
 	}
+
+doexit:
+	m_server->ConnectionRemove(this);
+	m_manager->RaiseDisconnect(this);
+
 	delete this;
 }
 
@@ -73,6 +77,9 @@ bool ServerUnixConnection::SendLine(const std::string *str)
 	size_t offset = 0;
 	size_t length = str->size();
 	size_t ret = 0;
+
+	if (m_fd < 0)
+		return false;
 
 restart:
 	ret = write(m_fd, &c[offset], length);

@@ -58,7 +58,7 @@ bool ClientBase::WaitForConnect(const struct timespec *Timeout)
 		}
 	}
 
-	return false;
+	return IsConnected();
 }
 
 /**
@@ -281,10 +281,7 @@ uint64_t ClientBase::GetNextID()
 void ClientBase::RaiseOnConnect()
 {
 	ScopedLock lock(&m_ConnectedMutex);
-#ifdef DEBUG
-	if (IsConnected() == false)
-		abort();	//Apparently Not Connected. This is a bug in the dervied class for Raiseing the event when not connected
-#endif
+	m_connected = true;
 	m_ConnectedMutex.WakeUpAll();
 	
 	if (m_Handler != NULL)
@@ -328,6 +325,9 @@ void ClientBase::RaiseOnSendError(int err, const std::string &str)
  */
 void ClientBase::RaiseOnDisconnect(int err, const std::string &str)
 {
+	ScopedLock lock(&m_ConnectedMutex);
+	m_connected = false;
+
 	if (m_Handler != NULL)
 		m_Handler->OnDisconnect(err, str);
 }
