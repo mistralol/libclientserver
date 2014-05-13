@@ -116,9 +116,12 @@ bool Request::Decode(const std::string *str)
 	if (String::SplitOne(str, &sid, &right, " ") == false)
 		return false;
 
+	errno = 0;
 	m_id = strtoull(sid.c_str(), NULL, 10);
 	if (errno != 0)
+	{
 		return false;
+	}
 
 	if (String::SplitOne(&right, &m_command, &args, " ") == false)
 	{

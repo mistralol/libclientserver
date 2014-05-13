@@ -21,6 +21,8 @@ class IServer
 		void ConnectionRemove(IServerConnection *Connection);
 		void ConnectionRemoveAll();
 
+		void SendEvent(Request *event);
+
 	protected:
 		virtual void Run() = 0;
 

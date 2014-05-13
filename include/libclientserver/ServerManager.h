@@ -32,6 +32,8 @@ class ServerManager
 		void RaiseBadLine(IServerConnection *Connection, const std::string *line);
 		int RaiseRequest(IServerConnection *Connection, Request *request, Request *response);
 		int RaiseCommand(IServerConnection *Connection, Request *request);
+
+		void SendEvent(Request *event);
 	
 	private:
 		IServerHandler *m_handler;

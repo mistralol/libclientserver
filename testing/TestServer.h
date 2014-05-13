@@ -100,6 +100,11 @@ class TestServer : Thread
 			Manager.ServerAdd(&Unix);
 			while(m_quit == false)
 			{
+				Request event;
+				event.SetCommand("RUNNING");
+				event.SetID(1);
+				Manager.SendEvent(&event);
+
 				sleep(1);
 			}
 

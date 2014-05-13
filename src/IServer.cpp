@@ -32,3 +32,13 @@ void IServer::ConnectionRemoveAll()
 	}
 }
 
+void IServer::SendEvent(Request *event)
+{
+	ScopedLock lock(&m_ConnectionsMutex);
+	std::list<IServerConnection *>::iterator it;
+	for(it = m_Connections.begin(); it != m_Connections.end(); it++)
+	{
+		(*it)->SendEvent(event);
+	}
+}
+

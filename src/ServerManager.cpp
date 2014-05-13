@@ -138,4 +138,15 @@ int ServerManager::RaiseCommand(IServerConnection *Connection, Request *request)
 	return m_handler->OnCommand(Connection, request);
 }
 
+void ServerManager::SendEvent(Request *event)
+{
+	ScopedLock lock(&m_ServersMutex);
+
+	std::list<IServer *>::iterator it;
+	for(it = m_Servers.begin(); it != m_Servers.end(); it++)
+	{
+		(*it)->SendEvent(event);
+	}
+}
+
 

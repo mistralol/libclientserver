@@ -410,7 +410,6 @@ void ClientBase::RaiseOnData(const std::string *str)
 			RaiseOnBadLine(str);
 			return;
 		}
-		printf("Response: %s\n", str->c_str());
 		RaiseOnResponse(&response);
 		return;
 	}
@@ -423,7 +422,6 @@ void ClientBase::RaiseOnData(const std::string *str)
 			RaiseOnBadLine(str);
 			return;
 		}
-		printf("KeepAlive: %s", str->c_str());
 		RaiseOnKeepAlive(&keepalive);
 		return;
 	}
@@ -436,7 +434,6 @@ void ClientBase::RaiseOnData(const std::string *str)
 			RaiseOnBadLine(str);
 			return;
 		}
-		printf("Event: %s", str->c_str());
 		RaiseOnEvent(&event);
 		return;
 	}

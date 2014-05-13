@@ -17,7 +17,8 @@ SRCS=	\
 		Queueing.cpp			\
 		TestServer.cpp			\
 		TestClient.cpp			\
-		TestClientConnection.cpp
+		TestClientConnection.cpp \
+		TestClientEvents.cpp
 
 
 OBJS=$(SRCS:%.cpp=%.o)
