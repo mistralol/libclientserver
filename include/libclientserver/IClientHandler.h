@@ -14,7 +14,7 @@
 class IClientHandler
 {
 	public:
-		virtual ~IClientHandler();
+		virtual ~IClientHandler() { }
 	
 		virtual void OnConnect() {}
 		virtual void OnConnectError(int err, const std::string &str) {}
