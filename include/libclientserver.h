@@ -58,5 +58,9 @@
 #include <libclientserver/PerfManager.h>
 #include <libclientserver/PerfCounter.h>
 
+#include <libclientserver/INotify.h>
+#include <libclientserver/Notify.h>
+
+
 
 

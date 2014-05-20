@@ -18,7 +18,8 @@ SRCS=	\
 		TestServer.cpp			\
 		TestClient.cpp			\
 		TestClientConnection.cpp \
-		TestClientEvents.cpp
+		TestClientEvents.cpp	\
+		TestNotify.cpp
 
 
 OBJS=$(SRCS:%.cpp=%.o)
