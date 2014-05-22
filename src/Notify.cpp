@@ -8,14 +8,21 @@ Notify::Notify()
 
 Notify::~Notify()
 {
+#ifdef DEBUG
 	if (m_map.size() != 0)
 		abort(); //Some things still reference us. This is a bug in the callers code
+#endif
 }
 
 void Notify::Add(INotify *p)
 {
 	ScopedLock lock(&m_mutex);
-	m_map.insert(std::make_pair<INotify *, INotify *>(p, p));
+#ifdef DEBUG
+	std::map<INotify *, INotify *>::iterator it = m_map.find(p);
+	if (it != m_map.end())
+		abort();
+#endif
+	m_map[p] = p;
 }
 
 void Notify::Remove(INotify *p)
