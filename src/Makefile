@@ -26,7 +26,8 @@ SRCS= 	Thread.cpp \
 		PIDFile.cpp \
 		PerfCounter.cpp \
 		PerfManager.cpp \
-		Notify.cpp
+		Notify.cpp \
+		Barrier.cpp
 
 OBJS=$(SRCS:%.cpp=%.o)
 

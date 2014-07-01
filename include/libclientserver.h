@@ -28,6 +28,7 @@
 #include <libclientserver/ScopedReadLock.h>
 #include <libclientserver/ScopedWriteLock.h>
 #include <libclientserver/ReadBuffer.h>
+#include <libclientserver/Barrier.h>
 
 #include <libclientserver/Queue.h>
 
