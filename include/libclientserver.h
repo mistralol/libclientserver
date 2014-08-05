@@ -30,6 +30,10 @@
 #include <libclientserver/ReadBuffer.h>
 #include <libclientserver/Barrier.h>
 
+#include <libclientserver/ITimer.h>
+#include <libclientserver/Timers.h>
+#include <libclientserver/TimerAbort.h>
+
 #include <libclientserver/Queue.h>
 
 #include <libclientserver/Encoder.h>

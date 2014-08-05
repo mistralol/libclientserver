@@ -19,7 +19,9 @@ SRCS=	\
 		TestClient.cpp			\
 		TestClientConnection.cpp \
 		TestClientEvents.cpp	\
-		TestNotify.cpp
+		TestNotify.cpp \
+		TestTimers.cpp \
+		TimerExit.cpp
 
 
 OBJS=$(SRCS:%.cpp=%.o)
