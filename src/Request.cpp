@@ -1,8 +1,6 @@
 
 #include <libclientserver.h>
 
-#include <boost/lexical_cast.hpp>
-
 Request::Request()
 {
 	m_id = -1;
