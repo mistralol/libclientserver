@@ -61,6 +61,7 @@ bool PIDFile::Create()
 					
 					if (GetPIDExePath(tpid, &pidexe) == true)
 					{
+						printf("Compare %s - %s\n", self.c_str(), pidexe.c_str());
 						if (self == pidexe)
 							return false; //The pid in the file matchs us and is a valid process
 					}
@@ -121,8 +122,10 @@ bool PIDFile::GetPIDExePath(int pid, std::string *name)
 	char buf2[256];
 	
 	sprintf(buf1, "/proc/%d/exe", pid);
-	if (readlink(buf1, buf2, sizeof(buf2)) < 0)
+	int ret = readlink(buf1, buf2, sizeof(buf2));
+	if (ret < 0)
 		return false;
+	buf2[ret] = 0;
 	*name = buf2;
 	return true;
 }
