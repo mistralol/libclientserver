@@ -61,7 +61,6 @@ bool PIDFile::Create()
 					
 					if (GetPIDExePath(tpid, &pidexe) == true)
 					{
-						printf("Compare %s - %s\n", self.c_str(), pidexe.c_str());
 						if (self == pidexe)
 							return false; //The pid in the file matchs us and is a valid process
 					}
