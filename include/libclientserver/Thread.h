@@ -19,7 +19,10 @@ class Thread
 		void Detach();
 		
 		bool IsRunning();
-		bool IsDetached();	
+		bool IsDetached();
+
+		bool IsSameThread();
+		void Signal(int signum);
 
 	protected:
 		virtual void Run();

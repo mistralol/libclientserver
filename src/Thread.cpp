@@ -87,6 +87,31 @@ bool Thread::IsDetached()
 }
 
 /**
+ * IsSameThread
+ *
+ * Returns true if the thread is running as the current thread
+ */
+bool Thread::IsSameThread()
+{
+	if (pthread_equal(pthread_self(), m_thread) == 0)
+		return false;
+	return true;
+}
+
+/**
+ * Signal
+ *
+ * Sends a specific posix signal to the specific thread
+ */
+void Thread::Signal(int signum)
+{
+	if (pthread_kill(m_thread, signum) != 0)
+	{
+		abort(); //This points to programing error in caller
+	}
+}
+
+/**
  * Run
  *
  * This is up to the derived class to implement
