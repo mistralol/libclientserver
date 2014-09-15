@@ -52,7 +52,6 @@ bool ClientUnix::SendLine(const std::string *str, const struct timespec *Timeout
 		return false;
 
 	ScopedReadLock rlock(&m_WriterLock);
-	printf("Writing(%d): %s", m_fd, str->c_str());
 
 	const char *c = str->c_str();
 	size_t offset = 0;

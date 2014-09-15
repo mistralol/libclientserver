@@ -453,7 +453,6 @@ void ClientBase::RaiseOnBadLine(const std::string *str)
 	if (m_Handler != NULL)
 		m_Handler->OnBadLine(str);
 
-	printf("BadLine: %s", str->c_str());
-	//FIXME: We should abort here if the handler doesnt handle
+	abort();
 }
 
