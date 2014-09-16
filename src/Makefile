@@ -29,7 +29,8 @@ SRCS= 	Thread.cpp \
 		Notify.cpp \
 		Barrier.cpp \
 		Timers.cpp \
-		TimerAbort.cpp
+		TimerAbort.cpp \
+		TimerFunc.cpp
 
 OBJS=$(SRCS:%.cpp=%.o)
 

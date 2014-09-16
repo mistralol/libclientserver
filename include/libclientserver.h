@@ -33,6 +33,7 @@
 #include <libclientserver/ITimer.h>
 #include <libclientserver/Timers.h>
 #include <libclientserver/TimerAbort.h>
+#include <libclientserver/TimerFunc.h>
 
 #include <libclientserver/Queue.h>
 
