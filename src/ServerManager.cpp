@@ -69,10 +69,8 @@ bool ServerManager::ProcessLine(IServerConnection *Connection, const std::string
 		try
 		{
 			int retvalue = RaiseRequest(Connection, &request, &response);
-			if (retvalue < 0)
-				throw ServerException(ENOSYS, "Unknown Error Or Unsupported command");
-			response.SetArg("_ERRNO", "0");
-			response.SetArg("_ERROR", "Success");
+			response.SetArg("_ERRNO", retvalue);
+			response.SetArg("_ERROR", strerror(retvalue));
 		}
 		catch(ServerException &e)
 		{

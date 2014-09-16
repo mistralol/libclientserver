@@ -142,7 +142,7 @@ int ClientBase::SendRequest(Request *request, Request *response, const struct ti
 
 	request->SetArg("_TIMEOUT_SOFT", Encoder::ToStr(SoftTimeout));
 	request->SetArg("_TIMEOUT_HARD", Encoder::ToStr(HardTimeout));
-	
+
 	m_rmap.Add(&Entry);
 	if (DoSendRequest(request, SoftTimeout) == false)	//Get Out quickly option - happens when we are disconnected
 	{

@@ -84,6 +84,14 @@ void Request::SetArg(const std::string Key, const std::string *Value)
 	m_args[Key] = *Value;
 }
 
+void Request::SetArg(const std::string Key, int Value)
+{
+	char *buf = NULL;
+	asprintf(&buf, "%d", Value);
+	m_args[Key] = buf;
+	free(buf);
+}
+
 void Request::RemoveArg(const std::string *Key)
 {
 	std::map<std::string, std::string>::iterator it = m_args.find(*Key);

@@ -28,6 +28,7 @@ class Request
 		void SetArg(const std::string *Key, const std::string *Value);
 		void SetArg(const std::string Key, const std::string Value);
 		void SetArg(const std::string Key, const std::string *Value);
+		void SetArg(const std::string Key, int Value);
 		void RemoveArg(const std::string *Key);
 
 		std::string Encode();

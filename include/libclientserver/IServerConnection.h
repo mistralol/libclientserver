@@ -20,5 +20,7 @@ class IServerConnection
 			str = "EVENT " + str + "\n";
 			SendLine(&str);
 		}
+
+		void *m_private;
 };
 
