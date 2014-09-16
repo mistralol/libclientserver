@@ -119,6 +119,7 @@ void ServerUnix::Run()
 			if (fd < 0)
 				continue;
 
+			//FIXME: Find a way to turn off SIGPIPE on fd
 			m_manager->RaisePreNewConnection();
 
 			ServerUnixConnection *Connection = new ServerUnixConnection(m_manager, this, fd);
