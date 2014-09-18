@@ -14,6 +14,8 @@
 #include <errno.h>
 #include <pthread.h>
 
+#include <sys/wait.h>
+
 #include <sys/time.h>
 #include <sys/stat.h>
 #include <sys/socket.h>
@@ -66,6 +68,8 @@
 
 #include <libclientserver/INotify.h>
 #include <libclientserver/Notify.h>
+
+#include <libclientserver/Process.h>
 
 
 

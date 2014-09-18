@@ -30,7 +30,8 @@ SRCS= 	Thread.cpp \
 		Barrier.cpp \
 		Timers.cpp \
 		TimerAbort.cpp \
-		TimerFunc.cpp
+		TimerFunc.cpp \
+		Process.cpp
 
 OBJS=$(SRCS:%.cpp=%.o)
 
