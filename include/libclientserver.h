@@ -39,6 +39,9 @@
 
 #include <libclientserver/Queue.h>
 
+#include <libclientserver/ThreadPool.h>
+#include <libclientserver/ThreadPoolThread.h>
+
 #include <libclientserver/Encoder.h>
 #include <libclientserver/Decoder.h>
 

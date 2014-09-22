@@ -22,7 +22,8 @@ SRCS=	\
 		TestNotify.cpp \
 		TestTimers.cpp \
 		TimerExit.cpp \
-		TestProcess.cpp
+		TestProcess.cpp \
+		ThreadPool.cpp
 
 
 OBJS=$(SRCS:%.cpp=%.o)
