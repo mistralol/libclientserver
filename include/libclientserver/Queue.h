@@ -58,7 +58,8 @@ class Queue
 				}
 				else
 				{
-					m_mutex.Wait(ts);
+					if (m_mutex.Wait(ts) == -ETIMEDOUT)
+						return NULL;
 				}
 			}
 			return NULL;
