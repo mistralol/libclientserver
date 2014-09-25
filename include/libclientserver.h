@@ -31,6 +31,7 @@
 #include <libclientserver/ScopedWriteLock.h>
 #include <libclientserver/ReadBuffer.h>
 #include <libclientserver/Barrier.h>
+#include <libclientserver/FileUtil.h>
 
 #include <libclientserver/ITimer.h>
 #include <libclientserver/Timers.h>

@@ -1,0 +1,12 @@
+
+class FileUtil
+{
+	public:
+
+		static std::string Temp();
+		static int Read(const std::string &fname, std::string *buffer);
+		static int Write(const std::string &fname, const std::string &buffer);
+		static int Sync(const std::string &fname);
+
+};
+
