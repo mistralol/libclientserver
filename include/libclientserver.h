@@ -14,6 +14,8 @@
 #include <errno.h>
 #include <pthread.h>
 
+#include <sys/wait.h>
+
 #include <sys/time.h>
 #include <sys/stat.h>
 #include <sys/socket.h>
@@ -29,6 +31,7 @@
 #include <libclientserver/ScopedWriteLock.h>
 #include <libclientserver/ReadBuffer.h>
 #include <libclientserver/Barrier.h>
+#include <libclientserver/FileUtil.h>
 
 #include <libclientserver/ITimer.h>
 #include <libclientserver/Timers.h>
@@ -36,6 +39,9 @@
 #include <libclientserver/TimerFunc.h>
 
 #include <libclientserver/Queue.h>
+
+#include <libclientserver/ThreadPool.h>
+#include <libclientserver/ThreadPoolThread.h>
 
 #include <libclientserver/Encoder.h>
 #include <libclientserver/Decoder.h>
@@ -66,6 +72,8 @@
 
 #include <libclientserver/INotify.h>
 #include <libclientserver/Notify.h>
+
+#include <libclientserver/Process.h>
 
 
 
