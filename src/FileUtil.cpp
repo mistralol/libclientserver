@@ -1,6 +1,17 @@
 
 #include <libclientserver.h>
 
+bool FileUtil::Exists(const std::string &fname)
+{
+	struct stat buf;
+	int ret = stat(fname.c_str(), &buf);
+	if (ret < 0)
+		return false;
+	if (S_ISREG(buf.st_mode))
+		return true;
+	return false;
+}
+
 std::string FileUtil::Temp()
 {
 	std::string fname = "";
@@ -71,6 +82,25 @@ int FileUtil::Write(const std::string &fname, const std::string &buffer)
 		return -errno;
 	if (fwrite(buffer.c_str(), buffer.length(), 1, fp) != 1)
 		abort();
+	if (fclose(fp) != 0)
+		abort();
+	return 0;
+}
+
+int FileUtil::WriteSync(const std::string &fname, const std::string &buffer)
+{
+	FILE *fp = fopen(fname.c_str(), "w+");
+	if (!fp)
+		return -errno;
+	if (fwrite(buffer.c_str(), buffer.length(), 1, fp) != 1)
+		abort();
+
+	if (fflush(fp) != 0)
+		abort();
+
+	if (fsync(fileno(fp)) != 0)
+		abort();
+
 	if (fclose(fp) != 0)
 		abort();
 	return 0;

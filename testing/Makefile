@@ -26,7 +26,8 @@ SRCS=	\
 		ThreadPool.cpp \
 		TestFileRead.cpp \
 		TestFileWrite.cpp \
-		TestFileSync.cpp
+		TestFileSync.cpp \
+		TestFileExists.cpp
 
 
 OBJS=$(SRCS:%.cpp=%.o)
