@@ -6,7 +6,7 @@ int main(int argc, char **argv)
 
 	std::string data = "Hello World";
 	std::string buf;
-	std::string fname = FileUtil::Temp();
+	std::string fname = "/tmp/dsahjksahfjk";
 
 	if (FileUtil::Write(fname, data) < 0)
 		abort();

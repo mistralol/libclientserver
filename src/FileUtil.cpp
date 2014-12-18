@@ -12,28 +12,6 @@ bool FileUtil::Exists(const std::string &fname)
 	return false;
 }
 
-std::string FileUtil::Temp()
-{
-	std::string fname = "";
-	const char *path = getenv("TMP");
-
-	if (!path)
-		path = getenv("TEMP");
-	if (!path)
-		path = "/tmp";
-
-	char *tmp = NULL;
-	if (asprintf(&tmp, "%s/fileXXXXXXXXX", path) < 0)
-		abort();
-	if (tmp == NULL)
-		abort();
-
-	char *ptr = mktemp(tmp);
-	fname = ptr;
-	free(tmp);
-	return fname;
-}
-
 int FileUtil::Read(const std::string &fname, std::string *buffer)
 {
 	size_t bufsize = 65535;
