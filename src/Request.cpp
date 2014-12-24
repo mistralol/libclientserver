@@ -69,10 +69,13 @@ std::string Request::GetArg(const std::string Key)
 	return it->second;
 }
 
-int Request::GetInt(const std::string Key)
+bool Request::GetInt(const std::string Key, int *value)
 {
-	std::string value = GetArg(Key);
-	return atoi(value.c_str());
+	if (HasArg(Key) == false)
+		return false;
+	std::string str = GetArg(Key);
+	*value = atoi(str.c_str());
+	return true; //FIXME: Improve error handling
 }
 
 void Request::SetArg(const std::string *Key, const std::string *Value)

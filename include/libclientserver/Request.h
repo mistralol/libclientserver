@@ -25,7 +25,7 @@ class Request
 		std::list<std::string> GetArgList();
 		std::string GetArg(const std::string *Key);
 		std::string GetArg(const std::string Key);
-		int GetInt(const std::string Key);
+		bool GetInt(const std::string Key, int *value);
 		void SetArg(const std::string *Key, const std::string *Value);
 		void SetArg(const std::string Key, const std::string Value);
 		void SetArg(const std::string Key, const std::string *Value);
