@@ -69,6 +69,12 @@ std::string Request::GetArg(const std::string Key)
 	return it->second;
 }
 
+int Request::GetInt(const std::string Key)
+{
+	std::string value = GetArg(Key);
+	return atoi(value.c_str());
+}
+
 void Request::SetArg(const std::string *Key, const std::string *Value)
 {
 	m_args[*Key] = *Value;
