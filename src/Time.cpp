@@ -36,7 +36,7 @@ void Time::Sleep(const struct timeval *Timeout)
 {
 	struct timespec ts;
 	TimeValtoTimeSpec(Timeout, &ts);
-	Sleep(Timeout);
+	Sleep(&ts);
 }
 
 /**
