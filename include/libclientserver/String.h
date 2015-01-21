@@ -21,6 +21,9 @@ class String
 		static std::string Join(const std::list<std::string> *vec, const std::string &delim);
 		static std::string Join(const std::map<std::string, std::string> *map, const std::string &delim1, const std::string &delim2);
 
+		static std::string Chomp(const std::string *str, char value);
+		static std::string Chomp(const std::string *str, const std::string values);
+
 		static std::string Random(const std::string charset, int length);
 		static std::string Random(int length);
 };

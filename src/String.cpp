@@ -232,6 +232,46 @@ std::string String::Join(const std::map<std::string, std::string> *map, const st
 }
 
 /**
+ * Chomp
+ * @param[in] str a pointer to a string
+ * @param[in] value the char to remove from the end of the string
+ * @return The resulting string
+ *
+ * This function will remove the last trailing char from the end of the string if it exists
+ * It is typically used to remove a newline etc.. from input strings.
+ */
+std::string String::Chomp(const std::string *str, char value)
+{
+	if (str->at(str->length() - 1) == value)
+		return str->substr(0, str->length() - 1);
+	return *str;
+}
+
+/**
+ * Chomp
+ * @param[in] str a pointer to a string
+ * @param[in] value the char to remove from the end of the string
+ * @return The resulting string
+ *
+ * This function will remove the last trailing char from the end of the string if it exists
+ * It is typically used to remove a newline etc.. from input strings.
+ */
+std::string String::Chomp(const std::string *str, const std::string values)
+{
+	std::string copy = *str;
+restart:
+	for(size_t i =0;i<values.length();i++)
+	{
+		if (copy[copy.length() - 1] == values[i])
+		{
+			copy = str->substr(0, copy.length() - 1);
+			goto restart;
+		}
+	}
+	return copy;
+}
+
+/**
  * Random
  * @param[in] charset The avilable characters to use to generate the random string
  * @param[in] length The length of the output string that is required

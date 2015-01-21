@@ -13,6 +13,7 @@ SRCS=	\
 		StringJoinVector.cpp	\
 		StringJoinList.cpp		\
 		StringJoinMap.cpp		\
+		StringChomp.cpp			\
 		PIDFile.cpp				\
 		Queueing.cpp			\
 		TestServer.cpp			\
