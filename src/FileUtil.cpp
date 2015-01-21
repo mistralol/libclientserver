@@ -16,12 +16,15 @@ int FileUtil::Read(const std::string &fname, std::string *buffer)
 {
 	size_t bufsize = 65535;
 	char *buf = (char *) malloc(bufsize);
-	FILE *fp = fopen(fname.c_str(), "r");
-	if (!fp)
+	if (!buf)
 		return -errno;
 
-	if (!buf)
-		abort();
+	FILE *fp = fopen(fname.c_str(), "r");
+	if (!fp)
+	{
+		free(buf);
+		return -errno;
+	}
 
 	*buffer = "";
 	int ret = 0;
