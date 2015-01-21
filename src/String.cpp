@@ -250,7 +250,7 @@ std::string String::Chomp(const std::string *str, char value)
 /**
  * Chomp
  * @param[in] str a pointer to a string
- * @param[in] value the char to remove from the end of the string
+ * @param[in] values the char to remove from the end of the string
  * @return The resulting string
  *
  * This function will remove the last trailing char from the end of the string if it exists
@@ -269,6 +269,24 @@ restart:
 		}
 	}
 	return copy;
+}
+
+/**
+ * Check
+ * @param[in] str a pointer to a string to check
+ * @param[in] values A list of charaters to check for
+ * return True if any of the character in values exist in str
+ *
+ * Used to check if any of the chars in values exist in str
+ */
+bool String::Check(const std::string *str, const std::string values)
+{
+	for(size_t i=0;i<values.length();i++)
+	{
+		if (str->find(values[i]) != std::string::npos)
+			return true;
+	}
+	return false;
 }
 
 /**

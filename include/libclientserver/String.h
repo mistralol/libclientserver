@@ -24,6 +24,8 @@ class String
 		static std::string Chomp(const std::string *str, char value);
 		static std::string Chomp(const std::string *str, const std::string values);
 
+		static bool Check(const std::string *str, const std::string values);
+
 		static std::string Random(const std::string charset, int length);
 		static std::string Random(int length);
 };

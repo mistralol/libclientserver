@@ -14,6 +14,7 @@ SRCS=	\
 		StringJoinList.cpp		\
 		StringJoinMap.cpp		\
 		StringChomp.cpp			\
+		StringCheck.cpp			\
 		PIDFile.cpp				\
 		Queueing.cpp			\
 		TestServer.cpp			\
