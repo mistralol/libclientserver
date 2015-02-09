@@ -26,11 +26,15 @@ class Request
 		std::string GetArg(const std::string *Key);
 		std::string GetArg(const std::string Key);
 		bool GetInt(const std::string &Key, int *value);
+		bool GetUInt(const std::string &Key, unsigned int *Value);
+		bool GetBool(const std::string &Key, bool *Value);
 		bool GetString(const std::string &Key, std::string *str);
 		void SetArg(const std::string *Key, const std::string *Value);
 		void SetArg(const std::string Key, const std::string Value);
 		void SetArg(const std::string Key, const std::string *Value);
 		void SetArg(const std::string Key, int Value);
+		void SetArg(const std::string Key, unsigned int Value);
+		void SetArg(const std::string Key, bool Value);
 		void RemoveArg(const std::string *Key);
 
 		std::string Encode();

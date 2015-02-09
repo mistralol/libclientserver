@@ -78,6 +78,33 @@ bool Request::GetInt(const std::string &Key, int *value)
 	return true; //FIXME: Improve error handling
 }
 
+bool Request::GetUInt(const std::string &Key, unsigned int *Value)
+{
+	if (HasArg(Key) == false)
+		return false;
+	std::string str = GetArg(Key);
+	*Value = atoi(str.c_str());
+	return true; //FIXME: Improve error handling
+}
+
+bool Request::GetBool(const std::string &Key, bool *Value)
+{
+	int tmp = 0;
+	if (HasArg(Key) == false)
+		return false;
+	std::string str = GetArg(Key);
+	tmp = atoi(str.c_str());
+	if (tmp)
+	{
+		*Value = true;
+	}
+	else
+	{
+		*Value = false;
+	}
+	return true; //FIXME: Improve error handling
+}
+
 bool Request::GetString(const std::string &Key, std::string *str)
 {
 	if (HasArg(Key) == false)
@@ -108,6 +135,28 @@ void Request::SetArg(const std::string Key, int Value)
 	m_args[Key] = buf;
 	free(buf);
 }
+
+void Request::SetArg(const std::string Key, unsigned int Value)
+{
+	char *buf = NULL;
+	asprintf(&buf, "%u", Value);
+	m_args[Key] = buf;
+	free(buf);
+}
+
+void Request::SetArg(const std::string Key, bool Value)
+{
+	if (Value)
+	{
+		SetArg(Key, 1);
+	}
+	else
+	{
+		SetArg(Key, 0);
+	}
+}
+
+
 
 void Request::RemoveArg(const std::string *Key)
 {
