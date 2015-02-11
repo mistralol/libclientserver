@@ -29,7 +29,8 @@ SRCS=	\
 		TestFileRead.cpp \
 		TestFileWrite.cpp \
 		TestFileSync.cpp \
-		TestFileExists.cpp
+		TestFileExists.cpp \
+		TestSignalHandler.cpp
 
 
 OBJS=$(SRCS:%.cpp=%.o)

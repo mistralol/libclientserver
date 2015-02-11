@@ -33,6 +33,8 @@
 #include <libclientserver/ReadBuffer.h>
 #include <libclientserver/Barrier.h>
 #include <libclientserver/FileUtil.h>
+#include <libclientserver/ISignalHandler.h>
+#include <libclientserver/SignalHandler.h>
 
 #include <libclientserver/ITimer.h>
 #include <libclientserver/Timers.h>
