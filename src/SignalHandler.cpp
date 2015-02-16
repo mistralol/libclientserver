@@ -67,7 +67,16 @@ void SignalHandler::Run()
 	{
 		siginfo_t info;
 		if (sigwaitinfo(&m_sigs, &info) < 0)
-			abort();
+		{
+			switch(errno)
+			{
+				case EINTR:
+					continue;
+					break;
+				default:
+					abort();
+			}
+		}
 
 		if (m_loop == false)
 			break;
