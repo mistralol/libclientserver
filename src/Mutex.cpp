@@ -7,10 +7,21 @@
  * Constructor for Mutex. If it fails it will call abort since these functions should *NEVER* fail.
  */
 Mutex::Mutex() {
-	if (pthread_mutex_init(&m_mutex, NULL) != 0)
+	pthread_mutexattr_t attr;
+
+	if (pthread_mutexattr_init(&attr) != 0)
+		abort();
+
+	if (pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE) != 0)
+		abort();
+
+	if (pthread_mutex_init(&m_mutex, &attr) != 0)
 		abort();
 
 	if (pthread_cond_init(&m_cond, NULL) != 0)
+		abort();
+
+	if (pthread_mutexattr_destroy(&attr) != 0)
 		abort();
 
 	m_locked = false;
