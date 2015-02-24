@@ -287,7 +287,7 @@ void Time::Max(struct timeval *tv)
 void Time::Zero(struct timespec *ts)
 {
 	ts->tv_sec = 0;
-	ts->tv_usec = 0;
+	ts->tv_nsec = 0;
 }
 
 /**
