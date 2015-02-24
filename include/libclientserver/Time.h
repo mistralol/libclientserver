@@ -31,5 +31,8 @@ class Time
 
 		static void Max(struct timespec *ts);
 		static void Max(struct timeval *tv);
+
+		static void Zero(struct timespec *ts);
+		static void Zero(struct timeval *tv);
 };
 
