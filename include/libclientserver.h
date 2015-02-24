@@ -6,13 +6,16 @@
 #include <vector>
 #include <exception>
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
 #include <unistd.h>
 #include <signal.h>
+#include <limits.h>
 
 #include <errno.h>
+#include <fcntl.h>
 #include <pthread.h>
 
 #include <sys/wait.h>
@@ -21,6 +24,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/socket.h>
+#include <sys/eventfd.h>
+
+#include <netinet/in.h>
 
 #include <libclientserver/Thread.h>
 #include <libclientserver/Errno.h>
@@ -79,6 +85,10 @@
 #include <libclientserver/Notify.h>
 
 #include <libclientserver/Process.h>
+
+#include <libclientserver/ISelectable.h>
+#include <libclientserver/Selector.h>
+
 
 
 

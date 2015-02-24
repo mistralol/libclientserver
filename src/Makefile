@@ -36,7 +36,8 @@ SRCS= 	Thread.cpp \
 		ThreadPool.cpp \
 		ThreadPoolThread.cpp \
 		FileUtil.cpp \
-		SignalHandler.cpp
+		SignalHandler.cpp \
+		Selector.cpp
 
 OBJS=$(SRCS:%.cpp=%.o)
 
