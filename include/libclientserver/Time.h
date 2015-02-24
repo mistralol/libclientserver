@@ -28,5 +28,8 @@ class Time
 
 		static bool IsGreater(const struct timespec *ts1, const struct timespec *ts2);
 		static bool IsGreater(const struct timeval *tv1, const struct timeval *tv2);
+
+		static void Max(struct timespec *ts);
+		static void Max(struct timeval *tv);
 };
 

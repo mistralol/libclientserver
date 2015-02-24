@@ -254,4 +254,28 @@ bool Time::IsGreater(const struct timeval *tv1, const struct timeval *tv2)
 
 }
 
+/**
+ * Max
+ * @param[in] ts
+ *
+ * Fuill the timespec struct with the maximum possible time value
+ */ 
+void Time::Max(struct timespec *ts)
+{
+	ts->tv_sec = LONG_MAX;
+	ts->tv_nsec = LONG_MAX;
+}
+
+/**
+ * Max
+ * @param[in] ts
+ *
+ * Fuill the timeval struct with the maximum possible time value
+ */ 
+void Time::Max(struct timeval *tv)
+{
+	tv->tv_sec = LONG_MAX;
+	tv->tv_usec = LONG_MAX;
+}
+
 
