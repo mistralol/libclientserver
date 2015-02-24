@@ -20,6 +20,7 @@ SRCS= 	Thread.cpp \
 		RWLock.cpp \
 		ScopedReadLock.cpp \
 		ScopedWriteLock.cpp \
+		Buffer.cpp \
 		ReadBuffer.cpp \
 		Encoder.cpp \
 		Decoder.cpp \
