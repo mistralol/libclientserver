@@ -3,6 +3,8 @@
 struct PerfDetails_t
 {
 	struct timespec TotalTime;
+	struct timespec WorstTime;
+	struct timespec BestTime;
 	int Count;
 
 	void Init()
@@ -10,6 +12,9 @@ struct PerfDetails_t
 		TotalTime.tv_sec = 0;
 		TotalTime.tv_nsec = 0;
 		Count = 0;
+
+		Time::Max(&BestTime);
+		Time::Zero(&WorstTime);
 	}
 };
 
