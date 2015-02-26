@@ -7,24 +7,39 @@
  * Constructor for Mutex. If it fails it will call abort since these functions should *NEVER* fail.
  */
 Mutex::Mutex() {
-	pthread_mutexattr_t attr;
+	pthread_mutexattr_t mattr;
+	m_clocktype = CLOCK_REALTIME;
 
-	if (pthread_mutexattr_init(&attr) != 0)
+	if (pthread_mutexattr_init(&mattr) != 0)
 		abort();
 
-	if (pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE) != 0)
+	if (pthread_mutexattr_settype(&mattr, PTHREAD_MUTEX_RECURSIVE) != 0)
 		abort();
 
-	if (pthread_mutex_init(&m_mutex, &attr) != 0)
+	if (pthread_mutex_init(&m_mutex, &mattr) != 0)
 		abort();
 
-	if (pthread_cond_init(&m_cond, NULL) != 0)
+	if (pthread_mutexattr_destroy(&mattr) != 0)
 		abort();
 
-	if (pthread_mutexattr_destroy(&attr) != 0)
+	pthread_condattr_t cattr;
+
+	if (pthread_condattr_init(&cattr) != 0)
+		abort();
+
+	//Try to use monotonic clock so date time change do not effect us if we are sleeping on a condition
+	if (pthread_condattr_setclock(&cattr, CLOCK_MONOTONIC) == 0)
+		m_clocktype = CLOCK_MONOTONIC;
+
+
+	if (pthread_cond_init(&m_cond, &cattr) != 0)
+		abort();
+
+	if (pthread_condattr_destroy(&cattr) != 0)
 		abort();
 
 	m_locked = false;
+	m_depth = 0;
 }
 
 /**
@@ -57,6 +72,8 @@ void Mutex::Lock() {
 	if (pthread_mutex_lock(&m_mutex) < 0)
 		abort(); //Could not lock mutex
 	m_locked = true;
+	m_owner = pthread_self();
+	m_depth++;
 }
 
 /**
@@ -72,6 +89,8 @@ int Mutex::TryLock() {
 	if (ret < 0)
 		return -errno;
 	m_locked = true;
+	m_owner = pthread_self();
+	m_depth++;
 	return 0;
 }
 
@@ -91,6 +110,8 @@ int Mutex::TimedLock(const struct timespec *Timeout)
 	if (ret == 0)
 	{
 		m_locked = true;
+		m_owner = pthread_self();
+		m_depth++;
 		return 0;
 	}
 	return -errno;
@@ -109,6 +130,21 @@ void Mutex::Unlock() {
 	if (pthread_mutex_unlock(&m_mutex) < 0)
 		abort(); //Could not unlock mutex
 	m_locked = false;
+	m_depth--;
+}
+
+/**
+ *
+ * Returns true if the current thread is the current owner of the lock
+ * It is useful for debug code to check that a lock is held when specific functions are called
+ */
+bool Mutex::IsOwner()
+{
+	if (m_locked == false)
+		return false;
+	if (pthread_equal(m_owner, pthread_self()))
+		return true;
+	return false;
 }
 
 /**
@@ -123,6 +159,8 @@ void Mutex::Wait() {
 #ifdef DEBUG
 	if (m_locked == false)
 		abort();
+	if (m_depth > 1)
+		abort(); //Does not work well with recursive mutex
 #endif
 
 	m_locked = false;
@@ -130,6 +168,7 @@ void Mutex::Wait() {
 	if (ret < 0)
 		abort(); //pthread_cond_wait failed
 	m_locked = true;
+	m_owner = pthread_self();
 }
 
 /**
@@ -149,19 +188,21 @@ int Mutex::Wait(const struct timespec *Timeout) {
 #ifdef DEBUG
 	if (m_locked == false)
 		abort();
+	if (m_depth > 1)
+		abort(); //Does not work well with recursive mutex
 #endif
-	struct timeval now;
-	struct timespec ts1, ts2;
+	struct timespec now, then;
 
-	if (gettimeofday(&now, NULL) < 0)
+
+	if (clock_gettime(m_clocktype, &now) < 0)
 		abort();
 
-	Time::TimeValtoTimeSpec(&now, &ts1);
-	Time::Add(Timeout, &ts1, &ts2);
+	Time::Add(Timeout, &now, &then);
 
 	m_locked = false;
-	int ret = pthread_cond_timedwait(&m_cond, &m_mutex, &ts2);
+	int ret = pthread_cond_timedwait(&m_cond, &m_mutex, &then);
 	m_locked = true;
+	m_owner = pthread_self();
 	if (ret != 0) {
 		switch(ret) {
 			case ETIMEDOUT:
@@ -183,7 +224,7 @@ int Mutex::Wait(const struct timespec *Timeout) {
  * 
  * WakeUp a single thread that is sleeping in WakeUp
  *
- * It is not required to have the lock when this function is called.
+ * It is not required to have the lock when this function is called. But it is recommanded
  */
 void Mutex::WakeUp() {
 	int ret = pthread_cond_signal(&m_cond);
@@ -196,7 +237,7 @@ void Mutex::WakeUp() {
  * 
  * WakeUp a all threads that is sleeping in WakeUp
  *
- * It is not required to have the lock when this function is called.
+ * It is not required to have the lock when this function is called. But it is recommanded
  */
 void Mutex::WakeUpAll() {
 	int ret = pthread_cond_broadcast(&m_cond);
