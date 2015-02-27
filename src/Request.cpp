@@ -113,6 +113,26 @@ bool Request::GetString(const std::string &Key, std::string *str)
 	return true;
 }
 
+bool Request::GetListString(const std::string &Key, std::list<std::string> *lst)
+{
+	if (HasArg(Key) == false)
+		return false;
+	std::string str = GetArg(Key);
+	std::list<std::string> tlst;
+	if (String::Split(&str, ",", &tlst) == false)
+		return false;
+	std::list<std::string>::iterator it = tlst.begin();
+	lst->clear();
+	while(it != lst->end())
+	{
+		std::string tmp = "";
+		if (Decoder::ToStr(*it, tmp) == false)
+			return false;
+		lst->push_back(tmp);
+	}
+	return true;
+}
+
 void Request::SetArg(const std::string *Key, const std::string *Value)
 {
 	m_args[*Key] = *Value;
@@ -156,7 +176,19 @@ void Request::SetArg(const std::string Key, bool Value)
 	}
 }
 
-
+void Request::SetArg(const std::string Key, std::list<std::string> *lst)
+{
+	std::stringstream ss;
+	std::list<std::string>::iterator it = lst->begin();
+	while(it != lst->end())
+	{
+		ss << Encoder::ToStr(*it);
+		it++;
+		if (it != lst->end())
+			ss << ",";
+	}
+	SetArg(Key, ss.str());
+}
 
 void Request::RemoveArg(const std::string *Key)
 {

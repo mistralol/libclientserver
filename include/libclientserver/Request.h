@@ -29,12 +29,14 @@ class Request
 		bool GetUInt(const std::string &Key, unsigned int *Value);
 		bool GetBool(const std::string &Key, bool *Value);
 		bool GetString(const std::string &Key, std::string *str);
+		bool GetListString(const std::string &Key, std::list<std::string> *lst);
 		void SetArg(const std::string *Key, const std::string *Value);
 		void SetArg(const std::string Key, const std::string Value);
 		void SetArg(const std::string Key, const std::string *Value);
 		void SetArg(const std::string Key, int Value);
 		void SetArg(const std::string Key, unsigned int Value);
 		void SetArg(const std::string Key, bool Value);
+		void SetArg(const std::string Key, std::list<std::string> *lst);
 		void RemoveArg(const std::string *Key);
 
 		std::string Encode();
