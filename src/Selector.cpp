@@ -34,6 +34,7 @@ void Selector::Add(ISelectable *p)
 
 	ScopedLock lock = ScopedLock(&m_mutex);
 
+	m_modified = true;
 	m_map[fd] = p;
 	UpdateMap(fd);
 	FindHighestFD();
@@ -43,6 +44,7 @@ void Selector::Add(ISelectable *p)
 void Selector::Update(ISelectable *p)
 {
 	ScopedLock lock = ScopedLock(&m_mutex);
+	m_modified = true;
 	UpdateMap(p->GetFD(this));
 	WakeUp();
 }
@@ -56,6 +58,7 @@ void Selector::Remove(ISelectable *p)
 		abort(); //No FD to remove
 
 	ScopedLock lock = ScopedLock(&m_mutex);
+	m_modified = true;
 	FD_CLR(fd, &m_freads);
 	FD_CLR(fd, &m_fwrites);
 	FD_CLR(fd, &m_fexcept);
@@ -230,6 +233,7 @@ void Selector::Run()
 
 		do {
 			ScopedLock lock = ScopedLock(&m_mutex);
+			m_modified = false;
 			//Check fd_set's
 			for(std::map<int, ISelectable *>::iterator it = m_map.begin(); it != m_map.end(); it++)
 			{
@@ -237,19 +241,22 @@ void Selector::Run()
 				bool work = false;
 				if (FD_ISSET(fd, &freads))
 				{
-					if (it->second->DoRead(this) == false)
+					it->second->DoRead(this);
+					if (m_modified)
 						goto skip_to_end;
 					work = true;
 				}
 				if (FD_ISSET(fd, &fwrites))
 				{
-					if (it->second->DoWrite(this) == false)
+					it->second->DoWrite(this);
+					if (m_modified)
 						goto skip_to_end;
 					work = true;
 				}
 				if (FD_ISSET(fd, &fexcept))
 				{
-					if (it->second->DoExcept(this) == false)
+					it->second->DoExcept(this);
+					if (m_modified)
 						goto skip_to_end;
 					work = true;
 				}
@@ -266,7 +273,8 @@ void Selector::Run()
 			{
 				if (Time::IsLess(&it->second, &now))
 				{
-					if (m_map[it->first]->DoTimeout(this) == false)
+					m_map[it->first]->DoTimeout(this);
+					if (m_modified)
 						goto skip_to_end;
 					UpdateMap(it->first);
 				}

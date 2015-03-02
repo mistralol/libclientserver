@@ -52,40 +52,34 @@ class TcpEcho : public ISelectable
 			return true;
 		}
 
-		bool DoRead(Selector *sel)
+		void DoRead(Selector *sel)
 		{
 			if (m_buffer.Read(m_fd) < 0)
 			{
 				sel->Remove(this);
 				delete this;
-				return false;
 			}
-			return true;
 		}
 
-		bool DoWrite(Selector *sel)
+		void DoWrite(Selector *sel)
 		{
 			if (m_buffer.Write(m_fd) < 0)
 			{
 				sel->Remove(this);
 				delete this;
-				return false;
 			}
-			return true;
 		}
 
-		bool DoExcept(Selector *)
+		void DoExcept(Selector *)
 		{
 			abort();
-			return true;
 		}
 
-		bool DoTimeout(Selector *sel)
+		void DoTimeout(Selector *sel)
 		{
 			printf("Tcp Echo Timeout\n");
 			sel->Remove(this);
 			delete this;
-			return false;
 		}
 
 		int GetFD(const Selector *)
@@ -168,7 +162,7 @@ class Listen : public ISelectable
 			return true;
 		}
 
-		bool DoRead(Selector *sel)
+		void DoRead(Selector *sel)
 		{
 			struct sockaddr_in caddr;
 			socklen_t len = sizeof(caddr);
@@ -176,31 +170,27 @@ class Listen : public ISelectable
 			if (accept < 0)
 			{
 				perror("accept");
-				return true;
+				return;
 			}
 
 			TcpEcho *echo = new TcpEcho();
 			echo->Init(nfd);
 			sel->Add(echo);
-			return true;
 		}
 
-		bool DoWrite(Selector *)
+		void DoWrite(Selector *)
 		{
 			abort();
-			return true;
 		}
 
-		bool DoExcept(Selector *)
+		void DoExcept(Selector *)
 		{
 			abort();
-			return true;
 		}
 
-		bool DoTimeout(Selector *)
+		void DoTimeout(Selector *)
 		{
 			//printf("Listen Timeout\n");
-			return true;
 		}
 
 		int GetFD(const Selector *)
