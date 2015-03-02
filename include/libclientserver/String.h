@@ -10,6 +10,11 @@
 class String
 {
 	public:
+		static bool Sanity(const std::string *str);
+		static bool Sanity(const std::string *str, const std::string *extra);
+
+		static bool Exists(const std::string *str1, const std::string *str2);
+
 		static bool SplitOne(const std::string *str, std::string *left, std::string *right, const std::string delim);
 
 		static bool Split(const std::string *str, const std::string delim, std::list<std::string> *lst);
