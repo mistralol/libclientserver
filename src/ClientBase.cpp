@@ -160,11 +160,11 @@ int ClientBase::SendRequest(Request *request, Request *response, const struct ti
 		int myerr = 0;
 		if (Decoder::ToInt(response->GetArg("_ERRNO"), &myerr) == false)
 			return -EINVAL;
-		return -myerr;
+		return myerr;
 	}
 	else
 	{
-		abort(); //This is a bug - Ntoe the fact that this calls abort. The fact that you should never reach here!
+		abort(); //This is a bug - Note the fact that this calls abort. The fact that you should never reach here!
 	}
 
 	return Entry.ValidResponse;

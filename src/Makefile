@@ -20,6 +20,7 @@ SRCS= 	Thread.cpp \
 		RWLock.cpp \
 		ScopedReadLock.cpp \
 		ScopedWriteLock.cpp \
+		Buffer.cpp \
 		ReadBuffer.cpp \
 		Encoder.cpp \
 		Decoder.cpp \
@@ -34,7 +35,9 @@ SRCS= 	Thread.cpp \
 		Process.cpp \
 		ThreadPool.cpp \
 		ThreadPoolThread.cpp \
-		FileUtil.cpp
+		FileUtil.cpp \
+		SignalHandler.cpp \
+		Selector.cpp
 
 OBJS=$(SRCS:%.cpp=%.o)
 

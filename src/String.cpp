@@ -1,6 +1,87 @@
 
 #include <libclientserver.h>
 
+/**
+ * Sanity
+ * @param[in] str The source string
+ * @return will return true if it passes the sanity test
+ *
+ * This function will return false if str contains certain chars
+ * Currently the str must have chars in the following sets
+ *
+ * const std::string chk1 = "abcdefghijklmnopqrstuvwxyz";
+ * const std::string chk2 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+ * const std::string chk3 = "0123456789";
+ * const std::string chk4 = " -";
+ */
+bool String::Sanity(const std::string *str)
+{
+	const std::string chk1 = "abcdefghijklmnopqrstuvwxyz";
+	const std::string chk2 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	const std::string chk3 = "0123456789";
+	const std::string chk4 = " -";
+
+	if (Exists(str, &chk1) == false)
+		return false;
+	if (Exists(str, &chk2) == false)
+		return false;
+	if (Exists(str, &chk3) == false)
+		return false;
+	if (Exists(str, &chk4) == false)
+		return false;
+	return true;
+}
+
+/**
+ * Sanity
+ * @param[in] str The source string
+ * @param[in] extra Extra set of chars to compare with
+ * @return will return true if it passes the sanity test
+ *
+ * Does the same as Sanity but allows some extra chars to pass the test
+ *
+ */
+bool String::Sanity(const std::string *str, const std::string *extra)
+{
+	if (Sanity(str) == false)
+	{
+		if (Exists(str, extra) == false)
+			return false;
+	}
+	return true;
+}
+
+/**
+ * Exists
+ * @param[in] str1 The source string
+ * @param[in] str2 The string to compare with
+ * @return will return true if all the char's in str1 exist in str2
+ *
+ * This function will return false if str1 contains a char not in str2
+ *
+ */
+bool String::Exists(const std::string *str1, const std::string *str2)
+{
+	const char *s1 = str1->c_str();
+	const char *s2 = str2->c_str();
+
+	while(*s1 != 0)
+	{
+		bool found = false;
+		while(*s2 != 0)
+		{
+			if (*s1 == *s2)
+			{
+				found = true;
+			}
+			break;
+		}
+		if (found == false)
+			return false;
+		s1++;
+	}
+	return true;
+}
 
 /**
  * SplitOne
@@ -229,6 +310,64 @@ std::string String::Join(const std::map<std::string, std::string> *map, const st
 	}
 
 	return str;
+}
+
+/**
+ * Chomp
+ * @param[in] str a pointer to a string
+ * @param[in] value the char to remove from the end of the string
+ * @return The resulting string
+ *
+ * This function will remove the last trailing char from the end of the string if it exists
+ * It is typically used to remove a newline etc.. from input strings.
+ */
+std::string String::Chomp(const std::string *str, char value)
+{
+	if (str->at(str->length() - 1) == value)
+		return str->substr(0, str->length() - 1);
+	return *str;
+}
+
+/**
+ * Chomp
+ * @param[in] str a pointer to a string
+ * @param[in] values the char to remove from the end of the string
+ * @return The resulting string
+ *
+ * This function will remove the last trailing char from the end of the string if it exists
+ * It is typically used to remove a newline etc.. from input strings.
+ */
+std::string String::Chomp(const std::string *str, const std::string values)
+{
+	std::string copy = *str;
+restart:
+	for(size_t i =0;i<values.length();i++)
+	{
+		if (copy[copy.length() - 1] == values[i])
+		{
+			copy = str->substr(0, copy.length() - 1);
+			goto restart;
+		}
+	}
+	return copy;
+}
+
+/**
+ * Check
+ * @param[in] str a pointer to a string to check
+ * @param[in] values A list of charaters to check for
+ * return True if any of the character in values exist in str
+ *
+ * Used to check if any of the chars in values exist in str
+ */
+bool String::Check(const std::string *str, const std::string values)
+{
+	for(size_t i=0;i<values.length();i++)
+	{
+		if (str->find(values[i]) != std::string::npos)
+			return true;
+	}
+	return false;
 }
 
 /**

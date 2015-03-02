@@ -13,6 +13,8 @@ SRCS=	\
 		StringJoinVector.cpp	\
 		StringJoinList.cpp		\
 		StringJoinMap.cpp		\
+		StringChomp.cpp			\
+		StringCheck.cpp			\
 		PIDFile.cpp				\
 		Queueing.cpp			\
 		TestServer.cpp			\
@@ -26,7 +28,10 @@ SRCS=	\
 		ThreadPool.cpp \
 		TestFileRead.cpp \
 		TestFileWrite.cpp \
-		TestFileSync.cpp
+		TestFileSync.cpp \
+		TestFileExists.cpp \
+		TestSignalHandler.cpp \
+		TestSelector.cpp
 
 
 OBJS=$(SRCS:%.cpp=%.o)

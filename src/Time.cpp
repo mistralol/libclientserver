@@ -36,7 +36,7 @@ void Time::Sleep(const struct timeval *Timeout)
 {
 	struct timespec ts;
 	TimeValtoTimeSpec(Timeout, &ts);
-	Sleep(Timeout);
+	Sleep(&ts);
 }
 
 /**
@@ -63,6 +63,153 @@ void Time::TimeValtoTimeSpec(const struct timeval *tv, struct timespec *ts)
 {
 	ts->tv_sec = tv->tv_sec;
 	ts->tv_nsec = tv->tv_usec * 1000;
+}
+
+void Time::TimeSpecFromNanoSeconds(unsigned long long val, struct timespec *ts)
+{
+	ts->tv_sec = val / 1000000000L;
+	ts->tv_nsec = val % 1000000000L;
+}
+
+void Time::TimeSpecFromMicroSeconds(unsigned long long val, struct timespec *ts)
+{
+	TimeSpecFromNanoSeconds(val * 1000, ts);
+}
+
+void Time::TimeSpecFromMilliSeconds(unsigned long long val, struct timespec *ts)
+{
+	TimeSpecFromMicroSeconds(val * 1000, ts);
+}
+
+void Time::TimeSpecFromSeconds(unsigned long long val, struct timespec *ts)
+{
+	TimeSpecFromMilliSeconds(val * 1000, ts);
+}
+
+void Time::TimeSpecFromMinutes(unsigned long long val, struct timespec *ts)
+{
+	TimeSpecFromSeconds(val * 60, ts);
+}
+
+void Time::TimeSpecFromHours(unsigned long long val, struct timespec *ts)
+{
+	TimeSpecFromMinutes(val * 60, ts);
+}
+
+void Time::TimeSpecFromDays(unsigned long long val, struct timespec *ts)
+{
+	TimeSpecFromHours(val * 24, ts);
+}
+
+void Time::TimeValFromNanoSeconds(unsigned long long val, struct timeval *ts)
+{
+	TimeValFromMicroSeconds(val / 1000, ts);
+}
+
+void Time::TimeValFromMicroSeconds(unsigned long long val, struct timeval *ts)
+{
+	ts->tv_sec = val / 1000000;
+	ts->tv_usec = val % 1000000;
+}
+
+void Time::TimeValFromMilliSeconds(unsigned long long val, struct timeval *ts)
+{
+	TimeValFromMicroSeconds(val * 1000, ts);
+}
+
+void Time::TimeValFromSeconds(unsigned long long val, struct timeval *ts)
+{
+	TimeValFromMilliSeconds(val * 1000, ts);
+}
+
+void Time::TimeValFromMinutes(unsigned long long val, struct timeval *ts)
+{
+	TimeValFromSeconds(val * 60, ts);
+}
+
+void Time::TimeValFromHours(unsigned long long val, struct timeval *ts)
+{
+	TimeValFromMinutes(val * 60, ts);
+}
+
+void Time::TimeValFromDays(unsigned long long val, struct timeval *ts)
+{
+	TimeValFromHours(val * 24, ts);
+}
+
+
+unsigned long long Time::NanoSeconds(const struct timespec *ts)
+{
+	unsigned long long result = ts->tv_sec * 1000000000L;
+	result += ts->tv_nsec;
+	return result;
+}
+
+unsigned long long Time::NanoSeconds(const struct timeval *ts)
+{
+	unsigned long long result = ts->tv_sec * 1000000000L;
+	result += (ts->tv_usec * 1000L);
+	return result;
+}
+
+unsigned long long Time::Microseconds(const struct timespec *ts)
+{
+	return NanoSeconds(ts) / 1000;
+}
+
+unsigned long long Time::Microseconds(const struct timeval *ts)
+{
+	return NanoSeconds(ts) / 1000;
+}
+
+unsigned long long Time::MilliSeconds(const struct timespec *ts)
+{
+	return NanoSeconds(ts) / 1000000;
+}
+
+unsigned long long Time::MilliSeconds(const struct timeval *ts)
+{
+	return NanoSeconds(ts) / 1000000;
+}
+
+unsigned long long Time::Seconds(const struct timespec *ts)
+{
+	return MilliSeconds(ts) / 1000;
+}
+
+unsigned long long Time::Seconds(const struct timeval *ts)
+{
+	return MilliSeconds(ts) / 1000;
+}
+
+unsigned long long Time::Minutes(const struct timespec *ts)
+{
+	return Seconds(ts) / 60;
+}
+
+unsigned long long Time::Minutes(const struct timeval *ts)
+{
+	return Seconds(ts) / 60;
+}
+
+unsigned long long Time::Hours(const struct timespec *ts)
+{
+	return Minutes(ts) / 60;
+}
+
+unsigned long long Time::Hours(const struct timeval *ts)
+{
+	return Minutes(ts) / 60;
+}
+
+unsigned long long Time::Days(const struct timespec *ts)
+{
+	return Hours(ts) / 24;
+}
+
+unsigned long long Time::Days(const struct timeval *ts)
+{
+	return Hours(ts) / 24;
 }
 
 /**
@@ -144,6 +291,21 @@ void Time::Sub(const struct timeval *tv1, const struct timeval *tv2, struct time
 		res->tv_usec += 1000000;
 	}
 }
+
+void Time::Divide(const struct timespec *ts, int div, struct timespec *res)
+{
+	unsigned long long tmp = NanoSeconds(ts);
+	tmp /= div;
+	TimeSpecFromNanoSeconds(tmp, res);
+}
+
+void Time::Divide(const struct timeval *ts, int div, struct timeval *res)
+{
+	unsigned long long tmp = NanoSeconds(ts);
+	tmp /= div;
+	TimeValFromNanoSeconds(tmp, res);
+}
+
 
 /**
  * Diff
@@ -252,6 +414,54 @@ bool Time::IsGreater(const struct timeval *tv1, const struct timeval *tv2)
 		return true;
 	return false;
 
+}
+
+/**
+ * Max
+ * @param[in] ts
+ *
+ * Fill the timespec struct with the maximum possible time value
+ */ 
+void Time::Max(struct timespec *ts)
+{
+	ts->tv_sec = LONG_MAX;
+	ts->tv_nsec = LONG_MAX;
+}
+
+/**
+ * Max
+ * @param[in] ts
+ *
+ * Fill the timeval struct with the maximum possible time value
+ */ 
+void Time::Max(struct timeval *tv)
+{
+	tv->tv_sec = LONG_MAX;
+	tv->tv_usec = LONG_MAX;
+}
+
+/**
+ * Max
+ * @param[in] ts
+ *
+ * Fill the timeval struct with the minimum possible time value
+ */ 
+void Time::Zero(struct timespec *ts)
+{
+	ts->tv_sec = 0;
+	ts->tv_nsec = 0;
+}
+
+/**
+ * Max
+ * @param[in] ts
+ *
+ * Fill the timeval struct with the minimum possible time value
+ */ 
+void Time::Zero(struct timeval *tv)
+{
+	tv->tv_sec = 0;
+	tv->tv_usec = 0;
 }
 
 

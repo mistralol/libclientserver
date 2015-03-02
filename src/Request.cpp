@@ -69,6 +69,70 @@ std::string Request::GetArg(const std::string Key)
 	return it->second;
 }
 
+bool Request::GetInt(const std::string &Key, int *value)
+{
+	if (HasArg(Key) == false)
+		return false;
+	std::string str = GetArg(Key);
+	*value = atoi(str.c_str());
+	return true; //FIXME: Improve error handling
+}
+
+bool Request::GetUInt(const std::string &Key, unsigned int *Value)
+{
+	if (HasArg(Key) == false)
+		return false;
+	std::string str = GetArg(Key);
+	*Value = atoi(str.c_str());
+	return true; //FIXME: Improve error handling
+}
+
+bool Request::GetBool(const std::string &Key, bool *Value)
+{
+	int tmp = 0;
+	if (HasArg(Key) == false)
+		return false;
+	std::string str = GetArg(Key);
+	tmp = atoi(str.c_str());
+	if (tmp)
+	{
+		*Value = true;
+	}
+	else
+	{
+		*Value = false;
+	}
+	return true; //FIXME: Improve error handling
+}
+
+bool Request::GetString(const std::string &Key, std::string *str)
+{
+	if (HasArg(Key) == false)
+		return false;
+	*str = GetArg(Key);
+	return true;
+}
+
+bool Request::GetListString(const std::string &Key, std::list<std::string> *lst)
+{
+	if (HasArg(Key) == false)
+		return false;
+	std::string str = GetArg(Key);
+	std::list<std::string> tlst;
+	if (String::Split(&str, ",", &tlst) == false)
+		return false;
+	std::list<std::string>::iterator it = tlst.begin();
+	lst->clear();
+	while(it != lst->end())
+	{
+		std::string tmp = "";
+		if (Decoder::ToStr(*it, tmp) == false)
+			return false;
+		lst->push_back(tmp);
+	}
+	return true;
+}
+
 void Request::SetArg(const std::string *Key, const std::string *Value)
 {
 	m_args[*Key] = *Value;
@@ -90,6 +154,40 @@ void Request::SetArg(const std::string Key, int Value)
 	asprintf(&buf, "%d", Value);
 	m_args[Key] = buf;
 	free(buf);
+}
+
+void Request::SetArg(const std::string Key, unsigned int Value)
+{
+	char *buf = NULL;
+	asprintf(&buf, "%u", Value);
+	m_args[Key] = buf;
+	free(buf);
+}
+
+void Request::SetArg(const std::string Key, bool Value)
+{
+	if (Value)
+	{
+		SetArg(Key, 1);
+	}
+	else
+	{
+		SetArg(Key, 0);
+	}
+}
+
+void Request::SetArg(const std::string Key, std::list<std::string> *lst)
+{
+	std::stringstream ss;
+	std::list<std::string>::iterator it = lst->begin();
+	while(it != lst->end())
+	{
+		ss << Encoder::ToStr(*it);
+		it++;
+		if (it != lst->end())
+			ss << ",";
+	}
+	SetArg(Key, ss.str());
 }
 
 void Request::RemoveArg(const std::string *Key)

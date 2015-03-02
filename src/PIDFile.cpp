@@ -26,7 +26,16 @@ PIDFile::~PIDFile()
 		Remove();
 	}
 }
-		
+
+/**
+ * Create
+ *
+ * Create a new PIDFile using the filename that was specified in the constructor.
+ * The function will return true if it was capable of creating a pid file.
+ * The function will fail if the pid file already exists and has an active owner
+ * An active owner is checked by comaring the current process exe filename with
+ * the process who's pid is in the existing pid file
+ */
 bool PIDFile::Create()
 {
 	int fd = open(m_filename.c_str(), O_CREAT | O_EXCL | O_RDWR, S_IRUSR | S_IWUSR | S_IRGRP);
@@ -89,6 +98,13 @@ bool PIDFile::Create()
 	return true;
 }
 
+/**
+ * Remove
+ *
+ * After calling Create this function can be used to remove the pid file
+ * If the PIDFile is invalid and is not currently owner by the process
+ * calling Remove will call abort.
+ */
 void PIDFile::Remove()
 {
 	if (IsOwner() == false)
@@ -100,6 +116,12 @@ void PIDFile::Remove()
 	m_IsOwner = false;
 }
 
+/**
+ * IsOwner
+ *
+ * This function can be used to determin if it is safe to call the Remove function
+ * The return value will be true if a valid PIDFIle was created by the object but not yet removed
+ */
 bool PIDFile::IsOwner()
 {
 	return m_IsOwner;

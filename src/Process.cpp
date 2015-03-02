@@ -24,6 +24,12 @@ Process::~Process()
 		abort();
 }
 
+/**
+ * Start
+ *
+ * Calling Start will start a new process.
+ * If you call start and the process is already started then the behaviour is undefined
+ */
 int Process::Start()
 {
 #ifdef DEBUG
@@ -69,13 +75,37 @@ int Process::Start()
 	exit(-1); //Never Happens!
 }
 
+/**
+ * Kill
+ *
+ * Sends a signal to the process that was started
+ * If this function is called after the process has exited then the results are undefined
+ * This function considers the process to be exited after HasExited or WaitForExit has been called
+ */
 int Process::Kill(int signum)
 {
+#ifdef DEBUG
+	if (m_started == false)
+		abort();
+#endif
 	return kill(m_pid, signum);
 }
 
+/**
+ * HasExited
+ *
+ * This function will return true if the process has exited.
+ * It should not be called before the process has been started
+ */
 bool Process::HasExited()
 {
+#ifdef DEBUG
+	if (m_started == false)
+		abort();
+#endif
+	if (m_alreadyexit == true)
+		return true;
+
 	int ret = waitpid(m_pid, &m_exitcode, WNOHANG);
 	if (ret < 0)
 	{
@@ -91,8 +121,17 @@ bool Process::HasExited()
 	return true;
 }
 
+/**
+ * WaitForExit
+ *
+ * By calling this function it will block the execution until the process exits
+ */
 bool Process::WaitforExit()
 {
+#ifdef DEBUG
+	if (m_started == false)
+		abort();
+#endif
 	if (m_alreadyexit == true)
 		return true;
 
@@ -112,6 +151,12 @@ bool Process::WaitforExit()
 	return true;
 }
 
+/**
+ * GetExitCode
+ *
+ * This will return the exit code of the process after it has exited.
+ * It should not be called before WaitforExit or HasExited has returned true
+ */
 int Process::GetExitCode()
 {
 #ifdef DEBUG
@@ -121,11 +166,21 @@ int Process::GetExitCode()
 	return WEXITSTATUS(m_exitcode);
 }
 
+/**
+ * ArgsAdd
+ *
+ * Add another argument to the process
+ */
 void Process::ArgsAdd(const std::string str)
 {
 	m_args.push_back(str);
 }
 
+/**
+ * ArgsClear
+ *
+ * Clear the list of process arguments
+ */
 void Process::ArgsClear()
 {
 	m_args.clear();

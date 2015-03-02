@@ -7,12 +7,18 @@ Thread::Thread()
 {
 	m_IsRunning = false;
 	m_IsDetached = false;
+
+	if (pthread_attr_init(&m_attr) != 0)
+		abort();
 }
 
 Thread::~Thread()
 {
 	if (IsRunning() && (IsDetached() == false))
 		Stop();
+
+	if (pthread_attr_destroy(&m_attr) != 0)
+		abort();
 }
 
 /**
@@ -23,7 +29,7 @@ Thread::~Thread()
 void Thread::Start()
 {
 	m_IsRunning = true;
-	if (pthread_create(&m_thread, NULL, RunInternal, this) != 0)
+	if (pthread_create(&m_thread, &m_attr, RunInternal, this) != 0)
 		abort();
 }
 
@@ -109,6 +115,34 @@ void Thread::Signal(int signum)
 	{
 		abort(); //This points to programing error in caller
 	}
+}
+
+size_t Thread::GetStackSize()
+{
+	size_t tmp = 0;
+	if (pthread_attr_getstacksize(&m_attr, &tmp) != 0)
+		abort();
+	return tmp;
+}
+
+void Thread::SetStackSize(size_t size)
+{
+	if (pthread_attr_setstacksize(&m_attr, size) != 0)
+		abort();
+}
+
+size_t Thread::GetGuardSize()
+{
+	size_t tmp = 0;
+	if (pthread_attr_getguardsize(&m_attr, &tmp) != 0)
+		abort();
+	return tmp;
+}
+
+void Thread::SetGuardSize(size_t size)
+{
+	if (pthread_attr_setguardsize(&m_attr, size) != 0)
+		abort();
 }
 
 /**

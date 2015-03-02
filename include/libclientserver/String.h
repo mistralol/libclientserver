@@ -10,6 +10,11 @@
 class String
 {
 	public:
+		static bool Sanity(const std::string *str);
+		static bool Sanity(const std::string *str, const std::string *extra);
+
+		static bool Exists(const std::string *str1, const std::string *str2);
+
 		static bool SplitOne(const std::string *str, std::string *left, std::string *right, const std::string delim);
 
 		static bool Split(const std::string *str, const std::string delim, std::list<std::string> *lst);
@@ -20,6 +25,11 @@ class String
 		static std::string Join(const std::vector<std::string> *vec, const std::string &delim);
 		static std::string Join(const std::list<std::string> *vec, const std::string &delim);
 		static std::string Join(const std::map<std::string, std::string> *map, const std::string &delim1, const std::string &delim2);
+
+		static std::string Chomp(const std::string *str, char value);
+		static std::string Chomp(const std::string *str, const std::string values);
+
+		static bool Check(const std::string *str, const std::string values);
 
 		static std::string Random(const std::string charset, int length);
 		static std::string Random(int length);

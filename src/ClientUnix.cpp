@@ -102,7 +102,7 @@ void ClientUnix::Run()
 			continue;
 		}
 
-		memset(&addr, addr_len, 0);
+		memset(&addr, 0, addr_len);
 
 		addr.sun_family = AF_UNIX;
 		snprintf(addr.sun_path, sizeof(addr.sun_path), "%s", m_path.c_str());

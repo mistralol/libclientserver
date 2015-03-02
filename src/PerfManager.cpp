@@ -53,6 +53,10 @@ void PerfManager::UpdateCounter(const std::string Key, const struct timespec *ts
 		it = m_map.find(Key);
 	}
 	Time::Add(&it->second.TotalTime, ts, &it->second.TotalTime);
+	if (Time::IsGreater(&it->second.WorstTime, ts))
+		it->second.WorstTime = *ts;
+	if (Time::IsLess(&it->second.BestTime, ts))
+		it->second.BestTime = *ts;
 	it->second.Count++;
 }
 
