@@ -26,6 +26,7 @@
 #include <sys/stat.h>
 #include <sys/socket.h>
 #include <sys/eventfd.h>
+#include <sys/capability.h>
 
 #include <netinet/in.h>
 
@@ -94,6 +95,7 @@
 #include <libclientserver/SetGid.h>
 #include <libclientserver/UserID.h>
 #include <libclientserver/GroupID.h>
+#include <libclientserver/Caps.h>
 
 
 

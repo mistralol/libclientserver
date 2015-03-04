@@ -41,7 +41,8 @@ SRCS= 	Thread.cpp \
 		SetUid.cpp \
 		SetGid.cpp \
 		UserID.cpp \
-		GroupID.cpp
+		GroupID.cpp \
+		Caps.cpp
 
 OBJS=$(SRCS:%.cpp=%.o)
 
