@@ -37,7 +37,11 @@ SRCS= 	Thread.cpp \
 		ThreadPoolThread.cpp \
 		FileUtil.cpp \
 		SignalHandler.cpp \
-		Selector.cpp
+		Selector.cpp \
+		SetUid.cpp \
+		SetGid.cpp \
+		UserID.cpp \
+		GroupID.cpp
 
 OBJS=$(SRCS:%.cpp=%.o)
 
