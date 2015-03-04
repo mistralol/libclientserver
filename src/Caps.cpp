@@ -34,6 +34,14 @@ int Caps::SetCap(int cap)
 		cap_free(caps);
 		return -err;
 	}
+
+	if (cap_set_proc(caps) < 0)
+	{
+		int err = errno;
+		cap_free(caps);
+		return -err;
+	}
+
 	cap_free(caps);
 	return 0;
 }
