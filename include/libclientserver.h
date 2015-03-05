@@ -27,6 +27,7 @@
 #include <sys/socket.h>
 #include <sys/eventfd.h>
 #include <sys/capability.h>
+#include <sys/prctl.h>
 
 #include <netinet/in.h>
 
