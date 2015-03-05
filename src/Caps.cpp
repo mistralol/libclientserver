@@ -22,7 +22,7 @@ int Caps::HasCap(int cap)
 int Caps::SetCap(int cap)
 {
 	cap_t caps;
-	cap_value_t cap_list[1] { cap };
+	cap_value_t cap_list[1] = { cap };
 
 	caps = cap_get_proc();
 	if (caps == NULL)
