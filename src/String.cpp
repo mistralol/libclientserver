@@ -20,14 +20,9 @@ bool String::Sanity(const std::string *str)
 	const std::string chk2 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	const std::string chk3 = "0123456789";
 	const std::string chk4 = " -";
+	const std::string chk = chk1 + chk2 + chk3 + chk4;
 
-	if (Exists(str, &chk1) == false)
-		return false;
-	if (Exists(str, &chk2) == false)
-		return false;
-	if (Exists(str, &chk3) == false)
-		return false;
-	if (Exists(str, &chk4) == false)
+	if (Exists(str, &chk) == false)
 		return false;
 	return true;
 }
@@ -43,11 +38,14 @@ bool String::Sanity(const std::string *str)
  */
 bool String::Sanity(const std::string *str, const std::string *extra)
 {
-	if (Sanity(str) == false)
-	{
-		if (Exists(str, extra) == false)
-			return false;
-	}
+	const std::string chk1 = "abcdefghijklmnopqrstuvwxyz";
+	const std::string chk2 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	const std::string chk3 = "0123456789";
+	const std::string chk4 = " -";
+	const std::string chk = chk1 + chk2 + chk3 + chk4 + *extra;
+
+	if (Exists(str, &chk) == false)
+		return false;
 	return true;
 }
 
@@ -63,18 +61,19 @@ bool String::Sanity(const std::string *str, const std::string *extra)
 bool String::Exists(const std::string *str1, const std::string *str2)
 {
 	const char *s1 = str1->c_str();
-	const char *s2 = str2->c_str();
 
 	while(*s1 != 0)
 	{
+		const char *s2 = str2->c_str();
 		bool found = false;
 		while(*s2 != 0)
 		{
 			if (*s1 == *s2)
 			{
 				found = true;
+				break;
 			}
-			break;
+			s2++;
 		}
 		if (found == false)
 			return false;

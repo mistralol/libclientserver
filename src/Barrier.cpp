@@ -43,3 +43,15 @@ void Barrier::WakeUp()
 	m_mutex.WakeUpAll();
 }
 
+/**
+ * Reset
+ *
+ * This function will reset the barrier to the original state.
+ * You should take care that no functions should be sleeping on the barrier at the time this function is called
+ */
+void Barrier::Reset()
+{
+	ScopedLock lock(&m_mutex);
+	m_fired = false;
+}
+

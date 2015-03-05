@@ -18,6 +18,8 @@ class Barrier
 
 		void WakeUp();
 
+		void Reset();
+
 	private:
 		bool m_fired;
 		Mutex m_mutex;
