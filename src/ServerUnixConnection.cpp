@@ -74,9 +74,9 @@ bool ServerUnixConnection::SendLine(const std::string *str)
 	ScopedReadLock rlock(&m_WriterLock);
 
 	const char *c = str->c_str();
-	size_t offset = 0;
-	size_t length = str->size();
-	size_t ret = 0;
+	ssize_t offset = 0;
+	ssize_t length = str->size();
+	ssize_t ret = 0;
 
 	if (m_fd < 0)
 		return false;
