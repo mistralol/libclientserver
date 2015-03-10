@@ -127,10 +127,10 @@ int Mutex::TimedLock(const struct timespec *Timeout)
  *
  */
 void Mutex::Unlock() {
-	if (pthread_mutex_unlock(&m_mutex) < 0)
-		abort(); //Could not unlock mutex
 	m_locked = false;
 	m_depth--;
+	if (pthread_mutex_unlock(&m_mutex) < 0)
+		abort(); //Could not unlock mutex
 }
 
 /**
