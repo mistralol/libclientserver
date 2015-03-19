@@ -96,6 +96,23 @@ int Buffer::PullData(char *buf, size_t length)
 	return len;
 }
 
+bool Buffer::GetLine(std::string *str)
+{
+	if (GetDataLength() == 0)
+		return false;
+
+	char *lf = (char *) memchr(m_buffer, '\n', m_buffer_used);
+	if (lf == NULL)
+		return false;
+	*lf = 0; //Add NULL Terminator
+
+	*str = m_buffer;
+
+	size_t Offset = lf - m_buffer;
+	Shift(Offset);
+	return true;
+}
+
 void Buffer::Shift(size_t size)
 {
 	if (size == 0)

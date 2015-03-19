@@ -12,6 +12,8 @@ class Buffer
 		int PushData(const char *buf, size_t length);
 		int PullData(char *buf, size_t length);
 
+		bool GetLine(std::string *str);
+
 		void Shift(size_t size);
 
 		void *GetPtr();

@@ -29,6 +29,8 @@
 #include <sys/capability.h>
 #include <sys/prctl.h>
 
+#include <sys/un.h>
+
 #include <netinet/in.h>
 
 #include <libclientserver/Thread.h>
@@ -64,11 +66,17 @@
 #include <libclientserver/RequestMapEntry.h>
 #include <libclientserver/RequestMap.h>
 
+#include <libclientserver/ISelectable.h>
+#include <libclientserver/Selector.h>
+
 #include <libclientserver/IServer.h>
 #include <libclientserver/ServerUnix.h>
+#include <libclientserver/ServerUnixSelected.h>
+#include <libclientserver/ServerUnixSelectedListener.h>
 
 #include <libclientserver/IServerConnection.h>
 #include <libclientserver/ServerUnixConnection.h>
+#include <libclientserver/ServerUnixSelectedConnection.h>
 
 #include <libclientserver/IServerHandler.h>
 #include <libclientserver/ServerManager.h>
@@ -88,9 +96,6 @@
 #include <libclientserver/Notify.h>
 
 #include <libclientserver/Process.h>
-
-#include <libclientserver/ISelectable.h>
-#include <libclientserver/Selector.h>
 
 #include <libclientserver/SetUid.h>
 #include <libclientserver/SetGid.h>

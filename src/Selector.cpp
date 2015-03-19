@@ -71,7 +71,7 @@ void Selector::Remove(ISelectable *p)
 	FindHighestFD();
 	WakeUp();
 }
-	
+
 void Selector::FindHighestFD()
 {
 	ScopedLock lock = ScopedLock(&m_mutex);

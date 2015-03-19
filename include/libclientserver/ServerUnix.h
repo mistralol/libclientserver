@@ -12,11 +12,11 @@ class ServerUnix : public IServer, protected Thread
 	public:
 		ServerUnix(const std::string &path);
 		ServerUnix(const std::string &path, mode_t perm);
-		virtual ~ServerUnix();
+		~ServerUnix();
 	
-		virtual void Start(ServerManager *Manager);
-		virtual void Stop();
-		virtual void Run();
+		void Start(ServerManager *Manager);
+		void Stop();
+		void Run();
 	
 	protected:
 		void Init();

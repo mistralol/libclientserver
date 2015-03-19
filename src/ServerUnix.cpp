@@ -34,43 +34,41 @@ void ServerUnix::Init()
 
 void ServerUnix::Start(ServerManager *Manager)
 {
-    struct sockaddr_un addr;
-    size_t addr_len = sizeof(addr);
+	struct sockaddr_un addr;
+	size_t addr_len = sizeof(addr);
 
-    unlink(m_path.c_str());
-    m_fd = socket(AF_UNIX, SOCK_STREAM, 0);
-    if (m_fd < 0) {
-        std::string err = strerror(errno);
-        //Logger("ServerUnix::Start() -> socket: %s", strerror(errno));
-        throw(err);
-    }
-
-    memset(&addr, 0, addr_len);
-
-    addr.sun_family = AF_UNIX;
-    snprintf(addr.sun_path, sizeof(addr.sun_path), "%s", m_path.c_str());
-
-    if(bind(m_fd, (struct sockaddr *) &addr, addr_len) < 0) {
-        std::string err = strerror(errno);
-        //Logger("ServerUnix::Start() -> bind: %s", strerror(errno));
-        if (close(m_fd) < 0)
-			abort();
-        throw(err);
-    }
-    
-    if (chmod(m_path.c_str(), m_perms) < 0)
-	{
-        std::string err = strerror(errno);
+	unlink(m_path.c_str());
+	m_fd = socket(AF_UNIX, SOCK_STREAM, 0);
+	if (m_fd < 0) {
+		std::string err = strerror(errno);
 		throw(err);
 	}
 
-    if(listen(m_fd, m_backlog) < 0) {
-        std::string err = strerror(errno);
-        //Logger("ServerUnix::Start() -> listen: %s", strerror(errno));
-        if (close(m_fd) < 0)
+	memset(&addr, 0, addr_len);
+
+	addr.sun_family = AF_UNIX;
+	snprintf(addr.sun_path, sizeof(addr.sun_path), "%s", m_path.c_str());
+
+	if(bind(m_fd, (struct sockaddr *) &addr, addr_len) < 0)
+	{
+		std::string err = strerror(errno);
+		if (close(m_fd) < 0)
 			abort();
-        throw(err);
-    }
+		throw(err);
+	}
+    
+	if (chmod(m_path.c_str(), m_perms) < 0)
+	{
+		std::string err = strerror(errno);
+		throw(err);
+	}
+
+	if(listen(m_fd, m_backlog) < 0) {
+		std::string err = strerror(errno);
+		if (close(m_fd) < 0)
+			abort();
+		throw(err);
+	}
 
 	m_manager = Manager;
 	m_quit = false;

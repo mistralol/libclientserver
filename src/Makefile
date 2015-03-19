@@ -9,6 +9,9 @@ SRCS= 	Thread.cpp \
 		IServer.cpp \
 		ServerUnix.cpp \
 		ServerUnixConnection.cpp \
+		ServerUnixSelected.cpp \
+		ServerUnixSelectedListener.cpp \
+		ServerUnixSelectedConnection.cpp \
 		ClientBase.cpp \
 		ClientUnix.cpp \
 		Client.cpp	\

@@ -23,9 +23,6 @@ class IServer
 
 		void SendEvent(Request *event);
 
-	protected:
-		virtual void Run() = 0;
-
 	private:
 		std::list<IServerConnection *> m_Connections;
 		Mutex m_ConnectionsMutex;
