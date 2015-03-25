@@ -30,6 +30,7 @@ class Request
 		bool GetBool(const std::string &Key, bool *Value);
 		bool GetString(const std::string &Key, std::string *str);
 		bool GetListString(const std::string &Key, std::list<std::string> *lst);
+		bool GetVectorString(const std::string &Key, std::vector<std::string> *lst);
 		void SetArg(const std::string *Key, const std::string *Value);
 		void SetArg(const std::string Key, const std::string Value);
 		void SetArg(const std::string Key, const std::string *Value);

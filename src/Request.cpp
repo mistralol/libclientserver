@@ -133,6 +133,21 @@ bool Request::GetListString(const std::string &Key, std::list<std::string> *lst)
 	return true;
 }
 
+bool Request::GetVectorString(const std::string &Key, std::vector<std::string> *vec)
+{
+	std::list<std::string> lst;
+	if (GetListString(Key, &lst) == false)
+		return false;
+	vec->clear();
+	while(lst.size() > 0)
+	{
+		std::string tmp = lst.back();
+		lst.pop_back();
+		vec->push_back(tmp);
+	}
+	return true;
+}
+
 void Request::SetArg(const std::string *Key, const std::string *Value)
 {
 	m_args[*Key] = *Value;
