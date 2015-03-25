@@ -52,6 +52,9 @@ OBJS=$(SRCS:%.cpp=%.o)
 
 all: ../libclientserver.a ../libclientserver.so
 
+check:
+	cppcheck $(INCLUDE) $(SRCS)
+
 ../libclientserver.a: $(OBJS) .depend
 	$(AR) cru ../libclientserver.a $(OBJS)
 

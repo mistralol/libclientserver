@@ -4,6 +4,9 @@
 all:
 	$(MAKE) -C src
 	$(MAKE) -C examples
+	
+check:
+	$(MAKE) -C src check
 
 docs:
 	doxygen Doxyfile
