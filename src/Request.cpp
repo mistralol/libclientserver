@@ -118,17 +118,18 @@ bool Request::GetListString(const std::string &Key, std::list<std::string> *lst)
 	if (HasArg(Key) == false)
 		return false;
 	std::string str = GetArg(Key);
-	std::list<std::string> tlst;
-	if (String::Split(&str, ",", &tlst) == false)
+	std::list<std::string> src;
+	if (String::Split(&str, ",", &src) == false)
 		return false;
-	std::list<std::string>::iterator it = tlst.begin();
+	std::list<std::string>::iterator it = src.begin();
 	lst->clear();
-	while(it != lst->end())
+	while(it != src.end())
 	{
 		std::string tmp = "";
 		if (Decoder::ToStr(*it, tmp) == false)
 			return false;
 		lst->push_back(tmp);
+		it++;
 	}
 	return true;
 }
