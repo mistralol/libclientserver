@@ -108,7 +108,7 @@ bool Buffer::GetLine(std::string *str)
 
 	*str = m_buffer;
 
-	size_t Offset = lf - m_buffer;
+	size_t Offset = lf - m_buffer + 1;
 	Shift(Offset);
 	return true;
 }
