@@ -67,6 +67,7 @@ Mutex::~Mutex() {
  * Lock
  *
  * Lock the Mutex. This function should never fail. Though it may hang forever
+ * if there is a bug in the application using the Mutex class
  */
 void Mutex::Lock() {
 	if (pthread_mutex_lock(&m_mutex) < 0)
@@ -74,24 +75,6 @@ void Mutex::Lock() {
 	m_locked = true;
 	m_owner = pthread_self();
 	m_depth++;
-}
-
-/**
- * TryLock
- * @return Will return 0 if the lock is successful. Otherwise -errno
- *
- * Will attempt to take a lock of the mutex.
- * If the mutex is already locked by another thread then the function will fail and return -errno
- * The error return should be -EBUSY for this condition. Anything else should be treated as a bug.
- */
-int Mutex::TryLock() {
-	int ret = pthread_mutex_lock(&m_mutex);
-	if (ret < 0)
-		return -errno;
-	m_locked = true;
-	m_owner = pthread_self();
-	m_depth++;
-	return 0;
 }
 
 /**
@@ -106,6 +89,13 @@ int Mutex::TryLock() {
  */
 int Mutex::TimedLock(const struct timespec *Timeout)
 {
+	struct timespec now, then;
+
+	if (clock_gettime(m_clocktype, &now) < 0)
+		abort();
+
+	Time::Add(Timeout, &now, &then);
+
 	int ret = pthread_mutex_timedlock(&m_mutex, Timeout);
 	if (ret == 0)
 	{
@@ -115,6 +105,18 @@ int Mutex::TimedLock(const struct timespec *Timeout)
 		return 0;
 	}
 	return -errno;
+}
+
+/**
+ * TryLock
+ * @return Will return 0 if the lock is successful. Otherwise -errno
+ *
+ * This is an alias of timedlock with the timeout set to zero
+ */
+int Mutex::TryLock()
+{
+	struct timespec ts = {0, 0};
+	return TimedLock(&ts);
 }
 
 /**
@@ -193,7 +195,6 @@ int Mutex::Wait(const struct timespec *Timeout) {
 #endif
 	struct timespec now, then;
 
-
 	if (clock_gettime(m_clocktype, &now) < 0)
 		abort();
 
@@ -224,9 +225,13 @@ int Mutex::Wait(const struct timespec *Timeout) {
  * 
  * WakeUp a single thread that is sleeping in WakeUp
  *
- * It is not required to have the lock when this function is called. But it is recommanded
+ * It is required to have the lock held when calling this function
  */
 void Mutex::WakeUp() {
+#ifdef DEBUG
+	if (IsOwner() == false)
+		abort();
+#endif
 	int ret = pthread_cond_signal(&m_cond);
 	if (ret < 0)
 		abort(); //pthread_cond_signal failed
@@ -237,9 +242,13 @@ void Mutex::WakeUp() {
  * 
  * WakeUp a all threads that is sleeping in WakeUp
  *
- * It is not required to have the lock when this function is called. But it is recommanded
+ * It is required to have the lock held when calling this function
  */
 void Mutex::WakeUpAll() {
+#ifdef DEBUG
+	if (IsOwner() == false)
+		abort();
+#endif
 	int ret = pthread_cond_broadcast(&m_cond);
 	if (ret < 0)
 		abort(); //pthread_cond_signal failed

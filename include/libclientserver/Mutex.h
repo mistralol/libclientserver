@@ -16,8 +16,8 @@ class Mutex {
 		~Mutex();
 		
 		void Lock();
-		int TryLock();
 		int TimedLock(const struct timespec *Timeout);
+		int TryLock();
 		void Unlock();
 
 		bool IsOwner();
