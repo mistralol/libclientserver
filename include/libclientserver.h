@@ -103,6 +103,7 @@
 #include <libclientserver/GroupID.h>
 #include <libclientserver/Caps.h>
 
+#include <libclientserver/RateLimit.h>
 
 
 
