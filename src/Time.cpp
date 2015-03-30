@@ -464,4 +464,16 @@ void Time::Zero(struct timeval *tv)
 	tv->tv_usec = 0;
 }
 
+void Time::MonoTonic(struct timespec *ts)
+{
+	if (clock_gettime(CLOCK_MONOTONIC, ts) < 0)
+		abort();
+}
+
+void Time::MonoTonic(struct timeval *tv)
+{
+	struct timespec ts;
+	MonoTonic(&ts);
+	TimeSpecToTimeVal(&ts, tv);
+}
 

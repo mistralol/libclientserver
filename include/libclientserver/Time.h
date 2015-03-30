@@ -74,5 +74,8 @@ class Time
 
 		static void Zero(struct timespec *ts);
 		static void Zero(struct timeval *tv);
+
+		static void MonoTonic(struct timespec *ts);
+		static void MonoTonic(struct timeval *tv);
 };
 
