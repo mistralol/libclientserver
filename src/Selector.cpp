@@ -22,6 +22,25 @@ Selector::~Selector()
 	Thread::Stop();
 	if (close(m_controlfd) < 0)
 		abort();
+
+	do
+	{
+		ScopedLock lock = ScopedLock(&m_mutex);
+	restart:
+		m_modified = false;
+		for(std::map<int, ISelectable *>::iterator it = m_map.begin(); it != m_map.end(); it++)
+		{
+			it->second->DoClose(this);
+			if (m_modified)
+				goto restart;
+		}
+	} while(0);
+
+	if (m_map.size() > 0)
+	{
+		abort(); //Tried to delete selector with items left in it
+	}
+
 }
 
 void Selector::Add(ISelectable *p)

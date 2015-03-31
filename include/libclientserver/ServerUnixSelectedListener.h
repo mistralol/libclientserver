@@ -16,6 +16,7 @@ class ServerUnixSelectedListener : public ISelectable
 		void DoWrite(Selector *);
 		void DoExcept(Selector *);
 		void DoTimeout(Selector *);
+		void DoClose(Selector *);
 
 		int GetFD(const Selector *);
 

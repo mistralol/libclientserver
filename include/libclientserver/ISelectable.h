@@ -23,6 +23,7 @@ class ISelectable
 		virtual void DoWrite(Selector *) = 0;
 		virtual void DoExcept(Selector *) = 0;
 		virtual void DoTimeout(Selector *) = 0;
+		virtual void DoClose(Selector *) = 0;
 
 		virtual int GetFD(const Selector *) = 0;
 		virtual void GetTimeout(const Selector *, struct timespec *tv)

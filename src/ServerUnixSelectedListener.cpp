@@ -104,6 +104,10 @@ void ServerUnixSelectedListener::DoTimeout(Selector *)
 	abort(); //Should never be called
 }
 
+void ServerUnixSelectedListener::DoClose(Selector *sel)
+{
+}
+
 int ServerUnixSelectedListener::GetFD(const Selector *)
 {
 	return m_fd;

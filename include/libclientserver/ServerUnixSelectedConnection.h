@@ -15,6 +15,7 @@ class ServerUnixSelectedConnection : public IServerConnection, public ISelectabl
 		void DoWrite(Selector *);
 		void DoExcept(Selector *);
 		void DoTimeout(Selector *);
+		void DoClose(Selector *);
 
 		int GetFD(const Selector *);
 		void GetTimeout(const Selector *, struct timespec *tv);

@@ -87,6 +87,11 @@ void ServerUnixSelectedConnection::DoTimeout(Selector *sel)
 	Destroy(sel);
 }
 
+void ServerUnixSelectedConnection::DoClose(Selector *sel)
+{
+	Destroy(sel);
+}
+
 int ServerUnixSelectedConnection::GetFD(const Selector *)
 {
 	return m_fd;
