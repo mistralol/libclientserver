@@ -173,6 +173,12 @@ void Selector::UpdateMap(int fd)
 
 		m_timeout[it->second->GetFD(this)] = ts;
 	}
+	else
+	{
+		std::map<int, struct timespec>::iterator it = m_timeout.find(fd);
+		if (it != m_timeout.end())
+			m_timeout.erase(it);
+	}
 }
 
 void Selector::ReadControl()
