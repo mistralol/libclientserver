@@ -82,6 +82,12 @@ class TcpEcho : public ISelectable
 			delete this;
 		}
 
+		void DoClose(Selector *sel)
+		{
+			sel->Remove(this);
+			delete this;
+		}
+
 		int GetFD(const Selector *)
 		{
 			return m_fd;
@@ -191,6 +197,11 @@ class Listen : public ISelectable
 		void DoTimeout(Selector *)
 		{
 			//printf("Listen Timeout\n");
+		}
+
+		void DoClose(Selector *sel)
+		{
+
 		}
 
 		int GetFD(const Selector *)
