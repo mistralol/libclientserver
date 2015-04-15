@@ -41,6 +41,7 @@ SRCS= 	Thread.cpp \
 		FileUtil.cpp \
 		SignalHandler.cpp \
 		Selector.cpp \
+		Poller.cpp \
 		SetUid.cpp \
 		SetGid.cpp \
 		UserID.cpp \

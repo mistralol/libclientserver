@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <limits.h>
+#include <poll.h>
 
 #include <errno.h>
 #include <fcntl.h>
@@ -68,6 +69,9 @@
 
 #include <libclientserver/ISelectable.h>
 #include <libclientserver/Selector.h>
+
+#include <libclientserver/IPollable.h>
+#include <libclientserver/Poller.h>
 
 #include <libclientserver/IServer.h>
 #include <libclientserver/ServerUnix.h>
