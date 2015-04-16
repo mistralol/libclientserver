@@ -95,7 +95,7 @@ restart:
 		}
 	}
 
-	if (ret < length - offset)
+	if (ret < length)
 	{
 		length -= ret;
 		offset += ret;
