@@ -46,7 +46,7 @@ Selector::~Selector()
 void Selector::Add(ISelectable *p)
 {
 	int fd = p->GetFD(this);
-	if (fd < 0 || fd > 1024)
+	if (fd < 0 || fd >= FD_SETSIZE)
 		abort(); //Invalid FD this is a bug
 	if (m_map.find(fd) != m_map.end())
 		abort(); //Duplicate FD?
@@ -71,7 +71,7 @@ void Selector::Update(ISelectable *p)
 void Selector::Remove(ISelectable *p)
 {
 	int fd = p->GetFD(this);
-	if (fd < 0 || fd > 1024)
+	if (fd < 0 || fd >= FD_SETSIZE)
 		abort(); //Invalid FD this is a bug
 	if (m_map.find(fd) == m_map.end())
 		abort(); //No FD to remove
