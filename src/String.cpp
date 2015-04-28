@@ -49,6 +49,84 @@ bool String::Sanity(const std::string *str, const std::string *extra)
 	return true;
 }
 
+
+static int StringSortCompare(const std::string &s1, const std::string &s2)
+{
+	size_t pos1 = 0;
+	size_t pos2 = 0;
+	while(1)
+	{
+		while(s1[pos1] != '\0' && s1[pos2] != '\0')
+		{
+			if (isdigit(s1[pos1]))
+				break;
+			if (isdigit(s2[pos2]))
+				break;
+
+			if (tolower(s1[pos1]) != tolower(s2[pos2]))
+				return tolower(s1[pos1]) - tolower(s2[pos2]);
+
+			pos1++;
+			pos2++;
+		}
+
+		if (s1[pos1] == '\0' && s2[pos2] == '\0')
+			return 0;
+
+		if (s1[pos1] == '\0')
+			return -1;
+
+		if (s2[pos2] == '\0')
+			return 1;
+
+		int i1 = atoi(&s1[pos2]);
+		int i2 = atoi(&s2[pos2]);
+
+		if (i1 > i2)
+			return 1;
+		if (i1 < i2)
+			return -1;
+
+		//Advance over the number we used on both strings
+		while(s1[pos1] != '\0' && isdigit(s1[pos1]) == true)
+			pos1++;
+		while(s2[pos2] != '\0' && isdigit(s2[pos2]) == true)
+			pos2++;
+	}
+	abort(); //Should not be reached
+	return 0;
+}
+
+/**
+ * NSort
+ * @param[in] lst of strings
+ * @param[out] Output list of strings after sorting
+ * @return     Nothing the function never fails
+ *
+ * This function will sort the data in std::list<std:string> in natural human order
+ * this will mean that it will make items like item0001 appear before item1000
+ */
+void String::NSort(const std::list<std::string> &lst, std::list<std::string> &ret)
+{
+	ret.clear();
+	for(std::list<std::string>::const_iterator it = lst.begin(); it != lst.end(); it++)
+	{
+		bool added = false;
+		for(std::list<std::string>::iterator it2 = ret.begin(); it2 != ret.end(); it2++)
+		{
+			int cmp = StringSortCompare(*it, *it2);
+			if (cmp <= 0)
+			{
+				ret.insert(it2, *it);
+				added = true;
+				break;
+			}
+		}
+		if (added == false)
+			ret.push_back(*it);
+	}
+}
+
 /**
  * Exists
  * @param[in] str1 The source string

@@ -13,6 +13,8 @@ class String
 		static bool Sanity(const std::string *str);
 		static bool Sanity(const std::string *str, const std::string *extra);
 
+		static void NSort(const std::list<std::string> &, std::list<std::string> &);
+
 		static bool Exists(const std::string *str1, const std::string *str2);
 
 		static bool SplitOne(const std::string *str, std::string *left, std::string *right, const std::string delim);
