@@ -16,4 +16,4 @@ core
 *.swp
 *~
 *.exe
-
+doxygen_sqlite3.db
