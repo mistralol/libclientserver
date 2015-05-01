@@ -30,7 +30,7 @@ int Buffer::Init()
 
 /**
  * @Init
- * @params[in] buflen This should be the initial size of memory allocated to the buffer
+ * @param[in] buflen This should be the initial size of memory allocated to the buffer
  *
  * One of the Init functions or overloads must be called before using any other function in the class
  */
@@ -42,7 +42,7 @@ int Buffer::Init(size_t buflen)
 
 /**
  * @Read
- * @params[in] fd This should be the file descriptor to read from
+ * @param[in] fd This should be the file descriptor to read from
  *
  * This function will attempt to read chunk size from the fd and populate the buffer contents with the data
  * If the buffer is going to exceed the max size it will return -ENOMEM
@@ -80,7 +80,7 @@ int Buffer::Read(int fd)
 
 /**
  * Write
- * @params[in] fd The file descriptor to write to
+ * @param[in] fd The file descriptor to write to
  *
  * This function will attempt to write as much of the buffer as possible to the fd.
  * If an error occurs it will will return the approate error code to indicate what the error was.
@@ -112,9 +112,9 @@ int Buffer::Write(int fd)
 
 /**
  * WriteBuffered
- * @params[in] fd The file descriptor to write to
- * @params[in] buf The data to write
- * @params[in] length The amount of data to write from buf
+ * @param[in] fd The file descriptor to write to
+ * @param[in] buf The data to write
+ * @param[in] length The amount of data to write from buf
  *
  * This functin will attempt to write as much data as it can to the file descriptor before it blocks.
  * Once it starts blocking it will then write the remaining part of the data to the buffer which can be written by calling Write(fd) later
@@ -153,8 +153,8 @@ int Buffer::WriteBuffered(int fd, const char *buf, size_t length)
 
 /**
  * PushData
- * @params[in] buf The buffer to append the to the buffer contents
- * @params[in] length The length of the data
+ * @param[in] buf The buffer to append the to the buffer contents
+ * @param[in] length The length of the data
  *
  * This function will append the data to the buffer
  * It is possible to fail with eother a memory allocation issue or if the maxmimum buffer size is going to be exceeded
@@ -175,8 +175,8 @@ int Buffer::PushData(const char *buf, size_t length)
 
 /**
  * PullData
- * @params[in] buf This will be populated by the data
- * @params[in] length The size of the buffer buf
+ * @param[in] buf This will be populated by the data
+ * @param[in] length The size of the buffer buf
  *
  * This function will read data from the front of the buffer and populate as much as possible in buf
  * If the passed buf is larger than the data stored in the buffer then the return value will indicate how much data was copied ot buf
@@ -193,7 +193,7 @@ int Buffer::PullData(char *buf, size_t length)
 
 /*
  * GetLine
- * @params[in] str This will be modified to contain the next line found in the buffer
+ * @param[in] str This will be modified to contain the next line found in the buffer
  *
  * This function will attempt to scan the buffer and return the first line of text found in the buffer
  * If it finds a line of text then true will be returned. It will return false if it the buffer does nto contain a full line
@@ -205,8 +205,8 @@ bool Buffer::GetLine(std::string *str)
 
 /*
  * GetLine
- * @params[in] str This will be modified to contain the next line found in the buffer
- * @params[in] term This will be used to specifiy the end of line marker to look for in the buffer
+ * @param[in] str This will be modified to contain the next line found in the buffer
+ * @param[in] term This will be used to specifiy the end of line marker to look for in the buffer
  *
  * This function will attempt to scan the buffer and return the first line of text found in the buffer
  * If it finds a line of text then true will be returned. It will return false if it the buffer does nto contain a full line
@@ -230,8 +230,8 @@ bool Buffer::GetLine(std::string *str, const char term)
 
 /*
  * GetLine
- * @params[in] str This will be modified to contain the next line found in the buffer
- * @params[in] ending This will be used to specifiy the end of line marker to look for in the buffer
+ * @param[in] str This will be modified to contain the next line found in the buffer
+ * @param[in] ending This will be used to specifiy the end of line marker to look for in the buffer
  *
  * This function will attempt to scan the buffer and return the first line of text found in the buffer
  * If it finds a line of text then true will be returned. It will return false if it the buffer does nto contain a full line
@@ -243,8 +243,8 @@ bool Buffer::GetLine(std::string *str, const std::string &ending)
 
 /*
  * GetLine
- * @params[in] str This will be modified to contain the next line found in the buffer
- * @params[in] ending This will be used to specifiy the end of line marker to look for in the buffer
+ * @param[in] str This will be modified to contain the next line found in the buffer
+ * @param[in] ending This will be used to specifiy the end of line marker to look for in the buffer
  *
  * This function will attempt to scan the buffer and return the first line of text found in the buffer
  * If it finds a line of text then true will be returned. It will return false if it the buffer does nto contain a full line
@@ -268,7 +268,7 @@ bool Buffer::GetLine(std::string *str, const char *ending)
 
 /**
  * Shift
- * @params[in] size The amount of data to remove from the front of the buffer
+ * @param[in] size The amount of data to remove from the front of the buffer
  *
  * This will rmeove the size of bytes from the front of the buffer. If you attempt to remove more data that exists in the buffer abort will be called.
  */
@@ -331,7 +331,7 @@ size_t Buffer::GetTotalSpace()
 
 /**
  * SetChunkSize
- * @params[in] size Value to store
+ * @param[in] size Value to store
  *
  * After setting this value it will be used to perform io on the Read function when attempting to read data
  */
@@ -352,13 +352,16 @@ size_t Buffer::GetChunkSize()
 
 /**
  * SetMaxSize
+ * @param[in] size Set the maximum size of the buffer
  *
  * This will set the enforced limit of how big the buffer can grow.
  * This function can fail if a limit is placed but there is currently data in the buffer bigger than the new limit
- * 0 will impose no limit
+ * Calling with a value of 0 will impose no limit on the buffer and no reallocation will be attempted
  */
 int Buffer::SetMaxSize(size_t size)
 {
+	if (size == 0)
+		m_max_size = 0;
 	if (m_buffer_length > size)
 	{
 		if (Shrink() == false)
@@ -397,6 +400,7 @@ bool Buffer::Shrink()
 
 /**
  * ReSize
+ * @param[in] size The new size for the block of allocated memory
  *
  * Cause the allocated buffer memory to be resized
  */
