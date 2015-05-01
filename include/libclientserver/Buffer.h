@@ -1,3 +1,13 @@
+
+/** 
+ * @class Buffer
+ * @brief Provides a buffer class for working with file descriptors in non-blocking more
+ *
+ * An easy to use class that makes non-blocking io more painless to use.
+ * Make sure you call Init after creating an instance of this class.
+ *
+ */
+
 class Buffer
 {
 	public:
@@ -15,7 +25,6 @@ class Buffer
 
 		bool GetLine(std::string *str);
 		bool GetLine(std::string *str, const char terminator);
-
 		bool GetLine(std::string *str, const std::string &ending);
 		bool GetLine(std::string *str, const char *ending);
 
