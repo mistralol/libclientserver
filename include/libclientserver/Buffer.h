@@ -9,10 +9,15 @@ class Buffer
 
 		int Read(int fd);
 		int Write(int fd);
+		int WriteBuffered(int fd, const char *buf, size_t length);
 		int PushData(const char *buf, size_t length);
 		int PullData(char *buf, size_t length);
 
 		bool GetLine(std::string *str);
+		bool GetLine(std::string *str, const char terminator);
+
+		bool GetLine(std::string *str, const std::string &ending);
+		bool GetLine(std::string *str, const char *ending);
 
 		void Shift(size_t size);
 
@@ -25,7 +30,11 @@ class Buffer
 		void SetChunkSize(size_t size);
 		size_t GetChunkSize();
 
-		void Shrink();
+		int SetMaxSize(size_t size);
+		size_t GetMaxSize();
+
+		bool Shrink();
+
 	private:
 		bool ReSize(size_t newsize);
 
@@ -34,6 +43,7 @@ class Buffer
 		size_t m_buffer_length;
 		size_t m_buffer_used;
 		size_t m_chunk_size;
+		size_t m_max_size;
 		
 
 };
