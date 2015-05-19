@@ -20,8 +20,6 @@ Selector::~Selector()
 	m_loop = false;
 	WakeUp();
 	Thread::Stop();
-	if (close(m_controlfd) < 0)
-		abort();
 
 	do
 	{
@@ -41,6 +39,8 @@ Selector::~Selector()
 		abort(); //Tried to delete selector with items left in it
 	}
 
+	if (close(m_controlfd) < 0)
+		abort();
 }
 
 void Selector::Add(ISelectable *p)
