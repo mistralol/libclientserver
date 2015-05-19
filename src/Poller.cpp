@@ -15,8 +15,6 @@ Poller::~Poller()
 	m_loop = false;
 	WakeUp();
 	Thread::Stop();
-	if (close(m_controlfd) < 0)
-		abort();
 
 	do
 	{
@@ -35,6 +33,9 @@ Poller::~Poller()
 	{
 		abort(); //Tried to delete selector with items left in it
 	}
+	
+	if (close(m_controlfd) < 0)
+		abort();
 }
 
 void Poller::Add(IPollable *p)
