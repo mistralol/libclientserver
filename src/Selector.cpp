@@ -11,7 +11,9 @@ Selector::Selector()
 	FD_ZERO(&m_fwrites);
 	FD_ZERO(&m_fexcept);
 	FD_SET(m_controlfd, &m_freads);
-	FindHighestFD();
+	FindHighestFD(); /* Init for m_maxfs */
+	m_modified = false;
+	m_err_ebadf = 0;
 	Thread::Start();
 }
 
@@ -248,6 +250,10 @@ void Selector::Run()
 			switch(errno)
 			{
 				case EINTR:
+					continue;
+					break;
+				case EBADF: /* It is possible to have a bad fd inside the set because it just changed after read took a copy of the set */
+					m_err_ebadf++;
 					continue;
 					break;
 				default:

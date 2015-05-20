@@ -52,6 +52,7 @@ class Selector : private Thread
 		fd_set m_fwrites;
 		fd_set m_fexcept;
 		bool m_modified;
+		int m_err_ebadf;
 
 };
 

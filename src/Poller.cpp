@@ -7,6 +7,8 @@ Poller::Poller()
 	m_controlfd = eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);
 	if (m_controlfd < 0)
 		abort();
+	m_modified = false;
+	m_err_ebadf = 0;
 	Thread::Start();
 }
 
@@ -226,6 +228,10 @@ void Poller::Run()
 			switch(errno)
 			{
 				case EINTR:
+					continue;
+					break;
+				case EBADF: /* It is posisble to have a bad fd because the set could have changed after the unlock */
+					m_err_ebadf++;
 					continue;
 					break;
 				default:
