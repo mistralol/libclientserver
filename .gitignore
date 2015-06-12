@@ -17,3 +17,16 @@ core
 *~
 *.exe
 doxygen_sqlite3.db
+Makefile.in
+aclocal.m4
+autom4te.cache
+config
+configure
+m4
+Makefile
+config.log
+config.status
+libclientserver.pc
+libtool
+.deps
+.libs

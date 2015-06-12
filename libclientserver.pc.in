@@ -1,0 +1,13 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: libclientserver
+Description: A C++ Client Server lib toolkit
+URL: http://github.com/mistralol/libclientserver
+Version: @VERSION@
+Requires:
+Libs: -L${libdir} -lclientserver
+Cflags: -I${includedir}
+
