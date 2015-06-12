@@ -167,7 +167,8 @@ void Request::SetArg(const std::string Key, const std::string *Value)
 void Request::SetArg(const std::string Key, int Value)
 {
 	char *buf = NULL;
-	asprintf(&buf, "%d", Value);
+	if (asprintf(&buf, "%d", Value) < 0)
+		abort();
 	m_args[Key] = buf;
 	free(buf);
 }
@@ -175,7 +176,8 @@ void Request::SetArg(const std::string Key, int Value)
 void Request::SetArg(const std::string Key, unsigned int Value)
 {
 	char *buf = NULL;
-	asprintf(&buf, "%u", Value);
+	if (asprintf(&buf, "%u", Value) < 0)
+		abort();
 	m_args[Key] = buf;
 	free(buf);
 }
