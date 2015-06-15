@@ -8,6 +8,6 @@ Description: A C++ Client Server lib toolkit
 URL: http://github.com/mistralol/libclientserver
 Version: @VERSION@
 Requires:
-Libs: -L${libdir} -lclientserver
+Libs: -L${libdir} -lclientserver -lcap
 Cflags: -I${includedir}
 
