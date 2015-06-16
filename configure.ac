@@ -11,6 +11,8 @@ AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_LIBTOOL
 
+AC_SUBST([AM_CXXFLAGS], [-std=c++11])
+
 AC_OUTPUT(Makefile src/Makefile examples/Makefile tests/Makefile)
 
 
