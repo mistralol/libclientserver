@@ -2,7 +2,7 @@
 ACLOCAL_AMFLAGS=-I m4
 
 
-SUBDIRS=src
+SUBDIRS=src examples
 
 pkgconfiglibdir = $(libdir)/pkgconfig
 pkgconfiglib_DATA=libclientserver.pc
