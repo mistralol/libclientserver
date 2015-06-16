@@ -1,5 +1,6 @@
 
-//Warning: This need to be used before any other threads are started!
+//Warning: This need to be initilized before any other threads are started!
+//or any other intial threads will have an incorrect signal mask and may intercept some of the signals!
 class SignalHandler : Thread
 {
 	public:
