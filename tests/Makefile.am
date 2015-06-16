@@ -1,5 +1,5 @@
 
-LDADD=../src/.libs/libclientserver.a -lcap -lpthread
+LDADD=../src/.libs/libclientserver.a -lcap -lpthread -lrt
 CFLAGS=@CHECK_CFLAGS@
 
 TESTS=PIDFile \
