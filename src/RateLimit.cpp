@@ -3,7 +3,8 @@
 
 RateLimit::RateLimit()
 {
-	m_last = {0, 0};
+	m_last.tv_sec = 0;
+	m_last.tv_nsec = 0;
 }
 
 RateLimit::~RateLimit()
