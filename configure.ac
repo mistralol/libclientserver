@@ -11,7 +11,7 @@ AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_LIBTOOL
 
-AC_OUTPUT(Makefile src/Makefile examples/Makefile)
+AC_OUTPUT(Makefile src/Makefile examples/Makefile tests/Makefile)
 
 
 AC_CHECK_HEADER_STDBOOL()
