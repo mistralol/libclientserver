@@ -1,4 +1,5 @@
 
+AM_CPPFLAGS=-I../src/
 LDADD=../src/.libs/libclientserver.a -lcap -lpthread -lrt
 CFLAGS=@CHECK_CFLAGS@
 
