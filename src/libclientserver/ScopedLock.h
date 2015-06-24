@@ -13,8 +13,12 @@ class ScopedLock {
 		ScopedLock(Mutex *m);
 		~ScopedLock();
 
+		void Lock();
+		void Unlock();
+
 		private:
 			Mutex *m_mutex;
+			bool m_locked;
 };
 
 
