@@ -7,5 +7,8 @@ class FileUtil
 		static int Write(const std::string &fname, const std::string &buffer);
 		static int WriteSync(const std::string &fname, const std::string &buffer);
 		static int Sync(const std::string &fname);
+		
+		int PathList(std::vector<std::string> *vec);
+		int PathSearch(const std::string &name, std::string *location);
 };
 

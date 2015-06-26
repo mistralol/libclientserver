@@ -104,4 +104,43 @@ int FileUtil::Sync(const std::string &fname)
 	return 0;
 }
 
+int FileUtil::PathList(std::vector<std::string> *lst)
+{
+	char *path = getenv("PATH");
+	if (!path)
+		return -1;
+	lst->clear();
+	std::string str = path;
+	if (String::Split(&str, ":", lst) == false)
+	{
+		lst->clear();
+		return -1;
+	}
+	return lst->size();
+}
+
+int FileUtil::PathSearch(const std::string &name, std::string *location)
+{
+	std::vector<std::string> lst;
+	
+	if (PathList(&lst) < 0)
+		return -1;
+
+	for(std::vector<std::string>::iterator it = lst.begin(); it != lst.end(); it++)
+	{
+		struct stat info;
+		std::string tname = *it + '/' + name;
+		
+		if (stat(tname.c_str(), &info) == 0)
+		{
+			if (S_ISREG(info.st_mode) || S_ISLNK(info.st_mode))
+			{
+				*location = tname;
+				return 1;
+			}
+		}
+	}	
+	return -1;
+}
+
 
