@@ -29,6 +29,8 @@ class Thread
 
 		size_t GetGuardSize();
 		void SetGuardSize(size_t size);
+		
+		static int TotalThreads();
 
 	protected:
 		virtual void Run();

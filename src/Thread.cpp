@@ -145,6 +145,54 @@ void Thread::SetGuardSize(size_t size)
 		abort();
 }
 
+/** TotalThreads
+ * TotalThreads
+ *
+ * This will return the total number of threads created in the process
+ * This will include all threads not just the number created by this class
+ */
+int Thread::TotalThreads()
+{
+	pid_t pid = getpid();
+	char *buf = NULL;
+	char *line = NULL;
+	size_t linesize = 0;
+	int nthreads = -1; //Default fall though is error
+	
+	if (getpid() < 0)
+		abort();
+		
+	if (asprintf(&buf, "/proc/%d/status", pid) < 0)
+		abort();
+	
+	FILE *fp = fopen(buf, "r");
+	if (!fp)
+	{
+		free(buf);
+		return -1;
+	}
+	
+	while(getline(&line, &linesize, fp) >= 0)
+	{
+		if (strncmp("Threads:", line, 8) == 0)
+		{
+			if (sscanf(line, "Threads: %d\n", &nthreads) != 1)
+				abort();
+			break;
+		}
+	}
+
+#ifdef DEBUG
+	if (nthread < 0)
+		abort();
+#endif
+	
+	free(line);
+	fclose(fp);
+	free(buf);
+	return nthreads;
+}
+
 /**
  * Run
  *
