@@ -29,7 +29,7 @@ class ClientUnixSelected : public ClientBase
 
 	private:
 		std::string m_path;
-		
+		Mutex m_mutex;
 		Selector *m_selector;
 		ClientUnixSelectedConnection *m_connection;
 };
