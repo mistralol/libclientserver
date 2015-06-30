@@ -191,6 +191,16 @@ int Buffer::PullData(char *buf, size_t length)
 	return len;
 }
 
+/**
+ * Clear
+ *
+ * This function will mark the buffer as empty as if it has no data in it
+ */
+void Buffer::Clear()
+{
+	m_buffer_used = 0;
+}
+
 /*
  * GetLine
  * @param[in] str This will be modified to contain the next line found in the buffer

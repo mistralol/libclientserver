@@ -22,6 +22,7 @@ class Buffer
 		int WriteBuffered(int fd, const char *buf, size_t length);
 		int PushData(const char *buf, size_t length);
 		int PullData(char *buf, size_t length);
+		void Clear();
 
 		bool GetLine(std::string *str);
 		bool GetLine(std::string *str, const char terminator);
