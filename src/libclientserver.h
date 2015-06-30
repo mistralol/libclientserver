@@ -89,6 +89,8 @@
 #include <libclientserver/IClientHandler.h>
 #include <libclientserver/ClientBase.h>
 #include <libclientserver/ClientUnix.h>
+#include <libclientserver/ClientUnixSelectedConnection.h>
+#include <libclientserver/ClientUnixSelected.h>
 #include <libclientserver/Client.h>
 
 #include <libclientserver/PIDFile.h>

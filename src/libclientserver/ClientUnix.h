@@ -1,6 +1,6 @@
 
 /**
- * @class ClientUni
+ * @class ClientUnix
  * @brief Implementation for Unix Sockets
  *
  * Provides client side implementation using unix sockets.
@@ -15,10 +15,6 @@ class ClientUnix : public ClientBase, Thread
 		void Connect();
 		bool IsConnected();
 		void Disconnect();
-
-	protected:
-		bool DoSendRequest(Request *request, const struct timespec *Timeout);
-		bool DoSendCommand(Request *command, const struct timespec *Timeout);
 
 	private:
 		bool SendLine(const std::string *str, const struct timespec *Timeout);

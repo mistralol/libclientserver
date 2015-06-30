@@ -12,6 +12,17 @@ ClientBase *Client::CreateUnix(const std::string &ConnectionString)
 	return new ClientUnix(lst[1]);
 }
 
+ClientBase *Client::CreateUnixSelected(const std::string &ConnectionString)
+{
+	std::vector<std::string> lst;
+	String::Split(&ConnectionString, ":", &lst);
+
+	if (lst.size() != 2)
+		return NULL;
+
+	return new ClientUnixSelected(lst[1]);
+}
+
 ClientBase *Client::CreateTcp(const std::string &ConnectionString)
 {
 	abort();
@@ -26,6 +37,8 @@ ClientBase *Client::Create(const std::string &ConnectionString)
 		return NULL;
 
 	if (lst[0] == "unix")
+		return CreateUnix(ConnectionString);
+	if (lst[0] == "unixselected")
 		return CreateUnix(ConnectionString);
 	if (lst[0] == "tcp")
 		return CreateTcp(ConnectionString);

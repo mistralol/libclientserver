@@ -40,6 +40,8 @@ libclientserver_la_SOURCES= Barrier.cpp \
 			    Thread.cpp \
 			    UserID.cpp \
 			    ClientUnix.cpp \
+			    ClientUnixSelected.cpp \
+			    ClientUnixSelectedConnection.cpp \
 			    Mutex.cpp \
 			    RateLimit.cpp \
 			    ScopedWriteLock.cpp \
