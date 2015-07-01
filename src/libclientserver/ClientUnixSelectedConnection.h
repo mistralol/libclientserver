@@ -37,6 +37,7 @@ class ClientUnixSelectedConnection : public ISelectable
 		bool m_connected;
 		Buffer m_rbuffer;
 		Buffer m_wbuffer;
+		Mutex m_buffermutex;
 		
 };
 

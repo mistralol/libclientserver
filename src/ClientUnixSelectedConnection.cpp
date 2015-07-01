@@ -93,10 +93,9 @@ void ClientUnixSelectedConnection::DoRead(Selector *p)
 
 void ClientUnixSelectedConnection::DoWrite(Selector *p)
 {
+	ScopedLock lock = ScopedLock(&m_buffermutex);
 	if (m_connected == false)
-	{
 		return;
-	}
 
 	int ret = m_wbuffer.Write(m_fd);
 	if (ret < 0)
@@ -161,8 +160,10 @@ void ClientUnixSelectedConnection::GetTimeout(const Selector *, struct timespec 
 
 bool ClientUnixSelectedConnection::SendLine(Selector *p, const std::string *str)
 {
+	ScopedLock lock = ScopedLock(&m_buffermutex);
 	if (m_connected == false)
 		return false;
+
 	m_wbuffer.PushData(str->c_str(), str->size());
 	p->Update(this);
 	return true;
@@ -171,9 +172,12 @@ bool ClientUnixSelectedConnection::SendLine(Selector *p, const std::string *str)
 void ClientUnixSelectedConnection::NewSocket(Selector *p)
 {
 	p->Remove(this);
-	
-	m_rbuffer.Clear();
-	m_wbuffer.Clear();
+
+	do {
+		ScopedLock lock = ScopedLock(&m_buffermutex);
+		m_rbuffer.Clear();
+		m_wbuffer.Clear();
+	} while(0);
 	
 	if (m_fd >= 0)
 	{
