@@ -65,6 +65,8 @@ otherinclude_HEADERS= libclientserver/Barrier.h \
 			libclientserver/ClientBase.h \
 			libclientserver/Client.h \
 			libclientserver/ClientUnix.h \
+			libclientserver/ClientUnixSelected.h \
+			libclientserver/ClientUnixSelectedConnection.h \
 			libclientserver/Decoder.h \
 			libclientserver/Encoder.h \
 			libclientserver/Errno.h \
