@@ -34,12 +34,12 @@ void ThreadPool::Init(int nthread, size_t maxqueue)
 	m_queue.SetMaxItems(maxqueue);
 }
 
-void ThreadPool::Add( void (*fp) (void *arg), void *arg )
+bool ThreadPool::Add( void (*fp) (void *arg), void *arg )
 {
 	ThreadPoolItem *tmp = new ThreadPoolItem;
 	tmp->fp = fp;
 	tmp->arg = arg;
-	m_queue.Add(tmp);
+	return m_queue.Add(tmp);
 }
 
 void ThreadPool::Flush()
@@ -52,4 +52,15 @@ ThreadPoolItem *ThreadPool::GetNext()
 	struct timespec ts = {1, 0};
 	return m_queue.GetNext(&ts);
 }
+
+size_t ThreadPool::GetCount()
+{
+	return m_queue.GetCount();
+}
+
+size_t ThreadPool::GetHWCount()
+{
+	return m_queue.GetHWCount();
+}
+
 
