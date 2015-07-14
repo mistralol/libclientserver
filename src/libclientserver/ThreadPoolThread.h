@@ -9,6 +9,6 @@ class ThreadPoolThread : public Thread {
 
 	private:
 		ThreadPool *m_Pool;
-		bool m_exit;
+		volatile bool m_exit;
 };
 
