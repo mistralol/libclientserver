@@ -105,7 +105,7 @@ bool RequestMap::WakeUp(Request *response)
 	uint64_t id = response->GetID();
 	std::map<uint64_t, struct RequestMapEntry *>::iterator it = m_map.find(id);
 	if (it == m_map.end())
-		return false; //Nothing left to wakeup
+		return false; //Nothing left to wakeup. Probably a timeout and has been removed
 
 	*it->second->Response = *response;
 	it->second->ValidResponse = true;
