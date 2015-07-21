@@ -38,9 +38,9 @@ void ServerUnixConnection::Run()
 {
 	while(m_quit == false)
 	{
-		ReadBuffer Buffer(1024 * 2048);
+		Buffer buffer = Buffer();
 
-		int ret = Buffer.Read(m_fd);
+		int ret = buffer.Read(m_fd);
 		if (ret <= 0)
 		{
 			m_server->ConnectionRemove(this);
@@ -54,11 +54,11 @@ void ServerUnixConnection::Run()
 
 		//Read Line at a time
 		std::string line;
-		bool HasLine = Buffer.GetLine(&line);
+		bool HasLine = buffer.GetLine(&line);
 		while(HasLine == true)
 		{
 			m_manager->ProcessLine(this, &line);
-			HasLine = Buffer.GetLine(&line);
+			HasLine = buffer.GetLine(&line);
 		}
 	}
 

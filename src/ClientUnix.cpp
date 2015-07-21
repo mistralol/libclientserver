@@ -57,7 +57,7 @@ bool ClientUnix::SendLine(const std::string *str, const struct timespec *Timeout
 	ssize_t offset = 0;
 	ssize_t length = str->size();
 	ssize_t ret = 0;
-
+	
 restart:
 	ret = send(m_fd, &c[offset], length, MSG_NOSIGNAL);
 	if (ret < 0)
@@ -91,7 +91,7 @@ void ClientUnix::Run()
 
 	while(m_quit == false)
 	{
-		ReadBuffer Buffer(1024 * 2048);
+		Buffer buffer = Buffer();
 		int fd = socket(AF_UNIX, SOCK_STREAM, 0);
 		if (fd < 0)
 		{
@@ -124,7 +124,7 @@ void ClientUnix::Run()
 		//FIXME: Need converted to non-blocking or a dead connection / server stops the disconnect from working!
 		while(m_quit == false && m_fd >= 0)
 		{
-			int ret = Buffer.Read(m_fd);
+			int ret = buffer.Read(m_fd);
 			if (ret <= 0)
 			{
 				RaiseOnDisconnect(ret, Errno::ToStr(ret));
@@ -137,11 +137,11 @@ void ClientUnix::Run()
 
 			//Read Line at a time
 			std::string line;
-			bool HasLine = Buffer.GetLine(&line);
+			bool HasLine = buffer.GetLine(&line);
 			while(HasLine == true)
 			{
 				RaiseOnData(&line);
-				HasLine = Buffer.GetLine(&line);
+				HasLine = buffer.GetLine(&line);
 			}
 		}
 	} //m_quit == false

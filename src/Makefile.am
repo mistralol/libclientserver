@@ -49,7 +49,6 @@ libclientserver_la_SOURCES= Barrier.cpp \
 			    ThreadPool.cpp \
 			    Decoder.cpp \
 			    Notify.cpp \
-			    ReadBuffer.cpp \
 			    Selector.cpp \
 			    ServerUnixSelectedListener.cpp \
 			    ThreadPoolThread.cpp
@@ -91,7 +90,6 @@ otherinclude_HEADERS= libclientserver/Barrier.h \
 			libclientserver/Process.h \
 			libclientserver/Queue.h \
 			libclientserver/RateLimit.h \
-			libclientserver/ReadBuffer.h \
 			libclientserver/Request.h \
 			libclientserver/RequestMapEntry.h \
 			libclientserver/RequestMap.h \

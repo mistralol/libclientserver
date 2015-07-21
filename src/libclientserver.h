@@ -44,7 +44,6 @@
 #include <libclientserver/ScopedReadLock.h>
 #include <libclientserver/ScopedWriteLock.h>
 #include <libclientserver/Buffer.h>
-#include <libclientserver/ReadBuffer.h>
 #include <libclientserver/Barrier.h>
 #include <libclientserver/FileUtil.h>
 #include <libclientserver/ISignalHandler.h>
