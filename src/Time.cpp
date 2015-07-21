@@ -292,6 +292,15 @@ void Time::Sub(const struct timeval *tv1, const struct timeval *tv2, struct time
 	}
 }
 
+/**
+ * Divide
+ * @param[in] ts The input value
+ * @param[in] div The value to divide by
+ * @param[out] res The output values
+ *
+ * This function will divide the ts by the div paramaters.
+ * It is permitted that the input and output paramaters can point to the same data item.
+ */
 void Time::Divide(const struct timespec *ts, int div, struct timespec *res)
 {
 	unsigned long long tmp = NanoSeconds(ts);
@@ -299,10 +308,51 @@ void Time::Divide(const struct timespec *ts, int div, struct timespec *res)
 	TimeSpecFromNanoSeconds(tmp, res);
 }
 
+/**
+ * Divide
+ * @param[in] ts The input value
+ * @param[in] div The value to divide by
+ * @param[out] res The output values
+ *
+ * This function will divide the ts by the div paramaters.
+ * It is permitted that the input and output paramaters can point to the same data item.
+ */
 void Time::Divide(const struct timeval *ts, int div, struct timeval *res)
 {
 	unsigned long long tmp = NanoSeconds(ts);
 	tmp /= div;
+	TimeValFromNanoSeconds(tmp, res);
+}
+
+/**
+ * Multiply
+ * @param[in] ts The input value
+ * @param[in] div The value to divide by
+ * @param[out] res The output values
+ *
+ * This function will multiply the ts by the x paramaters.
+ * It is permitted that the input and output paramaters can point to the same data item.
+ */
+void Time::Multiply(const struct timespec *ts, int x, struct timespec *res)
+{
+	unsigned long long tmp = NanoSeconds(ts);
+	tmp *= x;
+	TimeSpecFromNanoSeconds(tmp, res);
+}
+
+/**
+ * Multiply
+ * @param[in] ts The input value
+ * @param[in] div The value to divide by
+ * @param[out] res The output values
+ *
+ * This function will multiply the ts by the x paramaters.
+ * It is permitted that the input and output paramaters can point to the same data item.
+ */
+void Time::Multiply(const struct timeval *ts, int x, struct timeval *res)
+{
+	unsigned long long tmp = NanoSeconds(ts);
+	tmp *= x;
 	TimeValFromNanoSeconds(tmp, res);
 }
 

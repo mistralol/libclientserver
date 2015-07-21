@@ -59,6 +59,9 @@ class Time
 
 		static void Divide(const struct timespec *ts, int div, struct timespec *res);
 		static void Divide(const struct timeval *ts, int div, struct timeval *res);
+		
+		static void Multiply(const struct timespec *ts, int x, struct timespec *res);
+		static void Multiply(const struct timeval *ts, int x, struct timeval *res);
 
 		static void Diff(const struct timespec *ts1, const struct timespec *ts2, struct timespec *res);
 		static void Diff(const struct timeval *tv1, const struct timeval *tv2, struct timeval *res);
