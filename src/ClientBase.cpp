@@ -133,7 +133,7 @@ int ClientBase::SendRequest(Request *request, Request *response, const struct ti
 	struct RequestMapEntry Entry;
 
 	memset(&Entry, 0, sizeof(Entry));
-	Entry.id = m_LastID++;
+	Entry.id = GetNextID();
 	Entry.Response = response;
 	Entry.ValidResponse = false;
 	Entry.KeepAlive = false;
