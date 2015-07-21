@@ -13,6 +13,16 @@ int Ping(ClientBase *Client)
 	return Client->SendRequest(&request, &response);
 }
 
+int PingNoPerf(ClientBase *Client)
+{
+	Request request;
+	Request response;
+
+	request.SetCommand("PING");
+
+	return Client->SendRequest(&request, &response);
+}
+
 int Quit(ClientBase *Client)
 {
 	Request request;
@@ -31,6 +41,37 @@ bool TestCommand(ClientBase *Client)
 
 	return Client->SendCommand(&command);
 }
+
+class Bench : public Thread
+{
+	public:
+		Bench(ClientBase *cli, int count)
+		{
+			client = cli;
+			m_count = count;
+		}
+
+		~Bench()
+		{
+
+		}
+
+		void Run()
+		{
+			for(int i =0;i<m_count;i++)
+			{
+				int ret = PingNoPerf(client);
+				if (ret < 0)
+				{
+					printf("BenchMark Failed: %d / %s i = %d\n", ret, strerror(abs(ret)), i);
+				}
+			}
+		}
+	private:
+		int m_count;
+		ClientBase *client;
+	
+};
 
 int main(int argc, char **argv)
 {
@@ -53,18 +94,58 @@ int main(int argc, char **argv)
 		}
 	}
 
+	PerfManager::Dump();
+	
+	printf("Doing Bench Mark\n");
+	std::list<Bench *> threads;
+	
+	for(int i = 1;i<=16;i++)
+	{
+		int count = 500000;
+		for(int j=0;j<i;j++)
+		{
+			threads.push_back(new Bench(Client, count / i));
+		}
+		
+		struct timespec tstart, tend;
+		Time::MonoTonic(&tstart);
+		
+		for(std::list<Bench *>::iterator it = threads.begin(); it != threads.end(); it++)
+		{
+			Bench *b = *it;
+			b->Start();
+		}
+		
+		while(threads.size() > 0)
+		{
+			std::list<Bench *>::iterator it = threads.begin();
+			Bench *b = *it;
+			b->Stop();
+			threads.erase(it);
+			delete b;
+		}
+		
+		Time::MonoTonic(&tend);
+		
+		struct timespec ttime, tsingle;
+		Time::Sub(&tend, &tstart, &ttime);
+		Time::Divide(&ttime, count, &tsingle);
+		printf("Threads: %d TotalRequests: %d TotalTime: %llu (MS) Time Per Call: %llu (MS) OR %llu (NS)\n", i, count, Time::MilliSeconds(&ttime), Time::MilliSeconds(&tsingle), Time::NanoSeconds(&tsingle));
+
+	}
+
+/*
 	if (Quit(Client) != 0)
 	{
 		printf("Server Failed To Quit!\n");
 		Fail = true;
 	}
+*/
 
 	printf("Disconnecting\n");
 	Client->Disconnect();
 	printf("DisConnected\n");
 	delete Client;
-
-	PerfManager::Dump();
 
 	printf("CleanExit\n");
 

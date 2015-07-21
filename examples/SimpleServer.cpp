@@ -33,6 +33,7 @@ public:
 		std::stringstream ss;
 		std::string Command = request->GetCommand();
 
+/*
 		ss << "OnRequest: " << request->GetCommand() << " ";
 
 		for(std::list<std::string>::iterator it = lst.begin(); it != lst.end(); it++)
@@ -41,7 +42,7 @@ public:
 		}
 
 		printf("%s\n", ss.str().c_str());
-
+*/
 		if (Command == "PING")
 			return 0;
 
@@ -82,7 +83,8 @@ void Start()
 	Handler SrvHandler;
 	ServerManager Manager(&SrvHandler);
 	
-	ServerUnix Unix("/tmp/SimpleServer");
+//	ServerUnix Unix("/tmp/SimpleServer");
+	ServerUnixSelected Unix("/tmp/SimpleServer");
 	
 	Manager.ServerAdd(&Unix);
 	SrvHandler.Wait();
