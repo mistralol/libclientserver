@@ -514,12 +514,24 @@ void Time::Zero(struct timeval *tv)
 	tv->tv_usec = 0;
 }
 
+/*
+ * MonoTonic
+ * @param[out] ts The output value
+ *
+ * This will store a time from the monotonic wall clock in ts
+ */
 void Time::MonoTonic(struct timespec *ts)
 {
 	if (clock_gettime(CLOCK_MONOTONIC, ts) < 0)
 		abort();
 }
 
+/*
+ * MonoTonic
+ * @param[out] ts The output value
+ *
+ * This will store a time from the monotonic wall clock in ts
+ */
 void Time::MonoTonic(struct timeval *tv)
 {
 	struct timespec ts;
