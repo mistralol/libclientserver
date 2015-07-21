@@ -57,25 +57,22 @@ bool RequestMap::Wait(struct RequestMapEntry *Entry, const struct timespec *Soft
 	struct timespec DeadLine;
 	struct timespec HardLine;
 	struct timespec rem; //Remaiing time
-	if (clock_gettime(CLOCK_MONOTONIC, &CurrentTime) < 0)
-		abort();
 
-	DeadLine.tv_sec = CurrentTime.tv_sec + SoftTimeout->tv_sec;
-	DeadLine.tv_nsec = 0;
+	Time::MonoTonic(&CurrentTime);
 
-	HardLine.tv_sec = CurrentTime.tv_sec + HardTimeout->tv_sec;
-	HardLine.tv_nsec = 0;
+	Time::Add(&CurrentTime, SoftTimeout, &DeadLine);
+	Time::Add(&CurrentTime, HardTimeout, &HardLine);
 
 	while(Entry->ValidResponse == false)
 	{
-		if (clock_gettime(CLOCK_MONOTONIC, &CurrentTime) < 0)
-			abort();
+		Time::MonoTonic(&CurrentTime);
 
 		//If we cross a dead line give up
-		if (CurrentTime.tv_sec > DeadLine.tv_sec)
+		if (Time::IsGreater(&CurrentTime, &DeadLine))
 			return false;
 
-		if (CurrentTime.tv_sec > HardLine.tv_sec)
+		//If we cross a hard line give up
+		if (Time::IsGreater(&CurrentTime, &HardLine))
 			return false;
 
 		//If keepalive is flagged
