@@ -32,6 +32,8 @@ libtool
 .libs
 *.log
 *.trs
+docs/Doxyfile
+docs/doxyfile.stamp
 tests/PIDFile
 tests/Queueing
 tests/StringCheck

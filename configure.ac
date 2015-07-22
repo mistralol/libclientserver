@@ -13,14 +13,23 @@ AC_PROG_LIBTOOL
 
 AC_SUBST([AM_CXXFLAGS], ["-Wall -Werror"])
 
-AC_OUTPUT(Makefile src/Makefile examples/Makefile tests/Makefile)
-
 
 AC_CHECK_HEADER_STDBOOL()
-
 
 AC_TYPE_SIZE_T
 AC_TYPE_UINT64_T
 
 AC_CHECK_FUNCS([localtime_r])
+
+
+AC_CHECK_PROGS([DOXYGEN], [doxygen])
+if test -z "$DOXYGEN";
+   then AC_MSG_WARN([Doxygen not found - continuing without Doxygen support])
+fi
+
+
+AM_CONDITIONAL([HAVE_DOXYGEN], [test -n "$DOXYGEN"])AM_COND_IF([HAVE_DOXYGEN], [AC_CONFIG_FILES([docs/Doxyfile])])
+
+
+AC_OUTPUT(Makefile src/Makefile examples/Makefile tests/Makefile docs/Makefile)
 
