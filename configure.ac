@@ -22,10 +22,13 @@ AC_TYPE_UINT64_T
 AC_CHECK_FUNCS([localtime_r])
 
 
-AC_CHECK_PROGS([DOXYGEN], [doxygen])
-if test -z "$DOXYGEN";
-   then AC_MSG_WARN([Doxygen not found - continuing without Doxygen support])
-fi
+AC_ARG_ENABLE([docs], AS_HELP_STRING([--enable-docs], [Enable docs to be built using doxygen]))
+AS_IF([test "x$enable_docs" = "xyes"], [
+  AC_CHECK_PROGS([DOXYGEN], [doxygen])
+  if test -z "$DOXYGEN";
+     then AC_MSG_ERROR([Doxygen requested but not found])
+  fi
+])
 
 
 AM_CONDITIONAL([HAVE_DOXYGEN], [test -n "$DOXYGEN"])AM_COND_IF([HAVE_DOXYGEN], [AC_CONFIG_FILES([docs/Doxyfile])])
