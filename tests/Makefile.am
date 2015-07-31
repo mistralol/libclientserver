@@ -21,6 +21,7 @@ TESTS=PIDFile \
 	TestFileRead \
 	TestFileSync \
 	TestFileWrite \
+	TestDirSync \
 	TestNotify \
 	TestPoller \
 	TestProcess \
@@ -49,6 +50,7 @@ check_PROGRAMS=PIDFile \
 	TestFileRead \
 	TestFileSync \
 	TestFileWrite \
+	TestDirSync \
 	TestNotify \
 	TestPoller \
 	TestProcess \
@@ -78,6 +80,7 @@ TestFileExists_SOURCES=TestFileExists.cpp
 TestFileRead_SOURCES=TestFileRead.cpp
 TestFileSync_SOURCES=TestFileSync.cpp
 TestFileWrite_SOURCES=TestFileWrite.cpp
+TestDirSync_SOURCES=TestDirSync.cpp
 TestNotify_SOURCES=TestNotify.cpp
 TestPoller_SOURCES=TestPoller.cpp
 TestProcess_SOURCES=TestProcess.cpp

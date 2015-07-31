@@ -15,6 +15,7 @@
 #include <signal.h>
 #include <limits.h>
 #include <poll.h>
+#include <dirent.h>
 
 #include <errno.h>
 #include <fcntl.h>
@@ -46,6 +47,7 @@
 #include <libclientserver/Buffer.h>
 #include <libclientserver/Barrier.h>
 #include <libclientserver/FileUtil.h>
+#include <libclientserver/DirUtil.h>
 #include <libclientserver/ISignalHandler.h>
 #include <libclientserver/SignalHandler.h>
 

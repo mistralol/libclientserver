@@ -52,6 +52,7 @@ tests/TestFileExists
 tests/TestFileRead
 tests/TestFileSync
 tests/TestFileWrite
+tests/TestDirSync
 tests/TestNotify
 tests/TestPoller
 tests/TestProcess

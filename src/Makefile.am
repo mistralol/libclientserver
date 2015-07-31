@@ -20,6 +20,7 @@ libclientserver_la_SOURCES= Barrier.cpp \
 			    TimerAbort.cpp \
 			    Caps.cpp \
 			    FileUtil.cpp \
+			    DirUtil.cpp \
 			    PIDFile.cpp \
 			    RWLock.cpp \
 			    ServerUnixConnection.cpp \
@@ -70,6 +71,7 @@ otherinclude_HEADERS= libclientserver/Barrier.h \
 			libclientserver/Encoder.h \
 			libclientserver/Errno.h \
 			libclientserver/FileUtil.h \
+			libclientserver/DirUtil.h \
 			libclientserver/GroupID.h \
 			libclientserver/IClientHandler.h \
 			libclientserver/IDataType.h \
