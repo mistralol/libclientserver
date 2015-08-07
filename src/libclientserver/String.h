@@ -10,6 +10,9 @@
 class String
 {
 	public:
+		static std::string ToLower(const std::string &str);
+		static std::string ToUpper(const std::string &str);
+	
 		static bool Sanity(const std::string *str);
 		static bool Sanity(const std::string *str, const std::string *extra);
 

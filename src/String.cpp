@@ -1,6 +1,23 @@
 
 #include <libclientserver.h>
 
+std::string String::ToLower(const std::string &str)
+{
+	std::string tmp = "";
+	for(size_t i=0;i<str.size();i++)
+		tmp += tolower(str[i]);
+	return tmp;
+}
+
+std::string String::ToUpper(const std::string &str)
+{
+	std::string tmp = "";
+	for(size_t i=0;i<str.size();i++)
+		tmp += toupper(str[i]);
+	return tmp;
+}
+
+
 /**
  * Sanity
  * @param[in] str The source string
