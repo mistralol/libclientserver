@@ -13,6 +13,18 @@ AC_PROG_LIBTOOL
 
 AC_SUBST([AM_CXXFLAGS], ["-Wall -Werror"])
 
+dnl Check for libcap
+PKG_CHECK_MODULES(CAP, [
+        libcap-ng >= 0.6.6
+], [
+        AC_SUBST(CAP_CFLAGS)
+        AC_SUBST(CAP_LIBS)
+], [
+        AC_MSG_ERROR([
+                You need to install or upgrade libcap-na
+        ])
+])
+
 
 AC_CHECK_HEADER_STDBOOL()
 
