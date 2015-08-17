@@ -33,7 +33,7 @@ class Queue
 
 		T GetNext()
 		{
-			void *tmp = NULL;
+			T tmp = NULL;
 			ScopedLock lock(&m_mutex);
 			while(tmp == NULL)
 			{
