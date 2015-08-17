@@ -44,6 +44,7 @@ libclientserver_la_SOURCES= Barrier.cpp \
 			    ClientUnixSelected.cpp \
 			    ClientUnixSelectedConnection.cpp \
 			    Mutex.cpp \
+			    Semaphore.cpp \
 			    RateLimit.cpp \
 			    ScopedWriteLock.cpp \
 			    ServerUnixSelected.cpp \

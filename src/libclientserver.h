@@ -20,6 +20,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <pthread.h>
+#include <semaphore.h>
 
 #include <sys/wait.h>
 
@@ -41,6 +42,7 @@
 #include <libclientserver/Time.h>
 #include <libclientserver/Mutex.h>
 #include <libclientserver/ScopedLock.h>
+#include <libclientserver/Semaphore.h>
 #include <libclientserver/RWLock.h>
 #include <libclientserver/ScopedReadLock.h>
 #include <libclientserver/ScopedWriteLock.h>
