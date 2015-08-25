@@ -44,6 +44,7 @@ libclientserver_la_SOURCES= Barrier.cpp \
 			    ClientUnixSelected.cpp \
 			    ClientUnixSelectedConnection.cpp \
 			    Mutex.cpp \
+			    Semaphore.cpp \
 			    RateLimit.cpp \
 			    ScopedWriteLock.cpp \
 			    ServerUnixSelected.cpp \
@@ -84,6 +85,7 @@ otherinclude_HEADERS= libclientserver/Barrier.h \
 			libclientserver/ISignalHandler.h \
 			libclientserver/ITimer.h \
 			libclientserver/Mutex.h \
+			libclientserver/Semaphore.h \
 			libclientserver/Notify.h \
 			libclientserver/PerfCounter.h \
 			libclientserver/PerfManager.h \
@@ -91,6 +93,7 @@ otherinclude_HEADERS= libclientserver/Barrier.h \
 			libclientserver/Poller.h \
 			libclientserver/Process.h \
 			libclientserver/Queue.h \
+			libclientserver/SQueue.h \
 			libclientserver/RateLimit.h \
 			libclientserver/Request.h \
 			libclientserver/RequestMapEntry.h \

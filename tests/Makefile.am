@@ -30,7 +30,8 @@ TESTS=PIDFile \
 	TestSignalHandler \
 	TestTimers \
 	ThreadPool \
-	TimerExit
+	TimerExit \
+	TestSemaphore
 
 check_PROGRAMS=PIDFile \
 	Queueing \
@@ -59,7 +60,8 @@ check_PROGRAMS=PIDFile \
 	TestSignalHandler \
 	TestTimers \
 	ThreadPool \
-	TimerExit
+	TimerExit \
+	TestSemaphore
 
 PIDFile_SOURCES=PIDFile.cpp
 
@@ -90,6 +92,6 @@ TestSignalHandler_SOURCES=TestSignalHandler.cpp
 TestTimers_SOURCES=TestTimers.cpp
 ThreadPool_SOURCES=ThreadPool.cpp
 TimerExit_SOURCES=TimerExit.cpp
-
+TestSemaphore_SOURCES=TestSemaphore.cpp
 
 

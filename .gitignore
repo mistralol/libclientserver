@@ -62,4 +62,5 @@ tests/TestSignalHandler
 tests/TestTimers
 tests/ThreadPool
 tests/TimerExit
+tests/TestSemaphore
 
