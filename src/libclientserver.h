@@ -16,6 +16,7 @@
 #include <limits.h>
 #include <poll.h>
 #include <dirent.h>
+#include <pwd.h>
 
 #include <errno.h>
 #include <fcntl.h>
