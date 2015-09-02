@@ -1,4 +1,4 @@
-AC_INIT(libclientserver, 1.0.0, james@stev.org)
+AC_INIT(libclientserver, 1.0.1, james@stev.org)
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_SRCDIR([src/Barrier.cpp])
 AC_CONFIG_MACRO_DIR([m4])
@@ -21,7 +21,7 @@ PKG_CHECK_MODULES(CAP, [
         AC_SUBST(CAP_LIBS)
 ], [
         AC_MSG_ERROR([
-                You need to install or upgrade libcap-na
+                You need to install or upgrade libcap-ng
         ])
 ])
 
