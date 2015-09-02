@@ -46,7 +46,10 @@ uid_t GetUIDFromName(const std::string username)
 
 	struct passwd pwd, *pwd2;
 	if (getpwnam_r(username.c_str(), &pwd, buf, bufsize, &pwd2) < 0)
+	{
+		free(buf);
 		return -errno;
+	}
 
 	uid_t value = pwd.pw_uid;
 	free(buf);
@@ -65,7 +68,10 @@ gid_t GetGIDFromName(const std::string username)
 
 	struct passwd pwd, *pwd2;
 	if (getpwnam_r(username.c_str(), &pwd, buf, bufsize, &pwd2) < 0)
+	{
+		free(buf);
 		return -errno;
+	}
 
 	uid_t value = pwd.pw_gid;
 	free(buf);
