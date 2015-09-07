@@ -9,7 +9,7 @@ Uuid::Uuid()
 Uuid::Uuid(const std::string str)
 {
 	if (uuid_parse(str.c_str(), m_value) < 0)
-		throw;
+		throw(std::runtime_error("Cannot parse Uuid"));
 }
 
 Uuid::~Uuid()

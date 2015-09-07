@@ -6,6 +6,7 @@
 #include <vector>
 #include <stack>
 #include <exception>
+#include <stdexcept>
 
 #include <stdio.h>
 #include <stdlib.h>

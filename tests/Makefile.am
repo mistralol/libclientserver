@@ -1,6 +1,6 @@
 
 AM_CPPFLAGS=-I../src/ $(UUID_CFLAGS)
-LDADD=../src/.libs/libclientserver.a -lcap -lpthread -lrt
+LDADD=../src/.libs/libclientserver.a -lcap -lpthread -lrt -luuid
 CFLAGS=@CHECK_CFLAGS@
 
 TESTS=PIDFile \
@@ -31,7 +31,8 @@ TESTS=PIDFile \
 	TestTimers \
 	ThreadPool \
 	TimerExit \
-	TestSemaphore
+	TestSemaphore \
+	TestUuid
 
 check_PROGRAMS=PIDFile \
 	Queueing \
@@ -61,7 +62,8 @@ check_PROGRAMS=PIDFile \
 	TestTimers \
 	ThreadPool \
 	TimerExit \
-	TestSemaphore
+	TestSemaphore \
+	TestUuid
 
 PIDFile_SOURCES=PIDFile.cpp
 
@@ -93,5 +95,5 @@ TestTimers_SOURCES=TestTimers.cpp
 ThreadPool_SOURCES=ThreadPool.cpp
 TimerExit_SOURCES=TimerExit.cpp
 TestSemaphore_SOURCES=TestSemaphore.cpp
-
+TestUuid_SOURCES=TestUuid.cpp
 

@@ -63,4 +63,5 @@ tests/TestTimers
 tests/ThreadPool
 tests/TimerExit
 tests/TestSemaphore
+tests/TestUuid
 
