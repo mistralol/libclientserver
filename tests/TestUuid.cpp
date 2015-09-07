@@ -29,6 +29,6 @@ int main(int argc, char **argv)
 	}
 	delete id;
 
-	return EXIT_FAILURE;
+	return EXIT_SUCCESS;
 }
 
