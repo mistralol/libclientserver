@@ -32,7 +32,7 @@ class MyTimerExit : public ITimer
 
 		void TimerExpired(Timers *timers, ITimer *timer)
 		{
-			exit(0);
+			_exit(0);
 		}
 };
 
@@ -41,6 +41,8 @@ int main(int argc, char **argv)
 	Timers Tmr;
 
 	Tmr.Start();
+	if (alarm(30) < 0)
+		abort();
 
 	Tmr.Add(new MyTimerExit());
 
