@@ -18,6 +18,8 @@
 #include <dirent.h>
 #include <pwd.h>
 
+#include <uuid.h>
+
 #include <errno.h>
 #include <fcntl.h>
 #include <pthread.h>
@@ -113,6 +115,7 @@
 #include <libclientserver/UserID.h>
 #include <libclientserver/GroupID.h>
 #include <libclientserver/Caps.h>
+#include <libclientserver/Uuid.h>
 
 #include <libclientserver/RateLimit.h>
 

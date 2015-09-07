@@ -2,7 +2,8 @@ AM_CPPFLAGS=
 
 lib_LTLIBRARIES=libclientserver.la
 
-libclientserver_la_LDFLAGS = -version-info 1:0:0
+libclientserver_la_CPPFLAGS=$(UUID_CFLAGS)
+libclientserver_la_LDFLAGS=$(UUID_LIBS) -version-info 1:0:0
 
 libclientserver_la_SOURCES= Barrier.cpp \
 			    Encoder.cpp \
@@ -11,6 +12,7 @@ libclientserver_la_SOURCES= Barrier.cpp \
 			    ServerException.cpp \
 			    SetGid.cpp \
 			    Time.cpp \
+			    Uuid.cpp \
 			    Buffer.cpp \
 			    Errno.cpp \
 			    PerfManager.cpp \

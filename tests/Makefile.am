@@ -1,5 +1,5 @@
 
-AM_CPPFLAGS=-I../src/
+AM_CPPFLAGS=-I../src/ $(UUID_CFLAGS)
 LDADD=../src/.libs/libclientserver.a -lcap -lpthread -lrt
 CFLAGS=@CHECK_CFLAGS@
 

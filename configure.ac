@@ -25,6 +25,18 @@ PKG_CHECK_MODULES(CAP, [
         ])
 ])
 
+dnl Check for libuuid
+PKG_CHECK_MODULES(UUID, [
+        uuid >= 2.25.0
+], [
+        AC_SUBST(UUID_CFLAGS)
+        AC_SUBST(UUID_LIBS)
+], [
+        AC_MSG_ERROR([
+                You need to install or upgrade libuuid
+        ])
+])
+
 
 AC_CHECK_HEADER_STDBOOL()
 
