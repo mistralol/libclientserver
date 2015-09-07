@@ -125,7 +125,8 @@ otherinclude_HEADERS= libclientserver/Barrier.h \
 			libclientserver/TimerAbort.h \
 			libclientserver/TimerFunc.h \
 			libclientserver/Timers.h \
-			libclientserver/UserID.h
+			libclientserver/UserID.h \
+			libclientserver/Uuid.h
 
 
 
