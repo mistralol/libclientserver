@@ -539,3 +539,16 @@ void Time::MonoTonic(struct timeval *tv)
 	TimeSpecToTimeVal(&ts, tv);
 }
 
+void Time::UTCNow(struct timespec *ts)
+{
+	if (clock_gettime(CLOCK_REALTIME, ts) < 0)
+		abort();
+}
+
+void Time::UTCNow(struct timeval *tv)
+{
+	struct timespec ts;
+	UTCNow(&ts);
+	TimeSpecToTimeVal(&ts, tv);
+}
+

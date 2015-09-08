@@ -80,5 +80,8 @@ class Time
 
 		static void MonoTonic(struct timespec *ts);
 		static void MonoTonic(struct timeval *tv);
+		
+		static void UTCNow(struct timespec *ts);
+		static void UTCNow(struct timeval *tv);
 };
 
