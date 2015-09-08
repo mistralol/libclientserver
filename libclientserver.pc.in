@@ -7,7 +7,7 @@ Name: libclientserver
 Description: A C++ Client Server lib toolkit
 URL: http://github.com/mistralol/libclientserver
 Version: @VERSION@
-Requires:
+Requires: uuid
 Libs: -L${libdir} -lclientserver -lcap
 Cflags: -I${includedir}
 
