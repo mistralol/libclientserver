@@ -38,6 +38,7 @@ class Request
 		void SetArg(const std::string Key, unsigned int Value);
 		void SetArg(const std::string Key, bool Value);
 		void SetArg(const std::string Key, std::list<std::string> *lst);
+		void SetArg(const std::string Key, std::vector<std::string> *lst);
 		void RemoveArg(const std::string *Key);
 
 		std::string Encode();

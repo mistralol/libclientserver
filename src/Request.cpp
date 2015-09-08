@@ -119,10 +119,16 @@ bool Request::GetListString(const std::string &Key, std::list<std::string> *lst)
 		return false;
 	std::string str = GetArg(Key);
 	std::list<std::string> src;
-	if (String::Split(&str, ",", &src) == false)
-		return false;
-	std::list<std::string>::iterator it = src.begin();
 	lst->clear();
+	if (String::Split(&str, ",", &src) == false)
+	{
+		//Treat it as a list with a single item
+		if (Decoder::ToStr(str, str) == false)
+			return false;
+		lst->push_back(str);		
+		return true;
+	}
+	std::list<std::string>::iterator it = src.begin();
 	while(it != src.end())
 	{
 		std::string tmp = "";
@@ -142,8 +148,8 @@ bool Request::GetVectorString(const std::string &Key, std::vector<std::string> *
 	vec->clear();
 	while(lst.size() > 0)
 	{
-		std::string tmp = lst.back();
-		lst.pop_back();
+		std::string tmp = lst.front();
+		lst.pop_front();
 		vec->push_back(tmp);
 	}
 	return true;
@@ -198,6 +204,20 @@ void Request::SetArg(const std::string Key, std::list<std::string> *lst)
 {
 	std::stringstream ss;
 	std::list<std::string>::iterator it = lst->begin();
+	while(it != lst->end())
+	{
+		ss << Encoder::ToStr(*it);
+		it++;
+		if (it != lst->end())
+			ss << ",";
+	}
+	SetArg(Key, ss.str());
+}
+
+void Request::SetArg(const std::string Key, std::vector<std::string> *lst)
+{
+	std::stringstream ss;
+	std::vector<std::string>::iterator it = lst->begin();
 	while(it != lst->end())
 	{
 		ss << Encoder::ToStr(*it);

@@ -32,7 +32,8 @@ TESTS=PIDFile \
 	ThreadPool \
 	TimerExit \
 	TestSemaphore \
-	TestUuid
+	TestUuid \
+	TestRequestStringVector
 
 check_PROGRAMS=PIDFile \
 	Queueing \
@@ -63,7 +64,8 @@ check_PROGRAMS=PIDFile \
 	ThreadPool \
 	TimerExit \
 	TestSemaphore \
-	TestUuid
+	TestUuid \
+	TestRequestStringVector
 
 PIDFile_SOURCES=PIDFile.cpp
 
@@ -96,4 +98,6 @@ ThreadPool_SOURCES=ThreadPool.cpp
 TimerExit_SOURCES=TimerExit.cpp
 TestSemaphore_SOURCES=TestSemaphore.cpp
 TestUuid_SOURCES=TestUuid.cpp
+TestRequestStringVector_SOURCES=TestRequestStringVector.cpp
+
 
