@@ -21,10 +21,11 @@ int SetUid::Init()
 
 	if (seteuid(m_uid) < 0)
 	{
-		printf("seteuid failed: %d\n", errno);
-		abort();
+		int err = -errno;
+		if (setuid(m_uid) < 0)
+			abort(); //Cannot restore state
+		return err;
 	}
-
 
 	return true;
 }
