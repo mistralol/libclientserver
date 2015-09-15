@@ -118,6 +118,8 @@
 #include <libclientserver/Caps.h>
 #include <libclientserver/Uuid.h>
 
+#include <libclientserver/Crypto.h>
+
 #include <libclientserver/RateLimit.h>
 
 

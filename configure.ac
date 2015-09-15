@@ -37,6 +37,18 @@ PKG_CHECK_MODULES(UUID, [
         ])
 ])
 
+dnl Check for openssl
+PKG_CHECK_MODULES(OPENSSL, [
+        openssl >= 1.0.1
+], [
+        AC_SUBST(OPENSSL_CFLAGS)
+        AC_SUBST(OPENSSL_LIBS)
+], [
+        AC_MSG_ERROR([
+                You need to install or upgrade openssl
+        ])
+])
+
 
 AC_CHECK_HEADER_STDBOOL()
 

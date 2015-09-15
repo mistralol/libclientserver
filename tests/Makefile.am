@@ -1,6 +1,6 @@
 
-AM_CPPFLAGS=-I../src/ $(UUID_CFLAGS)
-LDADD=../src/.libs/libclientserver.a -lcap -lpthread -lrt -luuid
+AM_CPPFLAGS=-I../src/ $(UUID_CFLAGS) $(OPENSSL_CFLAGS)
+LDADD=../src/.libs/libclientserver.a -lcap -lpthread -lrt $(UUID_LIBS) $(OPENSSL_LIBS)
 CFLAGS=@CHECK_CFLAGS@
 
 TESTS=PIDFile \
@@ -33,7 +33,8 @@ TESTS=PIDFile \
 	TimerExit \
 	TestSemaphore \
 	TestUuid \
-	TestRequestStringVector
+	TestRequestStringVector \
+	TestSHA1
 
 check_PROGRAMS=PIDFile \
 	Queueing \
@@ -65,10 +66,10 @@ check_PROGRAMS=PIDFile \
 	TimerExit \
 	TestSemaphore \
 	TestUuid \
-	TestRequestStringVector
+	TestRequestStringVector \
+	TestSHA1
 
 PIDFile_SOURCES=PIDFile.cpp
-
 Queueing_SOURCES=Queueing.cpp
 StringCheck_SOURCES=StringCheck.cpp
 StringChomp_SOURCES=StringChomp.cpp
@@ -99,5 +100,6 @@ TimerExit_SOURCES=TimerExit.cpp
 TestSemaphore_SOURCES=TestSemaphore.cpp
 TestUuid_SOURCES=TestUuid.cpp
 TestRequestStringVector_SOURCES=TestRequestStringVector.cpp
+TestSHA1_SOURCES=TestSHA1.cpp
 
 

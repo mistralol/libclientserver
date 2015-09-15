@@ -2,8 +2,8 @@ AM_CPPFLAGS=
 
 lib_LTLIBRARIES=libclientserver.la
 
-libclientserver_la_CPPFLAGS=$(UUID_CFLAGS)
-libclientserver_la_LDFLAGS=$(UUID_LIBS) -version-info 1:0:0
+libclientserver_la_CPPFLAGS=$(UUID_CFLAGS) $(OPENSSL_CFLAGS)
+libclientserver_la_LDFLAGS=$(UUID_LIBS) $(OPENSSL_LIBS) -version-info 1:0:0
 
 libclientserver_la_SOURCES= Barrier.cpp \
 			    Encoder.cpp \
@@ -55,7 +55,8 @@ libclientserver_la_SOURCES= Barrier.cpp \
 			    Notify.cpp \
 			    Selector.cpp \
 			    ServerUnixSelectedListener.cpp \
-			    ThreadPoolThread.cpp
+			    ThreadPoolThread.cpp \
+			    Crypto.cpp
 
 
 include_HEADERS=libclientserver.h
@@ -126,7 +127,8 @@ otherinclude_HEADERS= libclientserver/Barrier.h \
 			libclientserver/TimerFunc.h \
 			libclientserver/Timers.h \
 			libclientserver/UserID.h \
-			libclientserver/Uuid.h
+			libclientserver/Uuid.h \
+			libclientserver/Crypto.h
 
 
 
