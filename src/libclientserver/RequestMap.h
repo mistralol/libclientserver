@@ -19,16 +19,18 @@ class RequestMap
 		RequestMap();
 		~RequestMap();
 
-		void Add(struct RequestMapEntry *Entry);
-		void Remove(struct RequestMapEntry *Entry);
-		bool Exists(struct RequestMapEntry *Entry);
+		void Add(RequestMapEntry *Entry);
+		void Remove(RequestMapEntry *Entry);
+		bool Exists(RequestMapEntry *Entry);
 
-		bool Wait(struct RequestMapEntry *Entry, const struct timespec *SoftTimeout, const struct timespec *HardTimeout);
+		bool IsComplete(RequestMapEntry *Entry);
+
+		bool Wait(RequestMapEntry *Entry, const struct timespec *SoftTimeout, const struct timespec *HardTimeout);
 		bool WakeUp(Request *response);
 		bool KeepAlive(Request *response);
 
 	private:
-		std::map<uint64_t, struct RequestMapEntry *> m_map;
+		std::map<uint64_t, RequestMapEntry *> m_map;
 		Mutex m_Mutex;
 };
 
