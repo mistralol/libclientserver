@@ -31,6 +31,7 @@ class Request
 		bool GetString(const std::string &Key, std::string *str);
 		bool GetListString(const std::string &Key, std::list<std::string> *lst);
 		bool GetVectorString(const std::string &Key, std::vector<std::string> *lst);
+		bool GetTimeSpec(const std::string &Key, struct timespec *ts);
 		void SetArg(const std::string *Key, const std::string *Value);
 		void SetArg(const std::string Key, const std::string Value);
 		void SetArg(const std::string Key, const std::string *Value);
@@ -39,6 +40,7 @@ class Request
 		void SetArg(const std::string Key, bool Value);
 		void SetArg(const std::string Key, std::list<std::string> *lst);
 		void SetArg(const std::string Key, std::vector<std::string> *lst);
+		void SetArg(const std::string Key, const timespec *ts);
 		void RemoveArg(const std::string *Key);
 
 		std::string Encode();

@@ -155,6 +155,15 @@ bool Request::GetVectorString(const std::string &Key, std::vector<std::string> *
 	return true;
 }
 
+bool Request::GetTimeSpec(const std::string &Key, struct timespec *ts)
+{
+	if (GetInt(Key + ".tv_sec", (int *) &ts->tv_sec) == false)
+		return false;
+	if (GetInt(Key + ".tv_nsec", (int *) &ts->tv_nsec) == false)
+		return false;
+	return true;
+}
+
 void Request::SetArg(const std::string *Key, const std::string *Value)
 {
 	m_args[*Key] = *Value;
@@ -226,6 +235,14 @@ void Request::SetArg(const std::string Key, std::vector<std::string> *lst)
 			ss << ",";
 	}
 	SetArg(Key, ss.str());
+}
+
+void Request::SetArg(const std::string Key, const timespec *ts)
+{
+	//FIXME: Remove Casts also fix the get
+	SetArg(Key, "0"); //So that HasArg works
+	SetArg(Key + ".tv_sec", (int) ts->tv_sec);
+	SetArg(Key + ".tv_nsec", (int) ts->tv_nsec);
 }
 
 void Request::RemoveArg(const std::string *Key)
