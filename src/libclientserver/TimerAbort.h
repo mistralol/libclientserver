@@ -4,11 +4,11 @@ class TimerAbort : public ITimer
 	public:
 		TimerAbort(int seconds);
 
-		time_t GetDelay();
+		void GetDelay(struct timespec *ts);
 		void TimerExpired(Timers *timers, ITimer *timer);
 
 	private:
-		int m_seconds;
+		struct timespec m_timeout;
 		
 };
 

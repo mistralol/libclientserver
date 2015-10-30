@@ -3,14 +3,15 @@
 
 TimerFunc::TimerFunc(int seconds, void (*func) (void *), void *arg)
 {
-	m_seconds = seconds;
+	m_timeout.tv_sec = seconds;
+	m_timeout.tv_nsec = 0;
 	m_func = func;
 	m_arg = arg;
 }
 
-time_t TimerFunc::GetDelay()
+void TimerFunc::GetDelay(struct timespec *ts)
 {
-	return m_seconds;
+	*ts = m_timeout;
 }
 
 void TimerFunc::TimerExpired(Timers *timers, ITimer *timer)

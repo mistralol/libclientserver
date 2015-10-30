@@ -3,12 +3,13 @@
 
 TimerAbort::TimerAbort(int seconds)
 {
-	m_seconds = seconds;
+	m_timeout.tv_sec = seconds;
+	m_timeout.tv_nsec = 0;
 }
 
-time_t TimerAbort::GetDelay()
+void TimerAbort::GetDelay(struct timespec *ts)
 {
-	return m_seconds;
+	*ts = m_timeout;
 }
 
 void TimerAbort::TimerExpired(Timers *timers, ITimer *timer)

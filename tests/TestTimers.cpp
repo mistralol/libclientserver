@@ -13,9 +13,10 @@ class MyFireTimer : public ITimer
 			m_id = id;
 		}
 
-		time_t GetDelay()
+		void GetDelay(struct timespec *ts)
 		{
-			return m_id;
+			ts->tv_sec = m_id;
+			ts->tv_nsec = 0;
 		}
 
 		void TimerExpired(Timers *timers, ITimer *timer)
@@ -34,9 +35,10 @@ class MyDelTimer : public ITimer
 			m_id = id;
 		}
 
-		time_t GetDelay()
+		void GetDelay(struct timespec *ts)
 		{
-			return m_id;
+			ts->tv_sec = m_id;
+			ts->tv_nsec = 0;
 		}
 
 		void TimerExpired(Timers *timers, ITimer *timer)
@@ -56,9 +58,10 @@ class MyTimer : public ITimer
 			m_id = id;
 		}
 
-		time_t GetDelay()
+		void GetDelay(struct timespec *ts)
 		{
-			return m_id;
+			ts->tv_sec = m_id;
+			ts->tv_nsec = 0;
 		}
 
 		void TimerExpired(Timers *timers, ITimer *timer)
