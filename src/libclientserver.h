@@ -56,6 +56,7 @@
 #include <libclientserver/DirUtil.h>
 #include <libclientserver/ISignalHandler.h>
 #include <libclientserver/SignalHandler.h>
+#include <libclientserver/ScopedSignalBlock.h>
 
 #include <libclientserver/ITimer.h>
 #include <libclientserver/Timers.h>

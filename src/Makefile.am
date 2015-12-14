@@ -27,6 +27,7 @@ libclientserver_la_SOURCES= Barrier.cpp \
 			    RWLock.cpp \
 			    ServerUnixConnection.cpp \
 			    SignalHandler.cpp \
+			    ScopedSignalBlock.cpp \
 			    TimerFunc.cpp \
 			    ClientBase.cpp \
 			    GroupID.cpp \
