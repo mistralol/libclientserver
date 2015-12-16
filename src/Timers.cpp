@@ -12,17 +12,16 @@ void Timers::Stop()
 	if (m_timers.size() != 0)
 		abort(); //We still have active timers
 	m_run = false;
+	m_mutex.Lock();
 	m_mutex.WakeUp(); //Tell thread to wakeup and exit
+	m_mutex.Unlock();
 	Thread::Stop();
 }
 
 void Timers::Add(ITimer *timer)
 {
-	ScopedLock lock(&m_mutex);
-
 	struct timespec ts;
-	if (clock_gettime(CLOCK_MONOTONIC, &ts) != 0)
-		abort();
+	Time::MonoTonic(&ts);
 
 	struct timespec timeout;
 	timer->GetDelay(&timeout);
@@ -31,6 +30,7 @@ void Timers::Add(ITimer *timer)
 	Time::Add(&ts, &timeout, &expire);
 
 	unsigned long long curtime = Time::NanoSeconds(&expire);
+	ScopedLock lock(&m_mutex);
 	m_timers.insert( std::pair<unsigned long long, ITimer *>(curtime, timer) );
 	m_mutex.WakeUp();
 }
@@ -57,8 +57,7 @@ void Timers::Run()
 	while(m_run == true)
 	{
 		struct timespec ts;
-		if (clock_gettime(CLOCK_MONOTONIC, &ts) != 0)
-			abort();
+		Time::MonoTonic(&ts);
 
 		unsigned long long curtime = Time::NanoSeconds(&ts);
 
@@ -77,10 +76,15 @@ void Timers::Run()
 			m_mutex.Wait(&delay);
 		}
 
+		//We were asleep an unlocked. So thing things may have changed.
 		it = m_timers.begin();
 		if (it == m_timers.end())
 			continue; //All timers we removed while we were sleeping
-		
+
+		//Get current time *again*
+		Time::MonoTonic(&ts);
+		curtime = Time::NanoSeconds(&ts);
+
 		if (curtime >= it->first)
 		{
 			ITimer *timer = it->second;
