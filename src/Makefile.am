@@ -87,6 +87,7 @@ otherinclude_HEADERS= libclientserver/Barrier.h \
 			libclientserver/IServer.h \
 			libclientserver/IServerHandler.h \
 			libclientserver/ISignalHandler.h \
+			libclientserver/ScopedSignalBlock.h \
 			libclientserver/ITimer.h \
 			libclientserver/Mutex.h \
 			libclientserver/Semaphore.h \
