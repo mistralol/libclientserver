@@ -80,6 +80,13 @@ bool ServerManager::ProcessLine(IServerConnection *Connection, const std::string
 			tmp.SetArg("_ERROR", e.GetErrorMessage());
 			response = tmp;
 		}
+		catch(std::exception &e)
+		{
+			Request tmp;
+			std::string msg = e.what();
+			tmp.SetArg("_EXCEPTION", msg);
+			response = tmp;
+		}
 
 		response.SetCommand(request.GetCommand());
 		response.SetID(request.GetID());

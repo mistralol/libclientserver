@@ -162,6 +162,11 @@ int ClientBase::SendRequest(Request *request, Request *response, const struct ti
 			return -EINVAL;
 		return myerr;
 	}
+	if (response->HasArg("_EXCEPTION"))
+	{
+		std::string msg = response->GetArg("_EXCEPTION");
+		throw(ServerException(0, msg));
+	}
 	else
 	{
 		abort(); //This is a bug - Note the fact that this calls abort. The fact that you should never reach here!

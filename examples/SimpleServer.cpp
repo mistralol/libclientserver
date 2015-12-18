@@ -43,6 +43,12 @@ public:
 
 		printf("%s\n", ss.str().c_str());
 */
+		if (Command == "THROW")
+		{
+			printf("Doing Throw\n");
+			throw(std::runtime_error("TestException"));
+		}
+
 		if (Command == "PING")
 			return 0;
 

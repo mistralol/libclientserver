@@ -13,6 +13,15 @@ int Ping(ClientBase *Client)
 	return Client->SendRequest(&request, &response);
 }
 
+int Throw(ClientBase *Client)
+{
+	PerfCounter PC("Throw");
+	Request request;
+	Request response;
+	request.SetCommand("THROW");
+	return Client->SendRequest(&request, &response);
+}
+
 int PingNoPerf(ClientBase *Client)
 {
 	Request request;
@@ -82,6 +91,14 @@ int main(int argc, char **argv)
 	printf("Connecting\n");
 	Client->WaitForConnect();
 	printf("Connected\n");
+
+	try
+	{
+		Throw(Client);
+	} catch(ServerException &e)
+	{
+		printf("TestException: %s\n", e.what());
+	}
 
 	for(int i=0;i<5;i++)
 	{
