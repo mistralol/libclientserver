@@ -48,7 +48,7 @@ PKG_CHECK_MODULES(OPENSSL, [
         AC_SUBST(OPENSSL_LIBS)
 ], [
         AC_MSG_ERROR([
-                You need to install or upgrade openssl
+                You need to install or upgrade openssl or libssl-dev
         ])
 ])
 
