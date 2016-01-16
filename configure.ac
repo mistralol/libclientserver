@@ -24,7 +24,7 @@ PKG_CHECK_MODULES(CAP, [
         AC_SUBST(CAP_LIBS)
 ], [
         AC_MSG_ERROR([
-                You need to install or upgrade libcap-ng
+                You need to install or upgrade libcap-ng-dev
         ])
 ])
 
