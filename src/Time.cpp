@@ -152,12 +152,12 @@ unsigned long long Time::NanoSeconds(const struct timeval *ts)
 	return result;
 }
 
-unsigned long long Time::Microseconds(const struct timespec *ts)
+unsigned long long Time::MicroSeconds(const struct timespec *ts)
 {
 	return NanoSeconds(ts) / 1000;
 }
 
-unsigned long long Time::Microseconds(const struct timeval *ts)
+unsigned long long Time::MicroSeconds(const struct timeval *ts)
 {
 	return NanoSeconds(ts) / 1000;
 }

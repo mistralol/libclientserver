@@ -33,8 +33,8 @@ class Time
 		static unsigned long long NanoSeconds(const struct timespec *ts);
 		static unsigned long long NanoSeconds(const struct timeval *ts);
 
-		static unsigned long long Microseconds(const struct timespec *ts);
-		static unsigned long long Microseconds(const struct timeval *ts);
+		static unsigned long long MicroSeconds(const struct timespec *ts);
+		static unsigned long long MicroSeconds(const struct timeval *ts);
 
 		static unsigned long long MilliSeconds(const struct timespec *ts);
 		static unsigned long long MilliSeconds(const struct timeval *ts);
