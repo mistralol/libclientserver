@@ -123,9 +123,10 @@ bool Request::GetListString(const std::string &Key, std::list<std::string> *lst)
 	if (String::Split(&str, ",", &src) == false)
 	{
 		//Treat it as a list with a single item
-		if (Decoder::ToStr(str, str) == false)
+		std::string tmp;
+		if (Decoder::ToStr(str, tmp) == false)
 			return false;
-		lst->push_back(str);		
+		lst->push_back(tmp);
 		return true;
 	}
 	std::list<std::string>::iterator it = src.begin();
@@ -298,7 +299,8 @@ bool Request::Decode(const std::string *str)
 		for(std::map<std::string, std::string>::iterator it = m_args.begin(); it != m_args.end(); it++)
 		{
 			std::string tmp;
-			Decoder::ToStr(it->second, tmp);
+			if (Decoder::ToStr(it->second, tmp) == false)
+				return false;
 			it->second = tmp;
 		}
 	}
