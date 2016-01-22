@@ -155,17 +155,18 @@ int ClientBase::SendRequest(Request *request, Request *response, const struct ti
 	if (Entry.ValidResponse == false)
 		return -ETIMEDOUT;
 
+	if (response->HasArg("_EXCEPTION"))
+	{
+		std::string msg = response->GetArg("_EXCEPTION");
+		throw(ServerException(0, msg));
+	}
+
 	if (response->HasArg("_ERRNO"))
 	{
 		int myerr = 0;
 		if (Decoder::ToInt(response->GetArg("_ERRNO"), &myerr) == false)
 			return -EINVAL;
 		return myerr;
-	}
-	if (response->HasArg("_EXCEPTION"))
-	{
-		std::string msg = response->GetArg("_EXCEPTION");
-		throw(ServerException(0, msg));
 	}
 	else
 	{
