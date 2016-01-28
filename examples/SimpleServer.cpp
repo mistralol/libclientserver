@@ -90,7 +90,8 @@ void Start()
 	ServerManager Manager(&SrvHandler);
 	
 //	ServerUnix Unix("/tmp/SimpleServer");
-	ServerUnixSelected Unix("/tmp/SimpleServer");
+//	ServerUnixSelected Unix("/tmp/SimpleServer");
+	ServerUnixPolled Unix("/tmp/SimpleServer");
 	
 	Manager.ServerAdd(&Unix);
 	SrvHandler.Wait();

@@ -26,6 +26,12 @@ libclientserver_la_SOURCES= Barrier.cpp \
 			    PIDFile.cpp \
 			    RWLock.cpp \
 			    ServerUnixConnection.cpp \
+			    ServerUnixSelected.cpp \
+    			    ServerUnixSelectedConnection.cpp \
+    			    ServerUnixSelectedListener.cpp \
+    			    ServerUnixPolled.cpp \
+    			    ServerUnixPolledConnection.cpp \
+    			    ServerUnixPolledListener.cpp \
 			    SignalHandler.cpp \
 			    ScopedSignalBlock.cpp \
 			    TimerFunc.cpp \
@@ -40,7 +46,6 @@ libclientserver_la_SOURCES= Barrier.cpp \
 			    IServer.cpp \
 			    Process.cpp \
 			    ScopedReadLock.cpp \
-			    ServerUnixSelectedConnection.cpp \
 			    Thread.cpp \
 			    UserID.cpp \
 			    ClientUnix.cpp \
@@ -50,12 +55,10 @@ libclientserver_la_SOURCES= Barrier.cpp \
 			    Semaphore.cpp \
 			    RateLimit.cpp \
 			    ScopedWriteLock.cpp \
-			    ServerUnixSelected.cpp \
 			    ThreadPool.cpp \
 			    Decoder.cpp \
 			    Notify.cpp \
 			    Selector.cpp \
-			    ServerUnixSelectedListener.cpp \
 			    ThreadPoolThread.cpp \
 			    Crypto.cpp
 

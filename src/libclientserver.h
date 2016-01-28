@@ -87,9 +87,13 @@
 #include <libclientserver/ServerUnixSelected.h>
 #include <libclientserver/ServerUnixSelectedListener.h>
 
+#include <libclientserver/ServerUnixPolled.h>
+#include <libclientserver/ServerUnixPolledListener.h>
+
 #include <libclientserver/IServerConnection.h>
 #include <libclientserver/ServerUnixConnection.h>
 #include <libclientserver/ServerUnixSelectedConnection.h>
+#include <libclientserver/ServerUnixPolledConnection.h>
 
 #include <libclientserver/IServerHandler.h>
 #include <libclientserver/ServerManager.h>
