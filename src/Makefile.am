@@ -119,6 +119,9 @@ otherinclude_HEADERS= libclientserver/Barrier.h \
 			libclientserver/ServerUnixSelectedConnection.h \
 			libclientserver/ServerUnixSelected.h \
 			libclientserver/ServerUnixSelectedListener.h \
+			libclientserver/ServerUnixPolledConnection.h \
+			libclientserver/ServerUnixPolled.h \
+			libclientserver/ServerUnixPolledListener.h \
 			libclientserver/SetGid.h \
 			libclientserver/SetUid.h \
 			libclientserver/SetUser.h \
