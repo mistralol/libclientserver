@@ -2,3 +2,21 @@ libclientserver
 ===============
 
 Client Server Lib for C++
+
+Introduction
+
+libclientsever provides a framework for implementing rpc based backend services as
+well as a set of supporting functions to make this somewhat easyier to do. It is targeted
+at embedded platforms to the number of 3rdparty library dependandcies will be kept at a minimum.
+
+To Build / Install this library on ubuntu a number of packages are required.
+
+* uuid-dev
+* libcap-dev
+* libssl-dev
+* autoconf
+* autoconf-archive
+* libtool
+
+
+
