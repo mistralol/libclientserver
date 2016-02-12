@@ -36,7 +36,7 @@ PKG_CHECK_MODULES(UUID, [
         AC_SUBST(UUID_LIBS)
 ], [
         AC_MSG_ERROR([
-                You need to install or upgrade libuuid
+                You need to install or upgrade uuid-dev
         ])
 ])
 
