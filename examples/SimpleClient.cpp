@@ -147,7 +147,7 @@ int main(int argc, char **argv)
 		struct timespec ttime, tsingle;
 		Time::Sub(&tend, &tstart, &ttime);
 		Time::Divide(&ttime, count, &tsingle);
-		printf("Threads: %d TotalRequests: %d TotalTime: %llu (MS) Time Per Call: %llu (MS) OR %llu (NS)\n", i, count, Time::MilliSeconds(&ttime), Time::MilliSeconds(&tsingle), Time::NanoSeconds(&tsingle));
+		printf("Threads: %d TotalRequests: %d TotalTime: %" PRIu64 " (MS) Time Per Call: %" PRIu64 " (MS) OR %" PRIu64 " (NS)\n", i, count, Time::MilliSeconds(&ttime), Time::MilliSeconds(&tsingle), Time::NanoSeconds(&tsingle));
 
 	}
 
