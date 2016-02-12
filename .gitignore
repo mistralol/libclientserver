@@ -66,5 +66,6 @@ tests/TestSemaphore
 tests/TestUuid
 tests/TestRequestStringVector
 tests/TestSHA1
+tests/TestTimeNanoSeconds
 examples/PollerListen
 

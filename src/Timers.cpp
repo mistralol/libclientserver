@@ -29,16 +29,16 @@ void Timers::Add(ITimer *timer)
 	struct timespec expire;
 	Time::Add(&ts, &timeout, &expire);
 
-	unsigned long long curtime = Time::NanoSeconds(&expire);
+	uint64_t curtime = Time::NanoSeconds(&expire);
 	ScopedLock lock(&m_mutex);
-	m_timers.insert( std::pair<unsigned long long, ITimer *>(curtime, timer) );
+	m_timers.insert( std::pair<uint64_t, ITimer *>(curtime, timer) );
 	m_mutex.WakeUp();
 }
 
 void Timers::Remove(ITimer *timer)
 {
 	ScopedLock lock(&m_mutex);
-	std::multimap<unsigned long long, ITimer *>::iterator it = m_timers.begin();
+	std::multimap<uint64_t, ITimer *>::iterator it = m_timers.begin();
 	while(it != m_timers.end())
 	{
 		if (it->second == timer)
@@ -59,9 +59,9 @@ void Timers::Run()
 		struct timespec ts;
 		Time::MonoTonic(&ts);
 
-		unsigned long long curtime = Time::NanoSeconds(&ts);
+		uint64_t curtime = Time::NanoSeconds(&ts);
 
-		std::multimap<unsigned long long, ITimer *>::iterator it = m_timers.begin();
+		std::multimap<uint64_t, ITimer *>::iterator it = m_timers.begin();
 		if (it == m_timers.end())
 		{
 			m_mutex.Wait(); //Wait forever on empty list until told otherwise
@@ -70,7 +70,7 @@ void Timers::Run()
 
 		if (curtime < it->first)
 		{
-			unsigned long long diff = it->first - curtime;
+			uint64_t diff = it->first - curtime;
 			struct timespec delay;
 			Time::TimeSpecFromNanoSeconds(diff, &delay);
 			m_mutex.Wait(&delay);

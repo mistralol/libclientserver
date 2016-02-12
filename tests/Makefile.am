@@ -34,7 +34,8 @@ TESTS=PIDFile \
 	TestSemaphore \
 	TestUuid \
 	TestRequestStringVector \
-	TestSHA1
+	TestSHA1 \
+	TestTimeNanoSeconds
 
 check_PROGRAMS=PIDFile \
 	Queueing \
@@ -67,7 +68,8 @@ check_PROGRAMS=PIDFile \
 	TestSemaphore \
 	TestUuid \
 	TestRequestStringVector \
-	TestSHA1
+	TestSHA1 \
+	TestTimeNanoSeconds
 
 PIDFile_SOURCES=PIDFile.cpp
 Queueing_SOURCES=Queueing.cpp
@@ -101,5 +103,5 @@ TestSemaphore_SOURCES=TestSemaphore.cpp
 TestUuid_SOURCES=TestUuid.cpp
 TestRequestStringVector_SOURCES=TestRequestStringVector.cpp
 TestSHA1_SOURCES=TestSHA1.cpp
-
+TestTimeNanoSeconds_SOURCES=TestTimeNanoSeconds.cpp
 

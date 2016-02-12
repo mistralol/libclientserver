@@ -14,7 +14,7 @@ class Timers : protected Thread
 		void Run();
 
 	private:
-		std::multimap<unsigned long long, ITimer *> m_timers;
+		std::multimap<uint64_t, ITimer *> m_timers;
 		bool m_run;
 		Mutex m_mutex;
 };

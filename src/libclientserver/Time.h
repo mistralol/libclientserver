@@ -14,42 +14,42 @@ class Time
 		static void TimeSpecToTimeVal(const struct timespec *ts, struct timeval *tv);
 		static void TimeValtoTimeSpec(const struct timeval *tv, struct timespec *ts);
 
-		static void TimeSpecFromNanoSeconds(unsigned long long val, struct timespec *ts);
-		static void TimeSpecFromMicroSeconds(unsigned long long val, struct timespec *ts);
-		static void TimeSpecFromMilliSeconds(unsigned long long val, struct timespec *ts);
-		static void TimeSpecFromSeconds(unsigned long long val, struct timespec *ts);
-		static void TimeSpecFromMinutes(unsigned long long val, struct timespec *ts);
-		static void TimeSpecFromHours(unsigned long long val, struct timespec *ts);
-		static void TimeSpecFromDays(unsigned long long val, struct timespec *ts);
+		static void TimeSpecFromNanoSeconds(uint64_t, struct timespec *ts);
+		static void TimeSpecFromMicroSeconds(uint64_t, struct timespec *ts);
+		static void TimeSpecFromMilliSeconds(uint64_t, struct timespec *ts);
+		static void TimeSpecFromSeconds(uint64_t, struct timespec *ts);
+		static void TimeSpecFromMinutes(uint64_t, struct timespec *ts);
+		static void TimeSpecFromHours(uint64_t, struct timespec *ts);
+		static void TimeSpecFromDays(uint64_t, struct timespec *ts);
 
-		static void TimeValFromNanoSeconds(unsigned long long val, struct timeval *ts);
-		static void TimeValFromMicroSeconds(unsigned long long val, struct timeval *ts);
-		static void TimeValFromMilliSeconds(unsigned long long val, struct timeval *ts);
-		static void TimeValFromSeconds(unsigned long long val, struct timeval *ts);
-		static void TimeValFromMinutes(unsigned long long val, struct timeval *ts);
-		static void TimeValFromHours(unsigned long long val, struct timeval *ts);
-		static void TimeValFromDays(unsigned long long val, struct timeval *ts);
+		static void TimeValFromNanoSeconds(uint64_t, struct timeval *ts);
+		static void TimeValFromMicroSeconds(uint64_t, struct timeval *ts);
+		static void TimeValFromMilliSeconds(uint64_t, struct timeval *ts);
+		static void TimeValFromSeconds(uint64_t, struct timeval *ts);
+		static void TimeValFromMinutes(uint64_t, struct timeval *ts);
+		static void TimeValFromHours(uint64_t, struct timeval *ts);
+		static void TimeValFromDays(uint64_t, struct timeval *ts);
 
-		static unsigned long long NanoSeconds(const struct timespec *ts);
-		static unsigned long long NanoSeconds(const struct timeval *ts);
+		static uint64_t NanoSeconds(const struct timespec *ts);
+		static uint64_t NanoSeconds(const struct timeval *ts);
 
-		static unsigned long long MicroSeconds(const struct timespec *ts);
-		static unsigned long long MicroSeconds(const struct timeval *ts);
+		static uint64_t MicroSeconds(const struct timespec *ts);
+		static uint64_t MicroSeconds(const struct timeval *ts);
 
-		static unsigned long long MilliSeconds(const struct timespec *ts);
-		static unsigned long long MilliSeconds(const struct timeval *ts);
+		static uint64_t MilliSeconds(const struct timespec *ts);
+		static uint64_t MilliSeconds(const struct timeval *ts);
 
-		static unsigned long long Seconds(const struct timespec *ts);
-		static unsigned long long Seconds(const struct timeval *ts);
+		static uint64_t Seconds(const struct timespec *ts);
+		static uint64_t Seconds(const struct timeval *ts);
 
-		static unsigned long long Minutes(const struct timespec *ts);
-		static unsigned long long Minutes(const struct timeval *ts);
+		static uint64_t Minutes(const struct timespec *ts);
+		static uint64_t Minutes(const struct timeval *ts);
 
-		static unsigned long long Hours(const struct timespec *ts);
-		static unsigned long long Hours(const struct timeval *ts);
+		static uint64_t Hours(const struct timespec *ts);
+		static uint64_t Hours(const struct timeval *ts);
 
-		static unsigned long long Days(const struct timespec *ts);
-		static unsigned long long Days(const struct timeval *ts);
+		static uint64_t Days(const struct timespec *ts);
+		static uint64_t Days(const struct timeval *ts);
 
 		static void Add(const struct timespec *ts1, const struct timespec *ts2, struct timespec *res);
 		static void Add(const struct timeval *tv1, const struct timeval *tv2, struct timeval *res);
