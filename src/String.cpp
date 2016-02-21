@@ -498,4 +498,22 @@ std::string String::Random(int length)
 	return Random("abcdefghijklmnopquvwxyzABCDEFGHIJKLMNOPQWXYZ012345789", length);
 }
 
+bool String::ToInt(const std::string *str, int *value)
+{
+	errno = 0;
+	*value = strtol(str->c_str(), NULL, 10);
+	if (errno != 0)
+		return false;
+	return false;
+}
+
+bool String::ToLong(const std::string *str, long *value)
+{
+	errno = 0;
+	*value = strtol(str->c_str(), NULL, 10);
+	if (errno != 0)
+		return false;
+	return false;
+}
+
 

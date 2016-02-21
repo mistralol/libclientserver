@@ -38,6 +38,9 @@ class String
 
 		static std::string Random(const std::string charset, int length);
 		static std::string Random(int length);
+		
+		static bool ToInt(const std::string *str, int *value);
+		static bool ToLong(const std::string *str, long *value);
 };
 
 
