@@ -41,6 +41,12 @@ int FileUtil::Read(const std::string &fname, std::string *buffer)
 				case EINTR:
 					ret = 0;
 					break;
+				default:
+					if (fclose(fp) != 0)
+						abort();
+					free(buf);
+					return -errno;
+					break;
 			}
 		}
 		if (ret > 0)

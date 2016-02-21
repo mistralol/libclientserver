@@ -99,7 +99,7 @@ bool Decoder::ToUChar(const std::string &str, unsigned char *value)
 	return true;
 }
 
-bool ToTimeSpec(const std::string &str, struct timespec *ts)
+bool Decoder::ToTimeSpec(const std::string &str, struct timespec *ts)
 {
 	std::stringstream ss(str);
 	std::string dummy;
@@ -107,7 +107,7 @@ bool ToTimeSpec(const std::string &str, struct timespec *ts)
 	return true;
 }
 
-bool ToTimeVal(const std::string &str, struct timeval *tv)
+bool Decoder::ToTimeVal(const std::string &str, struct timeval *tv)
 {
 	std::stringstream ss(str);
 	std::string dummy;

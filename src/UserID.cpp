@@ -34,7 +34,7 @@ int UserID::Down()
 	return 0;
 }
 
-uid_t GetUIDFromName(const std::string username)
+uid_t UserID::GetUIDFromName(const std::string username)
 {
 	int bufsize = sysconf(_SC_GETPW_R_SIZE_MAX);
 	if (bufsize < 0)
@@ -56,7 +56,7 @@ uid_t GetUIDFromName(const std::string username)
 	return value;
 }
 
-gid_t GetGIDFromName(const std::string username)
+gid_t UserID::GetGIDFromName(const std::string username)
 {
 	int bufsize = sysconf(_SC_GETPW_R_SIZE_MAX);
 	if (bufsize < 0)

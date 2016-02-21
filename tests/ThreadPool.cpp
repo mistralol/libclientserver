@@ -1,7 +1,7 @@
 
 #include <libclientserver.h>
 
-void func(void *arg)
+static void func(void *arg)
 {
 	//printf("%s\n", (char *) arg);
 }

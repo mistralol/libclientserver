@@ -1,13 +1,13 @@
 
 #include <libclientserver.h>
 
-void Timers::Start()
+Timers::Timers()
 {
 	m_run = true;
 	Thread::Start();
 }
 
-void Timers::Stop()
+Timers::~Timers()
 {
 	if (m_timers.size() != 0)
 		abort(); //We still have active timers

@@ -75,11 +75,8 @@ int main(int argc, char **argv)
 {
 	Timers Tmr;
 	MyTimer x(1);
-	
-	Tmr.Start();
-	
-	if (alarm(30) < 0)
-		abort();
+
+	alarm(30);
 
 	MyFireTimer *f = new MyFireTimer(1);
 	Tmr.Add(f);
@@ -99,8 +96,6 @@ int main(int argc, char **argv)
 	}
 
 	sleep(1);
-
-	Tmr.Stop();
 
 	printf("Passed Races\n");
 

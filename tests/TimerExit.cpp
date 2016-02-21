@@ -42,9 +42,7 @@ int main(int argc, char **argv)
 {
 	Timers Tmr;
 
-	Tmr.Start();
-	if (alarm(30) < 0)
-		abort();
+	alarm(30);
 
 	Tmr.Add(new MyTimerExit());
 
@@ -52,7 +50,6 @@ int main(int argc, char **argv)
 	{
 		Tmr.Add(new MyTimer(i));
 	}
-
 	
 	while(1)
 	{

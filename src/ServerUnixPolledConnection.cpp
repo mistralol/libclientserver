@@ -79,7 +79,7 @@ void ServerUnixPolledConnection::DoWrite(Poller *sel)
 
 void ServerUnixPolledConnection::DoExcept(Poller *)
 {
-	abort(); //Should never be called
+	//Should never be called
 }
 
 void ServerUnixPolledConnection::DoTimeout(Poller *sel)

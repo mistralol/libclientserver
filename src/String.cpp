@@ -231,7 +231,7 @@ bool String::Split(const std::string *str, const std::string delim, std::list<st
 	{
 		lst->push_back(left);
 
-		size_t position = right.find_first_of(delim);
+		position = right.find_first_of(delim);
 		if (position == std::string::npos)
 		{
 			lst->push_back(right);
@@ -321,7 +321,7 @@ bool String::Split(const std::string *str, const std::string delim, std::vector<
 	{
 		lst->push_back(left);
 
-		size_t position = right.find_first_of(delim);
+		position = right.find_first_of(delim);
 		if (position == std::string::npos)
 		{
 			lst->push_back(right);

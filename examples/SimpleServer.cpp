@@ -84,7 +84,7 @@ public:
 
 };
 
-void Start()
+static void Start()
 {
 	Handler SrvHandler;
 	ServerManager Manager(&SrvHandler);

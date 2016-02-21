@@ -200,7 +200,7 @@ int Thread::TotalThreads()
  */
 void Thread::Run()
 {
-	abort();	//You should override this function
+	//You should override this function
 }
 
 /**

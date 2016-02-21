@@ -91,17 +91,17 @@ void ServerUnixPolledListener::DoRead(Poller *sel)
 
 void ServerUnixPolledListener::DoWrite(Poller *)
 {
-	abort(); //Should never be called
+	//Should never be called
 }
 
 void ServerUnixPolledListener::DoExcept(Poller *)
 {
-	abort(); //Should never be called
+	//Should never be called
 }
 
 void ServerUnixPolledListener::DoTimeout(Poller *)
 {
-	abort(); //Should never be called
+	//Should never be called
 }
 
 void ServerUnixPolledListener::DoClose(Poller *sel)
@@ -115,6 +115,6 @@ int ServerUnixPolledListener::GetFD(const Poller *)
 
 void ServerUnixPolledListener::GetTimeout(const Poller *, struct timespec *tv)
 {
-	abort(); //Should never be called
+	//Should never be called
 }
 

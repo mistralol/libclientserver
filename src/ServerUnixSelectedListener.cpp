@@ -91,17 +91,17 @@ void ServerUnixSelectedListener::DoRead(Selector *sel)
 
 void ServerUnixSelectedListener::DoWrite(Selector *)
 {
-	abort(); //Should never be called
+	//Should never be called
 }
 
 void ServerUnixSelectedListener::DoExcept(Selector *)
 {
-	abort(); //Should never be called
+	//Should never be called
 }
 
 void ServerUnixSelectedListener::DoTimeout(Selector *)
 {
-	abort(); //Should never be called
+	//Should never be called
 }
 
 void ServerUnixSelectedListener::DoClose(Selector *sel)
@@ -115,6 +115,6 @@ int ServerUnixSelectedListener::GetFD(const Selector *)
 
 void ServerUnixSelectedListener::GetTimeout(const Selector *, struct timespec *tv)
 {
-	abort(); //Should never be called
+	//Should never be called
 }
 

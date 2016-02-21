@@ -14,7 +14,7 @@ class SignalHandler : Thread
 		void Run();
 
 	private:
-		ISignalHandler *handler;
+		ISignalHandler *m_handler;
 		Mutex m_mutex;
 		bool m_loop;
 		sigset_t m_sigs;

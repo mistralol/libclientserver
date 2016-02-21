@@ -107,9 +107,9 @@ void Poller::UpdateMap(int fd)
 
 		if (ts.tv_sec == 0 && ts.tv_nsec == 0)
 		{
-			std::map<int, struct timespec>::iterator it = m_timeout.find(fd);
-			if (it != m_timeout.end())
-				m_timeout.erase(it);
+			std::map<int, struct timespec>::iterator it2 = m_timeout.find(fd);
+			if (it2 != m_timeout.end())
+				m_timeout.erase(it2);
 		}
 
 		if (clock_gettime(CLOCK_MONOTONIC, &now) < 0)
@@ -276,9 +276,9 @@ void Poller::Run()
 
 						if (ts.tv_sec == 0 && ts.tv_nsec == 0)
 						{
-							std::map<int, struct timespec>::iterator it = m_timeout.find(fds[i].fd);
-							if (it != m_timeout.end())
-								m_timeout.erase(it);
+							std::map<int, struct timespec>::iterator it2 = m_timeout.find(fds[i].fd);
+							if (it2 != m_timeout.end())
+								m_timeout.erase(it2);
 						}
 
 						if (clock_gettime(CLOCK_MONOTONIC, &now) < 0)
@@ -296,9 +296,9 @@ void Poller::Run()
 					}
 					else
 					{
-						std::map<int, struct timespec>::iterator it = m_timeout.find(fds[i].fd);
-						if (it != m_timeout.end())
-							m_timeout.erase(it);
+						std::map<int, struct timespec>::iterator it2 = m_timeout.find(fds[i].fd);
+						if (it2 != m_timeout.end())
+							m_timeout.erase(it2);
 					}
 				}
 			}

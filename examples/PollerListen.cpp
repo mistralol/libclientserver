@@ -179,7 +179,7 @@ class Listen : public IPollable
 			struct sockaddr_in caddr;
 			socklen_t len = sizeof(caddr);
 			int nfd = accept(m_fd, (struct sockaddr *) &caddr, &len);
-			if (accept < 0)
+			if (nfd < 0)
 			{
 				perror("accept");
 				return;

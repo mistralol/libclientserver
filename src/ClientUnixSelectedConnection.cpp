@@ -109,7 +109,7 @@ void ClientUnixSelectedConnection::DoWrite(Selector *p)
 
 void ClientUnixSelectedConnection::DoExcept(Selector *p)
 {
-	abort(); //Should never be called
+	//Should never be called
 }
 
 void ClientUnixSelectedConnection::DoTimeout(Selector *p)

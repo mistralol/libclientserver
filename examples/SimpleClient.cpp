@@ -2,7 +2,7 @@
 
 #include <libclientserver.h>
 
-int Ping(ClientBase *Client)
+static int Ping(ClientBase *Client)
 {
 	PerfCounter PC("PING");
 	Request request;
@@ -13,7 +13,7 @@ int Ping(ClientBase *Client)
 	return Client->SendRequest(&request, &response);
 }
 
-int Throw(ClientBase *Client)
+static int Throw(ClientBase *Client)
 {
 	PerfCounter PC("Throw");
 	Request request;
@@ -22,7 +22,7 @@ int Throw(ClientBase *Client)
 	return Client->SendRequest(&request, &response);
 }
 
-int PingNoPerf(ClientBase *Client)
+static int PingNoPerf(ClientBase *Client)
 {
 	Request request;
 	Request response;
@@ -32,7 +32,8 @@ int PingNoPerf(ClientBase *Client)
 	return Client->SendRequest(&request, &response);
 }
 
-int Quit(ClientBase *Client)
+#if 0
+static int Quit(ClientBase *Client)
 {
 	Request request;
 	Request response;
@@ -42,7 +43,7 @@ int Quit(ClientBase *Client)
 	return Client->SendRequest(&request, &response);
 }
 
-bool TestCommand(ClientBase *Client)
+static bool TestCommand(ClientBase *Client)
 {
 	Request command;
 
@@ -50,6 +51,7 @@ bool TestCommand(ClientBase *Client)
 
 	return Client->SendCommand(&command);
 }
+#endif
 
 class Bench : public Thread
 {

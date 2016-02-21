@@ -1,12 +1,12 @@
 
 
-void SigAlarm(int num)
+static void SigAlarm(int num)
 {
 	printf("Test Timeout!\n");
 	abort();
 }
 
-void TestSetup()
+static void TestSetup()
 {
 	signal(SIGALRM, SigAlarm);
 

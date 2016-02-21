@@ -3,9 +3,9 @@
 class Timers : protected Thread
 {
 	public:
-		void Start();
-		void Stop();
-		
+		Timers();
+		~Timers();
+	
 		void Add(ITimer *timer);
 		void Remove(ITimer *timer);
 

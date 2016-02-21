@@ -3,7 +3,7 @@
 
 SignalHandler::SignalHandler(ISignalHandler *handler)
 {
-	this->handler = handler;
+	m_handler = handler;
 	m_loop = true;
 
 	if (sigemptyset(&m_sigs) < 0)
@@ -85,25 +85,25 @@ void SignalHandler::Run()
 		switch(info.si_signo)
 		{
 			case SIGALRM:
-				handler->SigAlarm(&info);
+				m_handler->SigAlarm(&info);
 				break;
 			case SIGCHLD:
-				handler->SigChild(&info);
+				m_handler->SigChild(&info);
 				break;
 			case SIGHUP:
-				handler->SigHUP(&info);
+				m_handler->SigHUP(&info);
 				break;
 			case SIGTERM:
-				handler->SigTerm(&info);
+				m_handler->SigTerm(&info);
 				break;
 			case SIGUSR1:
-				handler->SigUser1(&info);
+				m_handler->SigUser1(&info);
 				break;
 			case SIGUSR2:
-				handler->SigUser2(&info);
+				m_handler->SigUser2(&info);
 				break;
 			case SIGPIPE:
-				handler->SigPipe(&info);
+				m_handler->SigPipe(&info);
 				break;
 			default:
 				abort(); //Unknown signal

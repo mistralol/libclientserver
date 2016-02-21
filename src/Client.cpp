@@ -25,7 +25,7 @@ ClientBase *Client::CreateUnixSelected(const std::string &ConnectionString)
 
 ClientBase *Client::CreateTcp(const std::string &ConnectionString)
 {
-	abort();
+	return NULL;
 }
 
 ClientBase *Client::Create(const std::string &ConnectionString)
