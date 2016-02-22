@@ -16,7 +16,7 @@ void RequestMap::Add(RequestMapEntry *Entry)
 {
 	ScopedLock lock(&m_Mutex);
 	uint64_t id = Entry->id;
-	std::map<uint64_t, struct RequestMapEntry *>::iterator it = m_map.find(id);
+	std::map<uint64_t, RequestMapEntry *>::iterator it = m_map.find(id);
 	if (it != m_map.end())
 		abort();	//Bug! Added duplicate
 

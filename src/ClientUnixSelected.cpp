@@ -29,7 +29,7 @@ void ClientUnixSelected::Connect()
 bool ClientUnixSelected::IsConnected()
 {
 	ScopedLock lock = ScopedLock(&m_mutex);
-	if (m_connection == false)
+	if (m_connection == NULL)
 		return false;
 	return m_connection->IsConnected();
 }
