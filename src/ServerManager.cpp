@@ -74,18 +74,15 @@ bool ServerManager::ProcessLine(IServerConnection *Connection, const std::string
 		}
 		catch(ServerException &e)
 		{
-			Request tmp;
-
-			tmp.SetArg("_ERRNO", Encoder::ToStr(e.GetErrorNo()));
-			tmp.SetArg("_ERROR", e.GetErrorMessage());
-			response = tmp;
+			response.SetArg("_ERRNO", Encoder::ToStr(e.GetErrorNo()));
+			response.SetArg("_ERROR", e.GetErrorMessage());
+			std::string msg = e.what();
+			response.SetArg("_EXCEPTION", msg);
 		}
 		catch(std::exception &e)
 		{
-			Request tmp;
 			std::string msg = e.what();
-			tmp.SetArg("_EXCEPTION", msg);
-			response = tmp;
+			response.SetArg("_EXCEPTION", msg);
 		}
 
 		response.SetCommand(request.GetCommand());
