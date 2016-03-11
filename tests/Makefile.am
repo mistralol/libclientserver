@@ -35,7 +35,8 @@ TESTS=PIDFile \
 	TestUuid \
 	TestRequestStringVector \
 	TestSHA1 \
-	TestTimeNanoSeconds
+	TestTimeNanoSeconds \
+	LazyScopedPtr
 
 check_PROGRAMS=PIDFile \
 	Queueing \
@@ -69,7 +70,8 @@ check_PROGRAMS=PIDFile \
 	TestUuid \
 	TestRequestStringVector \
 	TestSHA1 \
-	TestTimeNanoSeconds
+	TestTimeNanoSeconds \
+	LazyScopedPtr
 
 PIDFile_SOURCES=PIDFile.cpp
 Queueing_SOURCES=Queueing.cpp
@@ -104,4 +106,6 @@ TestUuid_SOURCES=TestUuid.cpp
 TestRequestStringVector_SOURCES=TestRequestStringVector.cpp
 TestSHA1_SOURCES=TestSHA1.cpp
 TestTimeNanoSeconds_SOURCES=TestTimeNanoSeconds.cpp
+LazyScopedPtr_SOURCES=LazyScopedPtr.cpp
+
 

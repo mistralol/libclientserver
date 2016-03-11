@@ -41,6 +41,7 @@
 
 #include <netinet/in.h>
 
+#include <libclientserver/LazyScopedPtr.h>
 #include <libclientserver/Thread.h>
 #include <libclientserver/Errno.h>
 #include <libclientserver/String.h>

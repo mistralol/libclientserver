@@ -67,7 +67,8 @@ include_HEADERS=libclientserver.h
 
 otherincludedir = $(includedir)/libclientserver
 
-otherinclude_HEADERS= libclientserver/Barrier.h \
+otherinclude_HEADERS= libclientserver/LazyScopedPtr.h \
+			libclientserver/Barrier.h \
 			libclientserver/Buffer.h \
 			libclientserver/Caps.h \
 			libclientserver/ClientBase.h \
