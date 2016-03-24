@@ -8,7 +8,6 @@ class SQueue
 	public:
 		SQueue()
 		{
-			m_sem = new Semaphore();
 			m_maxsize = 0;
 			m_hwsize = 0;
 		}
@@ -16,7 +15,6 @@ class SQueue
 		~SQueue()
 		{
 			Flush();
-			delete m_sem;
 		}
 
 		bool Add(T item)
@@ -31,13 +29,13 @@ class SQueue
 			m_count++;
 			m_queue.push_back(item);
 			lock.Unlock();
-			m_sem->Up();
+			m_sem.Up();
 			return true;
 		}
 
 		T GetNext()
 		{
-			m_sem->Down();
+			m_sem.Down();
 			T tmp = NULL;
 			ScopedLock lock(&m_mutex);
 			if (m_queue.empty() == true)
@@ -49,7 +47,7 @@ class SQueue
 
 		void Flush()
 		{
-			m_sem->Up();
+			m_sem.Up();
 		}
 
 		size_t GetCount()
@@ -83,7 +81,7 @@ class SQueue
 		}
 
 	private:
-		Semaphore *m_sem;
+		Semaphore m_sem;
 		size_t m_maxsize;
 		size_t m_hwsize; //High water mark for size
 		uint64_t m_count; //Number of items processed
