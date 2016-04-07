@@ -39,7 +39,10 @@ class SQueue
 			T tmp = NULL;
 			ScopedLock lock(&m_mutex);
 			if (m_queue.empty() == true)
+			{
+				m_mutex.WakeUp(); //WakeUp during flush
 				return NULL;
+			}
 			tmp = m_queue.front();
 			m_queue.pop_front();
 			return tmp;
@@ -47,7 +50,13 @@ class SQueue
 
 		void Flush()
 		{
-			m_sem.Up();
+			ScopedLock lock(&m_mutex);
+			while(m_queue.empty() == false)
+			{
+				m_sem.Up();
+				m_mutex.Wait();
+			}
+			
 		}
 
 		size_t GetCount()
