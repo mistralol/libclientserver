@@ -60,6 +60,19 @@ PKG_CHECK_MODULES(OPENSSL, [
         ])
 ])
 
+dnl Check for jsoncpp
+PKG_CHECK_MODULES(JSON, [
+	jsoncpp >= 0.6.0
+], [
+	AC_SUBST(JSON_CFLAGS)
+	AC_SUBST(JSON_LIBS)
+], [
+	AC_MSG_ERROR([
+		You need to install or upgrade jsoncpp
+	])
+])
+
+
 
 AC_CHECK_HEADER_STDBOOL()
 

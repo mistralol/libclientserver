@@ -106,6 +106,76 @@ bool ServerManager::ProcessLine(IServerConnection *Connection, const std::string
 		return RaiseCommand(Connection, &request);
 	}
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Winline"
+	if (command == "JSONREQUEST")
+	{
+		Json::Reader reader;
+		Json::Value req;
+		Json::Value res;
+		
+		if (reader.parse(args, req) == false)
+		{
+			RaiseBadLine(Connection, line);
+			return false;
+		}
+
+		//Check for ID in incoming json		
+		int ID = 0;
+		if (req.isMember("_ID") && req["_ID"].isInt())
+		{
+			ID = req["_ID"].asInt();
+		}
+		
+		if (ID == 0)
+		{
+			RaiseBadLine(Connection, line);
+			return false;
+		}
+			
+		try
+		{
+			int retvalue = RaiseJsonRequest(Connection, &req, &res);
+			res["_ERRNO"] = retvalue;
+			res["_ERROR"] = strerror(abs(retvalue));
+		}
+		catch(ServerException &e)
+		{
+			res["_ERRNO"] = Encoder::ToStr(e.GetErrorNo());
+			res["_ERROR"] = e.GetErrorMessage();
+			std::string msg = e.what();
+			res["_EXCEPTION"] = msg;
+		}
+		catch(std::exception &e)
+		{
+			std::string msg = e.what();
+			res["_EXCEPTION"] = msg;
+		}
+		
+		res["_ID"] = ID;
+
+		std::stringstream ss;		
+		Json::FastWriter writer;
+		ss << "JSONRESPONSE " << writer.write(res);
+		std::string str = ss.str();
+		return Connection->SendLine(&str);
+	}
+
+	if (command == "JSONCOMMAND")
+	{
+		Json::Reader reader;
+		Json::Value req;
+		
+		if (reader.parse(args, req) == false)
+		{
+			RaiseBadLine(Connection, line);
+			return false;
+		}
+
+		m_TotalCommands++;
+		return RaiseJsonCommand(Connection, &req);
+	}
+#pragma GCC diagnostic pop
 	RaiseBadLine(Connection, line);
 	return false;
 }
@@ -138,6 +208,16 @@ int ServerManager::RaiseRequest(IServerConnection *Connection, Request *request,
 int ServerManager::RaiseCommand(IServerConnection *Connection, Request *request)
 {
 	return m_handler->OnCommand(Connection, request);
+}
+
+int ServerManager::RaiseJsonRequest(IServerConnection *Connection, Json::Value *req, Json::Value *res)
+{
+	return m_handler->OnJsonRequest(Connection, req, res);
+}
+
+int ServerManager::RaiseJsonCommand(IServerConnection *Connection, Json::Value *req)
+{
+	return m_handler->OnJsonCommand(Connection, req);
 }
 
 void ServerManager::SendEvent(Request *event)

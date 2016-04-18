@@ -2,8 +2,8 @@ AM_CPPFLAGS=
 
 lib_LTLIBRARIES=libclientserver.la
 
-libclientserver_la_CPPFLAGS=$(UUID_CFLAGS) $(OPENSSL_CFLAGS)
-libclientserver_la_LDFLAGS=$(UUID_LIBS) $(OPENSSL_LIBS) -version-info 1:2
+libclientserver_la_CPPFLAGS=$(UUID_CFLAGS) $(OPENSSL_CFLAGS) $(JSON_CFLAGS)
+libclientserver_la_LDFLAGS=$(UUID_LIBS) $(OPENSSL_LIBS) $(JSON_LIBS) -version-info 1:2
 
 libclientserver_la_SOURCES= Barrier.cpp \
 			    Encoder.cpp \

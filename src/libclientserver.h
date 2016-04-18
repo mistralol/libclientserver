@@ -7,6 +7,7 @@
 #include <stack>
 #include <exception>
 #include <stdexcept>
+#include <memory>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -40,6 +41,8 @@
 #include <sys/un.h>
 
 #include <netinet/in.h>
+
+#include <json/json.h>
 
 #include <libclientserver/LazyScopedPtr.h>
 #include <libclientserver/Thread.h>

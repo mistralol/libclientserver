@@ -1,6 +1,6 @@
 
-AM_CPPFLAGS=-I../src/ $(UUID_CFLAGS) $(OPENSSL_CFLAGS)
-LDADD=../src/.libs/libclientserver.a -lcap -lpthread -lrt $(UUID_LIBS) $(OPENSSL_LIBS)
+AM_CPPFLAGS=-I../src/ $(UUID_CFLAGS) $(OPENSSL_CFLAGS) $(JSON_CFLAGS)
+LDADD=../src/.libs/libclientserver.a -lcap -lpthread -lrt $(UUID_LIBS) $(OPENSSL_LIBS) $(JSON_LIBS)
 CFLAGS=@CHECK_CFLAGS@
 
 TESTS=PIDFile \
