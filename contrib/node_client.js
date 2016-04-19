@@ -2,11 +2,12 @@ var net = require("net");
 
 function Client(path)
 {
-	this.ID = 1;
+	this.ID = 0;
 	this.path = path;
 	this.Sock = new net.Socket();
 	this.IsConn = false;
 	this.RequestMap = {};
+	this.ReadBuffer = "";
 	var self = this;
     
 	this.Sock.on('connect', function(e) {
@@ -28,24 +29,41 @@ function Client(path)
 	this.Sock.on('data', function(data) {
 		try
 		{
-			var str = data.toString();
-			var args = JSON.parse(str.substring(13));
-			if (args["_ID"] != undefined)
+			self.ReadBuffer += data.toString();
+			
+			//Process incoming data
+			var newline = self.ReadBuffer.indexOf('\n');
+			while(newline > 0)
 			{
-				var ID = args["_ID"];
-				if (self.RequestMap[ID] != undefined)
+				var line = self.ReadBuffer.substring(0, newline);
+				self.ReadBuffer = self.ReadBuffer.substring(newline + 1);
+				if (line.substring(0, 13) === "JSONRESPONSE ")
 				{
-					self.RequestMap[ID](args);
-					delete self.RequestMap[ID];
+					var args = JSON.parse(line.substring(13));
+					if (args["_ID"] != undefined)
+					{
+						var ID = args["_ID"];
+						if (self.RequestMap[ID] != undefined)
+						{
+							self.RequestMap[ID](args);
+							delete self.RequestMap[ID];
+						}
+						else
+						{
+							console.log("Missing _ID in repsonse" + str);
+						}
+					}
+					else
+					{
+						console.log("Missing callback");
+					}
 				}
 				else
 				{
-					console.log("Missing _ID in repsonse" + str);
+					console.log("Unknown Response: " + line);
 				}
-			}
-			else
-			{
-				console.log("Missing callback");
+				
+				newline = self.ReadBuffer.indexOf('\n');
 			}
 		}
 		catch(err)
