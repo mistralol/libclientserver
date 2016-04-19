@@ -59,13 +59,13 @@ public:
 		return -ENOSYS;
 	}
 	
-	int OnJsonRequest(IServerConnection *Connection, Json::Value *req, Json::Value *res)
+	int OnJsonRequest(IServerConnection *Connection, Json::Value &req, Json::Value &res)
 	{
 		printf("OnJsonRequest\n");
 		return -ENOSYS;
 	}
 	
-	int OnJsonCommand(IServerConnection *Connection, Json::Value *req)
+	int OnJsonCommand(IServerConnection *Connection, Json::Value &req)
 	{
 		printf("OnJsonCommand\n");
 		return -ENOSYS;

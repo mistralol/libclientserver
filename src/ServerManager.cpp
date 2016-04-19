@@ -135,7 +135,7 @@ bool ServerManager::ProcessLine(IServerConnection *Connection, const std::string
 			
 		try
 		{
-			int retvalue = RaiseJsonRequest(Connection, &req, &res);
+			int retvalue = RaiseJsonRequest(Connection, req, res);
 			res["_ERRNO"] = retvalue;
 			res["_ERROR"] = strerror(abs(retvalue));
 		}
@@ -173,7 +173,7 @@ bool ServerManager::ProcessLine(IServerConnection *Connection, const std::string
 		}
 
 		m_TotalCommands++;
-		return RaiseJsonCommand(Connection, &req);
+		return RaiseJsonCommand(Connection, req);
 	}
 #pragma GCC diagnostic pop
 	RaiseBadLine(Connection, line);
@@ -210,12 +210,12 @@ int ServerManager::RaiseCommand(IServerConnection *Connection, Request *request)
 	return m_handler->OnCommand(Connection, request);
 }
 
-int ServerManager::RaiseJsonRequest(IServerConnection *Connection, Json::Value *req, Json::Value *res)
+int ServerManager::RaiseJsonRequest(IServerConnection *Connection, Json::Value &req, Json::Value &res)
 {
 	return m_handler->OnJsonRequest(Connection, req, res);
 }
 
-int ServerManager::RaiseJsonCommand(IServerConnection *Connection, Json::Value *req)
+int ServerManager::RaiseJsonCommand(IServerConnection *Connection, Json::Value &req)
 {
 	return m_handler->OnJsonCommand(Connection, req);
 }

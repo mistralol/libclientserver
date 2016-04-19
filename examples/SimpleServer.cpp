@@ -68,15 +68,55 @@ public:
 		return -ENOSYS;
 	}
 	
-	int OnJsonRequest(IServerConnection *Connection, Json::Value *req, Json::Value *res)
+	int OnJsonRequest(IServerConnection *Connection, Json::Value &req, Json::Value &res)
 	{
-		printf("OnJsonRequest\n");
+		if (req.isMember("action") && req["action"].isString())
+		{
+			std::string action = req["action"].asString();
+			printf("OnJsonRequest %s\n", action.c_str());
+			
+			if (action == "PING")
+			{
+				res["data"] = "PONG";
+				return 0;
+			}
+			else if (action == "SLEEP")
+			{
+				if (req.isMember("delay") && req["delay"].isInt())
+				{
+					int delay = req["delay"].asInt();
+					sleep(delay);
+					return 0;
+				}
+			}
+			else
+			{
+				printf("OnJsonRequest Unknown Action '%s'", action.c_str());
+				return -EINVAL;
+			}
+
+		}
+		else
+		{
+			printf("OnJsonRequest No Action\n");
+		}
 		return -ENOSYS;
 	}
 	
-	int OnJsonCommand(IServerConnection *Connection, Json::Value *req)
+	int OnJsonCommand(IServerConnection *Connection, Json::Value &req)
 	{
-		printf("OnJsonCommand\n");
+		if (req.isMember("action") && req["action"].isString())
+		{
+			std::string action = req["action"].asString();
+			printf("OnJsonCommand %s\n", action.c_str());
+			return 0;
+		}
+		else
+		{
+			printf("OnJsonCommand No Action\n");
+			return 0;
+		}
+		
 		return -ENOSYS;
 	}
 

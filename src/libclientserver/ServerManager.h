@@ -33,8 +33,8 @@ class ServerManager
 		int RaiseRequest(IServerConnection *Connection, Request *request, Request *response);
 		int RaiseCommand(IServerConnection *Connection, Request *request);
 		
-		int RaiseJsonRequest(IServerConnection *Connection, Json::Value *req, Json::Value *res);
-		int RaiseJsonCommand(IServerConnection *Connection, Json::Value *req);
+		int RaiseJsonRequest(IServerConnection *Connection, Json::Value &req, Json::Value &res);
+		int RaiseJsonCommand(IServerConnection *Connection, Json::Value &req);
 
 		void SendEvent(Request *event);
 	
