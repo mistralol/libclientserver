@@ -30,20 +30,16 @@ class ServerManager
 		void RaiseDisconnect(IServerConnection *Connection);
 
 		void RaiseBadLine(IServerConnection *Connection, const std::string *line);
-		int RaiseRequest(IServerConnection *Connection, Request *request, Request *response);
-		int RaiseCommand(IServerConnection *Connection, Request *request);
-		
-		int RaiseJsonRequest(IServerConnection *Connection, Json::Value &req, Json::Value &res);
-		int RaiseJsonCommand(IServerConnection *Connection, Json::Value &req);
+	
+		int RaiseRequest(IServerConnection *Connection, Json::Value &req, Json::Value &res);
+		int RaiseCommand(IServerConnection *Connection, Json::Value &req);
 
-		void SendEvent(Request *event);
+		void SendEvent(Json::Value &event);
 	
 	private:
 		IServerHandler *m_handler;
 		std::list<IServer *> m_Servers;
 		Mutex m_ServersMutex;
-
-
 
 		uint64_t m_TotalRequests;
 		uint64_t m_TotalCommands;

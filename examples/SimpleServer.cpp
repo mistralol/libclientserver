@@ -27,53 +27,12 @@ public:
 		printf("Disconnect\n");
 	}
 		
-	int OnRequest(IServerConnection *Connection, Request *request, Request *response)
-	{
-		std::list<std::string> lst = request->GetArgList();
-		std::stringstream ss;
-		std::string Command = request->GetCommand();
-
-/*
-		ss << "OnRequest: " << request->GetCommand() << " ";
-
-		for(std::list<std::string>::iterator it = lst.begin(); it != lst.end(); it++)
-		{
-			ss << *it << "=" << request->GetArg(*it) << " ";
-		}
-
-		printf("%s\n", ss.str().c_str());
-*/
-		if (Command == "THROW")
-		{
-			printf("Doing Throw\n");
-			throw(std::runtime_error("TestException"));
-		}
-
-		if (Command == "PING")
-			return 0;
-
-		if (Command == "QUIT")
-		{
-			m_Quit = true;
-			return 0;
-		}
-
-		
-		return -ENOSYS;
-	}
-	
-	int OnCommand(IServerConnection *Connection, Request *request)
-	{
-		printf("OnCommand: %s\n", request->GetCommand().c_str());
-		return -ENOSYS;
-	}
-	
-	int OnJsonRequest(IServerConnection *Connection, Json::Value &req, Json::Value &res)
+	int OnRequest(IServerConnection *Connection, Json::Value &req, Json::Value &res)
 	{
 		if (req.isMember("action") && req["action"].isString())
 		{
 			std::string action = req["action"].asString();
-			printf("OnJsonRequest %s\n", action.c_str());
+			//printf("OnJsonRequest %s\n", action.c_str());
 			
 			if (action == "PING")
 			{
@@ -89,6 +48,10 @@ public:
 					return 0;
 				}
 			}
+			else if (action == "THROW")
+			{
+				throw(ServerException(0, "Some Exception"));
+			}
 			else
 			{
 				printf("OnJsonRequest Unknown Action '%s'", action.c_str());
@@ -103,7 +66,7 @@ public:
 		return -ENOSYS;
 	}
 	
-	int OnJsonCommand(IServerConnection *Connection, Json::Value &req)
+	int OnCommand(IServerConnection *Connection, Json::Value &req)
 	{
 		if (req.isMember("action") && req["action"].isString())
 		{

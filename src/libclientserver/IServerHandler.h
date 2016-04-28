@@ -18,11 +18,8 @@ class IServerHandler {
 		
 		virtual void OnDisconnect(IServerConnection *Connection) = 0;
 		
-		virtual int OnRequest(IServerConnection *Connection, Request *request, Request *response) = 0;
-		virtual int OnCommand(IServerConnection *Connection, Request *request) = 0;
-
-		virtual int OnJsonRequest(IServerConnection *Connection, Json::Value &req, Json::Value &res) = 0;
-		virtual int OnJsonCommand(IServerConnection *Connection, Json::Value &req) = 0;
+		virtual int OnRequest(IServerConnection *Connection, Json::Value &req, Json::Value &res) = 0;
+		virtual int OnCommand(IServerConnection *Connection, Json::Value &req) = 0;
 
 		virtual void OnBadLine(IServerConnection *Connection, const std::string *line) = 0;
 };

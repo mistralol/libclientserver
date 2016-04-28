@@ -74,10 +74,6 @@
 #include <libclientserver/ThreadPool.h>
 #include <libclientserver/ThreadPoolThread.h>
 
-#include <libclientserver/Encoder.h>
-#include <libclientserver/Decoder.h>
-
-#include <libclientserver/Request.h>
 #include <libclientserver/RequestMapEntry.h>
 #include <libclientserver/RequestMap.h>
 

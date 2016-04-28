@@ -54,61 +54,9 @@ bool ServerManager::ProcessLine(IServerConnection *Connection, const std::string
 		return false;
 	}
 
-	if (command == "REQUEST")
-	{
-		Request request;
-		Request response;
-
-		if (request.Decode(&args) == false)
-		{
-			RaiseBadLine(Connection, line);
-			return false;
-		}
-		
-		m_TotalRequests++;
-		try
-		{
-			int retvalue = RaiseRequest(Connection, &request, &response);
-			response.SetArg("_ERRNO", retvalue);
-			response.SetArg("_ERROR", strerror(retvalue));
-		}
-		catch(ServerException &e)
-		{
-			response.SetArg("_ERRNO", Encoder::ToStr(e.GetErrorNo()));
-			response.SetArg("_ERROR", e.GetErrorMessage());
-			std::string msg = e.what();
-			response.SetArg("_EXCEPTION", msg);
-		}
-		catch(std::exception &e)
-		{
-			std::string msg = e.what();
-			response.SetArg("_EXCEPTION", msg);
-		}
-
-		response.SetCommand(request.GetCommand());
-		response.SetID(request.GetID());
-
-		std::string ResponseStr = "RESPONSE " + response.Encode() + "\n";
-		return Connection->SendLine(&ResponseStr);
-	}
-
-	if (command == "COMMAND")
-	{
-		Request request;
-
-		if (request.Decode(&args) == false)
-		{
-			RaiseBadLine(Connection, line);
-			return false;
-		}
-
-		m_TotalCommands++;
-		return RaiseCommand(Connection, &request);
-	}
-
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Winline"
-	if (command == "JSONREQUEST")
+	if (command == "REQUEST")
 	{
 		Json::Reader reader;
 		Json::Value req;
@@ -132,16 +80,17 @@ bool ServerManager::ProcessLine(IServerConnection *Connection, const std::string
 			RaiseBadLine(Connection, line);
 			return false;
 		}
-			
+		
+		m_TotalRequests++;
 		try
 		{
-			int retvalue = RaiseJsonRequest(Connection, req, res);
+			int retvalue = RaiseRequest(Connection, req, res);
 			res["_ERRNO"] = retvalue;
 			res["_ERROR"] = strerror(abs(retvalue));
 		}
 		catch(ServerException &e)
 		{
-			res["_ERRNO"] = Encoder::ToStr(e.GetErrorNo());
+			res["_ERRNO"] = e.GetErrorNo();
 			res["_ERROR"] = e.GetErrorMessage();
 			std::string msg = e.what();
 			res["_EXCEPTION"] = msg;
@@ -149,6 +98,7 @@ bool ServerManager::ProcessLine(IServerConnection *Connection, const std::string
 		catch(std::exception &e)
 		{
 			std::string msg = e.what();
+			res["_ERROR"] = msg;
 			res["_EXCEPTION"] = msg;
 		}
 		
@@ -156,12 +106,12 @@ bool ServerManager::ProcessLine(IServerConnection *Connection, const std::string
 
 		std::stringstream ss;		
 		Json::FastWriter writer;
-		ss << "JSONRESPONSE " << writer.write(res);
+		ss << "RESPONSE " << writer.write(res);
 		std::string str = ss.str();
 		return Connection->SendLine(&str);
 	}
 
-	if (command == "JSONCOMMAND")
+	if (command == "COMMAND")
 	{
 		Json::Reader reader;
 		Json::Value req;
@@ -173,7 +123,7 @@ bool ServerManager::ProcessLine(IServerConnection *Connection, const std::string
 		}
 
 		m_TotalCommands++;
-		return RaiseJsonCommand(Connection, req);
+		return RaiseCommand(Connection, req);
 	}
 #pragma GCC diagnostic pop
 	RaiseBadLine(Connection, line);
@@ -200,34 +150,29 @@ void ServerManager::RaiseBadLine(IServerConnection *Connection, const std::strin
 	m_handler->OnBadLine(Connection, line);
 }
 
-int ServerManager::RaiseRequest(IServerConnection *Connection, Request *request, Request *response)
+int ServerManager::RaiseRequest(IServerConnection *Connection, Json::Value &req, Json::Value &res)
 {
-	return m_handler->OnRequest(Connection, request, response);
+	return m_handler->OnRequest(Connection, req, res);
 }
 
-int ServerManager::RaiseCommand(IServerConnection *Connection, Request *request)
+int ServerManager::RaiseCommand(IServerConnection *Connection, Json::Value &req)
 {
-	return m_handler->OnCommand(Connection, request);
+	return m_handler->OnCommand(Connection, req);
 }
 
-int ServerManager::RaiseJsonRequest(IServerConnection *Connection, Json::Value &req, Json::Value &res)
-{
-	return m_handler->OnJsonRequest(Connection, req, res);
-}
-
-int ServerManager::RaiseJsonCommand(IServerConnection *Connection, Json::Value &req)
-{
-	return m_handler->OnJsonCommand(Connection, req);
-}
-
-void ServerManager::SendEvent(Request *event)
+void ServerManager::SendEvent(Json::Value &event)
 {
 	ScopedLock lock(&m_ServersMutex);
+	
+	std::stringstream ss;		
+	Json::FastWriter writer;
+	ss << "EVENT " << writer.write(event);
+	std::string str = ss.str();
 
 	std::list<IServer *>::iterator it;
 	for(it = m_Servers.begin(); it != m_Servers.end(); it++)
 	{
-		(*it)->SendEvent(event);
+		(*it)->SendEvent(str);
 	}
 }
 

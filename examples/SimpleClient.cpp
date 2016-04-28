@@ -5,51 +5,49 @@
 static int Ping(ClientBase *Client)
 {
 	PerfCounter PC("PING");
-	Request request;
-	Request response;
+	Json::Value request;
+	Json::Value response;
 
-	request.SetCommand("PING");
-
-	return Client->SendRequest(&request, &response);
+	request["action"] = "PING";
+	return Client->SendRequest(request, response);
 }
 
 static int Throw(ClientBase *Client)
 {
 	PerfCounter PC("Throw");
-	Request request;
-	Request response;
-	request.SetCommand("THROW");
-	return Client->SendRequest(&request, &response);
+	Json::Value request;
+	Json::Value response;
+
+	request["action"] = "THROW";
+	return Client->SendRequest(request, response);
 }
 
 static int PingNoPerf(ClientBase *Client)
 {
-	Request request;
-	Request response;
+	Json::Value request;
+	Json::Value response;
 
-	request.SetCommand("PING");
-
-	return Client->SendRequest(&request, &response);
+	request["action"] = "PING";
+	return Client->SendRequest(request, response);
 }
 
 #if 0
 static int Quit(ClientBase *Client)
 {
-	Request request;
-	Request response;
+	Json::Value request;
+	Json::Value response;
 
-	request.SetCommand("QUIT");
-
-	return Client->SendRequest(&request, &response);
+	request["action"] = "QUIT";
+	return Client->SendRequest(request, response);
 }
 
 static bool TestCommand(ClientBase *Client)
 {
-	Request command;
+	Json::Value request;
+	Json::Value response;
 
-	command.SetCommand("PRINT");
-
-	return Client->SendCommand(&command);
+	request["action"] = "PRINT";
+	return Client->SendCommand(command);
 }
 #endif
 

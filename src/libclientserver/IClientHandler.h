@@ -23,9 +23,9 @@ class IClientHandler
 
 		/* Permit the Client Implementation of Override these by returning false */
 		/* Or just use them for logging purposes */
-		virtual bool OnResponse(Request *response) { return true; }
-		virtual bool OnKeepAlive(Request *response) { return true; }
-		virtual bool OnEvent(Request *event) { return true; }
+		virtual bool OnResponse(Json::Value &response) { return true; }
+		virtual bool OnKeepAlive(Json::Value &response) { return true; }
+		virtual bool OnEvent(Json::Value &event) { return true; }
 
 		virtual void OnBadLine(const std::string *str) { abort(); }
 

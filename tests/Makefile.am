@@ -33,7 +33,6 @@ TESTS=PIDFile \
 	TimerExit \
 	TestSemaphore \
 	TestUuid \
-	TestRequestStringVector \
 	TestSHA1 \
 	TestTimeNanoSeconds \
 	LazyScopedPtr
@@ -68,7 +67,6 @@ check_PROGRAMS=PIDFile \
 	TimerExit \
 	TestSemaphore \
 	TestUuid \
-	TestRequestStringVector \
 	TestSHA1 \
 	TestTimeNanoSeconds \
 	LazyScopedPtr
@@ -103,7 +101,6 @@ ThreadPool_SOURCES=ThreadPool.cpp
 TimerExit_SOURCES=TimerExit.cpp
 TestSemaphore_SOURCES=TestSemaphore.cpp
 TestUuid_SOURCES=TestUuid.cpp
-TestRequestStringVector_SOURCES=TestRequestStringVector.cpp
 TestSHA1_SOURCES=TestSHA1.cpp
 TestTimeNanoSeconds_SOURCES=TestTimeNanoSeconds.cpp
 LazyScopedPtr_SOURCES=LazyScopedPtr.cpp

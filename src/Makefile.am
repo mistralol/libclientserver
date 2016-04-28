@@ -6,9 +6,7 @@ libclientserver_la_CPPFLAGS=$(UUID_CFLAGS) $(OPENSSL_CFLAGS) $(JSON_CFLAGS)
 libclientserver_la_LDFLAGS=$(UUID_LIBS) $(OPENSSL_LIBS) $(JSON_LIBS) -version-info 1:2
 
 libclientserver_la_SOURCES= Barrier.cpp \
-			    Encoder.cpp \
 			    PerfCounter.cpp \
-			    Request.cpp \
 			    ServerException.cpp \
 			    SetGid.cpp \
 			    Time.cpp \
@@ -56,7 +54,6 @@ libclientserver_la_SOURCES= Barrier.cpp \
 			    RateLimit.cpp \
 			    ScopedWriteLock.cpp \
 			    ThreadPool.cpp \
-			    Decoder.cpp \
 			    Notify.cpp \
 			    Selector.cpp \
 			    ThreadPoolThread.cpp \
@@ -76,8 +73,6 @@ otherinclude_HEADERS= libclientserver/LazyScopedPtr.h \
 			libclientserver/ClientUnix.h \
 			libclientserver/ClientUnixSelected.h \
 			libclientserver/ClientUnixSelectedConnection.h \
-			libclientserver/Decoder.h \
-			libclientserver/Encoder.h \
 			libclientserver/Errno.h \
 			libclientserver/FileUtil.h \
 			libclientserver/DirUtil.h \
@@ -104,7 +99,6 @@ otherinclude_HEADERS= libclientserver/LazyScopedPtr.h \
 			libclientserver/Queue.h \
 			libclientserver/SQueue.h \
 			libclientserver/RateLimit.h \
-			libclientserver/Request.h \
 			libclientserver/RequestMapEntry.h \
 			libclientserver/RequestMap.h \
 			libclientserver/RWLock.h \

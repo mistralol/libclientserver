@@ -12,8 +12,8 @@ class RequestMapEntry
 		}
 
 	public:
-		uint64_t id;
-		Request *Response;
+		int id;
+		Json::Value *Response;
 		bool ValidResponse;
 		bool KeepAlive;
 };

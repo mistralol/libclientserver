@@ -25,18 +25,12 @@ public:
 		//printf("Disconnect\n");
 	}
 		
-	int OnRequest(IServerConnection *Connection, Request *request, Request *response)
+	int OnRequest(IServerConnection *Connection, Json::Value &request, Json::Value &response)
 	{
-		std::list<std::string> lst = request->GetArgList();
 		std::stringstream ss;
-		std::string Command = request->GetCommand();
+		std::string Command = request["action"].asString();
 
-		ss << "OnRequest: " << request->GetCommand() << " ";
-
-		for(std::list<std::string>::iterator it = lst.begin(); it != lst.end(); it++)
-		{
-			ss << *it << "=" << request->GetArg(*it) << " ";
-		}
+		ss << "OnRequest: " << Command << " ";
 
 		printf("%s\n", ss.str().c_str());
 
@@ -53,9 +47,9 @@ public:
 		return -ENOSYS;
 	}
 	
-	int OnCommand(IServerConnection *Connection, Request *request)
+	int OnCommand(IServerConnection *Connection, Json::Value &request)
 	{
-		printf("OnCommand: %s\n", request->GetCommand().c_str());
+		printf("OnCommand: %s\n", request["action"].asString().c_str());
 		return -ENOSYS;
 	}
 	
@@ -111,12 +105,9 @@ class TestServer : Thread
 	
 			Manager.ServerAdd(&Unix);
 			while(m_quit == false)
-			{
-				Request event;
-				event.SetCommand("RUNNING");
-				event.SetID(1);
-				Manager.SendEvent(&event);
-
+			{	Json::Value event;
+				event["action"] = "RUNNING";
+				Manager.SendEvent(event);
 				sleep(1);
 			}
 

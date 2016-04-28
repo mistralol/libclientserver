@@ -128,20 +128,22 @@ void ClientBase::SetHandler(IClientHandler *Handler)
  *
  * If the function returns false. The contents of the response will be undefined.
  */
-int ClientBase::SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout, const struct timespec *HardTimeout)
+int ClientBase::SendRequest(Json::Value &request, Json::Value &response, const struct timespec *SoftTimeout, const struct timespec *HardTimeout)
 {
 	RequestMapEntry Entry;
 
 	memset(&Entry, 0, sizeof(Entry));
 	Entry.id = GetNextID();
-	Entry.Response = response;
+	Entry.Response = &response;
 	Entry.ValidResponse = false;
 	Entry.KeepAlive = false;
 	
-	request->SetID(Entry.id);
+	request["_ID"] = Entry.id;
 
-	request->SetArg("_TIMEOUT_SOFT", Encoder::ToStr(SoftTimeout));
-	request->SetArg("_TIMEOUT_HARD", Encoder::ToStr(HardTimeout));
+	request["_TIMEOUT_SOFT_SEC"] = (Json::Value::UInt64) SoftTimeout->tv_sec;
+	request["_TIMEOUT_SOFT_NSEC"] = (Json::Value::UInt64) SoftTimeout->tv_nsec;
+	request["_TIMEOUT_HARD_SEC"] = (Json::Value::UInt64) HardTimeout->tv_sec;
+	request["_TIMEOUT_HARD_NSEC"] = (Json::Value::UInt64) HardTimeout->tv_nsec;
 
 	m_rmap.Add(&Entry);
 	if (DoSendRequest(request, SoftTimeout) == false)	//Get Out quickly option - happens when we are disconnected
@@ -155,18 +157,22 @@ int ClientBase::SendRequest(Request *request, Request *response, const struct ti
 	if (Entry.ValidResponse == false)
 		return -ETIMEDOUT;
 
-	if (response->HasArg("_EXCEPTION"))
+	if (response.isMember("_EXCEPTION"))
 	{
-		std::string msg = response->GetArg("_EXCEPTION");
+		if (response["_EXCEPTION"].isString() != true)
+		{
+			throw(ServerException(0, "Unknown Server Exception"));
+		}
+		std::string msg = response["_EXCEPTION"].asString();
 		throw(ServerException(0, msg));
 	}
 
-	if (response->HasArg("_ERRNO"))
+
+	if (response.isMember("_ERRNO"))
 	{
-		int myerr = 0;
-		if (Decoder::ToInt(response->GetArg("_ERRNO"), &myerr) == false)
+		if (response["_ERRNO"].isInt() == false)
 			return -EINVAL;
-		return myerr;
+		return response["_ERRNO"].asInt();
 	}
 	else
 	{
@@ -189,7 +195,7 @@ int ClientBase::SendRequest(Request *request, Request *response, const struct ti
  *
  * For more details please read the documentation on the full function.
  */
-int ClientBase::SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout)
+int ClientBase::SendRequest(Json::Value &request, Json::Value &response, const struct timespec *SoftTimeout)
 {
 	return SendRequest(request, response, SoftTimeout, &m_HardTimeout);
 }
@@ -202,7 +208,7 @@ int ClientBase::SendRequest(Request *request, Request *response, const struct ti
  * This is the basic function for sending a request where the default values of Soft/Hard timeout will be used.
  * For more details please read the documentation on the full function.
  */
-int ClientBase::SendRequest(Request *request, Request *response)
+int ClientBase::SendRequest(Json::Value &request, Json::Value &response)
 {
 	return SendRequest(request, response, &m_SoftTimeout, &m_HardTimeout);
 }
@@ -216,7 +222,7 @@ int ClientBase::SendRequest(Request *request, Request *response)
  * Note this function can return True even when sending the command is not successful. It Only states that the command was queued to be send to the server.
  * If the Client is not Connected to the server then this function will immeditatly return false.
  */
-int ClientBase::SendCommand(Request *command, const struct timespec *Timeout)
+int ClientBase::SendCommand(Json::Value &command, const struct timespec *Timeout)
 {
 	return DoSendCommand(command, Timeout);
 }
@@ -230,7 +236,7 @@ int ClientBase::SendCommand(Request *command, const struct timespec *Timeout)
  * Note this function can return True even when sending the command is not successful. It Only states that the command was queued to be send to the server.
  * If the Client is not Connected to the server then this function will immeditatly return false.
  */
-int ClientBase::SendCommand(Request *command)
+int ClientBase::SendCommand(Json::Value &command)
 {
 	return SendCommand(command, &m_SoftTimeout);
 }
@@ -244,9 +250,12 @@ int ClientBase::SendCommand(Request *command)
  * Note that the soft timeout value should be passed to the timeout argument to this function.
  * The hard timeout value is no longer required as the server does not have the request until we complete.
  */
-bool ClientBase::DoSendRequest(Request *request, const struct timespec *Timeout)
+bool ClientBase::DoSendRequest(Json::Value &request, const struct timespec *Timeout)
 {
-	std::string str = "REQUEST " + request->Encode() + "\n";
+	std::stringstream ss;		
+	Json::FastWriter writer;
+	ss << "REQUEST " << writer.write(request);
+	std::string str = ss.str();
 	return SendLine(&str, Timeout);
 }
 
@@ -259,9 +268,12 @@ bool ClientBase::DoSendRequest(Request *request, const struct timespec *Timeout)
  * Note that the soft timeout value should be passed to the timeout argument to this function.
  * the hard timeout value is not used for commands
  */
-bool ClientBase::DoSendCommand(Request *request, const struct timespec *Timeout)
+bool ClientBase::DoSendCommand(Json::Value &request, const struct timespec *Timeout)
 {
-	std::string str = "COMMAND " + request->Encode() + "\n";
+	std::stringstream ss;		
+	Json::FastWriter writer;
+	ss << "COMMAND " << writer.write(request);
+	std::string str = ss.str();
 	return SendLine(&str, Timeout);
 }
 
@@ -344,7 +356,7 @@ void ClientBase::RaiseOnDisconnect(int err, const std::string &str)
  *
  * This function is called when a response is recived by the client
  */
-void ClientBase::RaiseOnResponse(Request *response)
+void ClientBase::RaiseOnResponse(Json::Value &response)
 {
 	if (m_Handler != NULL)
 	{
@@ -362,7 +374,7 @@ void ClientBase::RaiseOnResponse(Request *response)
  *
  * This function is called when a keepalive is recived by the client
  */
-void ClientBase::RaiseOnKeepAlive(Request *response)
+void ClientBase::RaiseOnKeepAlive(Json::Value &response)
 {
 	if (m_Handler != NULL)
 	{
@@ -380,7 +392,7 @@ void ClientBase::RaiseOnKeepAlive(Request *response)
  *
  * This function is called when an event is recived by the client
  */
-void ClientBase::RaiseOnEvent(Request *event)
+void ClientBase::RaiseOnEvent(Json::Value &event)
 {
 	if (m_Handler != NULL)
 	{
@@ -399,6 +411,9 @@ void ClientBase::RaiseOnEvent(Request *event)
  */
 void ClientBase::RaiseOnData(const std::string *str)
 {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Winline"
+	Json::Reader reader;
 	std::string command = "";
 	std::string args = "";
 
@@ -410,42 +425,43 @@ void ClientBase::RaiseOnData(const std::string *str)
 
 	if (command == "RESPONSE")
 	{
-		Request response;
-		if (response.Decode(&args) == false)
+		Json::Value response;
+		if (reader.parse(args, response) == false)
 		{
 			RaiseOnBadLine(str);
 			return;
 		}
-		RaiseOnResponse(&response);
+		RaiseOnResponse(response);
 		return;
 	}
 
 	if (command == "KEEPALIVE")
 	{
-		Request keepalive;
-		if (keepalive.Decode(&args) == false)
+		Json::Value keepalive;
+		if (reader.parse(args, keepalive) == false)
 		{
 			RaiseOnBadLine(str);
 			return;
 		}
-		RaiseOnKeepAlive(&keepalive);
+		RaiseOnKeepAlive(keepalive);
 		return;
 	}
 
 	if (command == "EVENT")
 	{
-		Request event;
-		if (event.Decode(&args) == false)
+		Json::Value event;
+		if (reader.parse(args, event) == false)
 		{
 			RaiseOnBadLine(str);
 			return;
 		}
-		RaiseOnEvent(&event);
+		RaiseOnEvent(event);
 		return;
 	}
 
 	RaiseOnBadLine(str);
 	return;
+#pragma GCC diagnostic pop	
 }
 
 /**

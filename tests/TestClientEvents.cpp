@@ -16,7 +16,7 @@ public:
 
 	}
 
-	bool OnEvent(Request *event) {
+	bool OnEvent(Json::Value &event) {
 		m_events++;
 		return true;
 	}

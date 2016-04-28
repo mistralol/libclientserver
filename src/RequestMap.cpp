@@ -15,8 +15,8 @@ RequestMap::~RequestMap()
 void RequestMap::Add(RequestMapEntry *Entry)
 {
 	ScopedLock lock(&m_Mutex);
-	uint64_t id = Entry->id;
-	std::map<uint64_t, RequestMapEntry *>::iterator it = m_map.find(id);
+	int id = Entry->id;
+	std::map<int, RequestMapEntry *>::iterator it = m_map.find(id);
 	if (it != m_map.end())
 		abort();	//Bug! Added duplicate
 
@@ -26,8 +26,8 @@ void RequestMap::Add(RequestMapEntry *Entry)
 void RequestMap::Remove(RequestMapEntry *Entry)
 {
 	ScopedLock lock(&m_Mutex);
-	uint64_t id = Entry->id;
-	std::map<uint64_t, RequestMapEntry *>::iterator it = m_map.find(id);
+	int id = Entry->id;
+	std::map<int, RequestMapEntry *>::iterator it = m_map.find(id);
 	if (it == m_map.end())
 		abort();	//Bug! Attempted to remove something that does not exist
 
@@ -37,8 +37,8 @@ void RequestMap::Remove(RequestMapEntry *Entry)
 bool RequestMap::Exists(RequestMapEntry *Entry)
 {
 	ScopedLock lock(&m_Mutex);
-	uint64_t id = Entry->id;
-	std::map<uint64_t, RequestMapEntry *>::iterator it = m_map.find(id);
+	int id = Entry->id;
+	std::map<int, RequestMapEntry *>::iterator it = m_map.find(id);
 	if (it == m_map.end())
 		return false;
 	return true;
@@ -47,8 +47,8 @@ bool RequestMap::Exists(RequestMapEntry *Entry)
 bool RequestMap::IsComplete(RequestMapEntry *Entry)
 {
 	ScopedLock lock(&m_Mutex);
-	uint64_t id = Entry->id;
-	std::map<uint64_t, RequestMapEntry *>::iterator it = m_map.find(id);
+	int id = Entry->id;
+	std::map<int, RequestMapEntry *>::iterator it = m_map.find(id);
 	if (it == m_map.end())
 		abort(); //Api mis-use
 
@@ -60,8 +60,8 @@ bool RequestMap::IsComplete(RequestMapEntry *Entry)
 bool RequestMap::Wait(RequestMapEntry *Entry, const struct timespec *SoftTimeout, const struct timespec *HardTimeout)
 {
 	ScopedLock lock(&m_Mutex);
-	uint64_t id = Entry->id;
-	std::map<uint64_t, RequestMapEntry *>::iterator it = m_map.find(id);
+	int id = Entry->id;
+	std::map<int, RequestMapEntry *>::iterator it = m_map.find(id);
 	if (it == m_map.end())
 		return false; //Trying to wait on something that does not exist
 
@@ -109,25 +109,41 @@ bool RequestMap::Wait(RequestMapEntry *Entry, const struct timespec *SoftTimeout
 	return true;
 }
 
-bool RequestMap::WakeUp(Request *response)
+bool RequestMap::WakeUp(Json::Value &response)
 {
+	int id = 0;
+	if (response.isMember("_ID") && response["_ID"].isInt())
+	{
+		id = response["_ID"].asInt();
+	}
+	else
+	{
+		return false;
+	}
 	ScopedLock lock(&m_Mutex);
-	uint64_t id = response->GetID();
-	std::map<uint64_t, RequestMapEntry *>::iterator it = m_map.find(id);
+	std::map<int, RequestMapEntry *>::iterator it = m_map.find(id);
 	if (it == m_map.end())
 		return false; //Nothing left to wakeup. Probably a timeout and has been removed
 
-	*it->second->Response = *response;
+	*it->second->Response = response;
 	it->second->ValidResponse = true;
 	m_Mutex.WakeUpAll();
 	return true;
 }
 
-bool RequestMap::KeepAlive(Request *response)
+bool RequestMap::KeepAlive(Json::Value &response)
 {
+	int id = 0;
+	if (response.isMember("_ID") && response["_ID"].isInt())
+	{
+		id = response["_ID"].asInt();
+	}
+	else
+	{
+		return false;
+	}
 	ScopedLock lock(&m_Mutex);
-	uint64_t id = response->GetID();
-	std::map<uint64_t, RequestMapEntry *>::iterator it = m_map.find(id);
+	std::map<int, RequestMapEntry *>::iterator it = m_map.find(id);
 	if (it == m_map.end())
 		return false;
 	it->second->KeepAlive = true;

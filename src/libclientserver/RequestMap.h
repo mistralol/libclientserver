@@ -26,11 +26,11 @@ class RequestMap
 		bool IsComplete(RequestMapEntry *Entry);
 
 		bool Wait(RequestMapEntry *Entry, const struct timespec *SoftTimeout, const struct timespec *HardTimeout);
-		bool WakeUp(Request *response);
-		bool KeepAlive(Request *response);
+		bool WakeUp(Json::Value &response);
+		bool KeepAlive(Json::Value &response);
 
 	private:
-		std::map<uint64_t, RequestMapEntry *> m_map;
+		std::map<int, RequestMapEntry *> m_map;
 		Mutex m_Mutex;
 };
 

@@ -21,7 +21,7 @@ class IServer
 		void ConnectionRemove(IServerConnection *Connection);
 		void ConnectionRemoveAll();
 
-		void SendEvent(Request *event);
+		void SendEvent(const std::string &event);
 
 	private:
 		std::list<IServerConnection *> m_Connections;

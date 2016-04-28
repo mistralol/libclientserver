@@ -29,19 +29,19 @@ class ClientBase
 
 		void SetHandler(IClientHandler *Handler);
 
-		int SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout, const struct timespec *HardTimeout);
-		int SendRequest(Request *request, Request *response, const struct timespec *SoftTimeout);
-		int SendRequest(Request *request, Request *response);
+		int SendRequest(Json::Value &request, Json::Value &response, const struct timespec *SoftTimeout, const struct timespec *HardTimeout);
+		int SendRequest(Json::Value &request, Json::Value &response, const struct timespec *SoftTimeout);
+		int SendRequest(Json::Value &request, Json::Value &response);
 
-		int SendCommand(Request *command, const struct timespec *Timeout);
-		int SendCommand(Request *command);
+		int SendCommand(Json::Value &command, const struct timespec *Timeout);
+		int SendCommand(Json::Value &command);
 
 		uint64_t GetNextID();
 	protected:
 		void Init();
 
-		bool DoSendRequest(Request *request, const struct timespec *SoftTimeout);
-		bool DoSendCommand(Request *request, const struct timespec *SoftTimeout);
+		bool DoSendRequest(Json::Value &request, const struct timespec *SoftTimeout);
+		bool DoSendCommand(Json::Value &request, const struct timespec *SoftTimeout);
 
 		virtual bool SendLine(const std::string *str, const struct timespec *Timeout) = 0; //Should Never Block!
 
@@ -49,9 +49,9 @@ class ClientBase
 		void RaiseOnConnectError(int err, const std::string &str);
 		void RaiseOnSendError(int err, const std::string &str);
 		void RaiseOnDisconnect(int err, const std::string &str); //With Error String?
-		void RaiseOnResponse(Request *response);
-		void RaiseOnKeepAlive(Request *response);
-		void RaiseOnEvent(Request *event);
+		void RaiseOnResponse(Json::Value &response);
+		void RaiseOnKeepAlive(Json::Value &response);
+		void RaiseOnEvent(Json::Value &event);
 		void RaiseOnData(const std::string *str);
 		void RaiseOnBadLine(const std::string *str);
 
