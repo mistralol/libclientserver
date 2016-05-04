@@ -3,6 +3,7 @@ ACLOCAL_AMFLAGS=-I m4
 
 
 SUBDIRS=src \
+	node \
 	examples \
 	. \
 	tests \

@@ -72,7 +72,8 @@ PKG_CHECK_MODULES(JSON, [
 	])
 ])
 
-
+nodedir="/usr/lib/node_modules"
+AC_SUBST(nodedir)
 
 AC_CHECK_HEADER_STDBOOL()
 
@@ -94,5 +95,5 @@ AS_IF([test "x$enable_docs" = "xyes"], [
 AM_CONDITIONAL([HAVE_DOXYGEN], [test -n "$DOXYGEN"])AM_COND_IF([HAVE_DOXYGEN], [AC_CONFIG_FILES([docs/Doxyfile])])
 
 
-AC_OUTPUT(Makefile src/Makefile examples/Makefile tests/Makefile docs/Makefile)
+AC_OUTPUT(Makefile src/Makefile node/Makefile examples/Makefile tests/Makefile docs/Makefile)
 
