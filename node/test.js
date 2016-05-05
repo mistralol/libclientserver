@@ -12,7 +12,7 @@ function Test2(data)
 	}
 	else
 	{
-		console.log("Request " + data["_ID"] + " Complete Sending Another Command");
+		console.log("Request " + data["_ID"] + " Complete Sending Another Request");
 	}
 	var args = { "Test" : "Yes" };
 	args["action"] = "PING";

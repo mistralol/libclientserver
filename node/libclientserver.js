@@ -111,9 +111,24 @@ exports.Client = function (path)
 					if (args["_ID"] != undefined)
 					{
 						var ID = args["_ID"];
+						var error = "";
+						
+						if (args["_ERROR"] != undefined)
+						{
+							if (args["_ERROR"] != "Success")
+							{
+								error = args["_ERROR"];
+							}
+						}
+						
+						if (args["_EXCEPTION"] != undefined)
+						{
+							error = args["_EXCEPTION"];
+						}
+						
 						if (self.RequestMap[ID] != undefined)
 						{
-							self.RequestMap[ID](args);
+							self.RequestMap[ID](args, error);
 							delete self.RequestMap[ID];
 						}
 						else
@@ -126,9 +141,15 @@ exports.Client = function (path)
 						console.log("Missing callback");
 					}
 				}
+				else if (line.substring(0, 6) === "EVENT ")
+				{
+					var args = JSON.parse(line.substring(6));
+					//FIXME: Raise event
+				}
 				else
 				{
 					console.log("Unknown Response: " + line);
+					console.log('"' + line.substring(0, 9) + '"');
 				}
 				
 				newline = self.ReadBuffer.indexOf('\n');
