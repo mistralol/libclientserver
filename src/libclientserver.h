@@ -62,6 +62,7 @@
 #include <libclientserver/ISignalHandler.h>
 #include <libclientserver/SignalHandler.h>
 #include <libclientserver/ScopedSignalBlock.h>
+#include <libclientserver/Optional.h>
 
 #include <libclientserver/ITimer.h>
 #include <libclientserver/Timers.h>

@@ -68,5 +68,6 @@ tests/TestRequestStringVector
 tests/TestSHA1
 tests/TestTimeNanoSeconds
 tests/LazyScopedPtr
+tests/Optional
 examples/PollerListen
 
