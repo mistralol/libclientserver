@@ -83,5 +83,8 @@ class Time
 		
 		static void UTCNow(struct timespec *ts);
 		static void UTCNow(struct timeval *tv);
+
+		static std::string ToHuman(const struct timespec *ts);
+		static std::string ToHuman(const struct timeval *tv);
 };
 

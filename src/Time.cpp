@@ -552,3 +552,63 @@ void Time::UTCNow(struct timeval *tv)
 	TimeSpecToTimeVal(&ts, tv);
 }
 
+std::string Time::ToHuman(const struct timespec *ts)
+{
+	std::stringstream ss;
+	uint64_t TotalSeconds = Time::Seconds(ts);
+	int Days = TotalSeconds / (60 * 60 * 24);
+	TotalSeconds -= Days * (60 * 60 * 24);
+	int Hours = TotalSeconds / (60 * 60);
+	TotalSeconds -= Hours * (60 * 60);
+	int Minutes = TotalSeconds / 60;
+	TotalSeconds -= Minutes * 60;
+	int Seconds = TotalSeconds;
+	if (Days > 1)
+	{
+		ss << Days << " Days";
+	}
+	else
+	{
+		if (Days)
+		{
+			ss << "1 Day ";
+		}
+		if (Hours > 1)
+		{
+			ss << Hours << " Hours";
+		}
+		else
+		{
+			if (Hours)
+			{
+				ss << "1 Hour ";
+			}
+				if (Minutes > 1)
+			{
+				ss << Minutes << " Minutes";
+			}
+			else
+			{
+				if (Minutes)
+					ss << "1 Minute ";
+					if (Seconds > 1)
+				{
+					ss << Seconds << " Seconds";
+				}
+				else
+				{
+					ss << "1 Second";
+				}
+			}
+		}
+	}
+	return ss.str();
+}
+
+std::string Time::ToHuman(const struct timeval *tv)
+{
+	struct timespec ts;
+	Time::TimeValtoTimeSpec(tv, &ts);
+	return ToHuman(&ts);
+}
+
