@@ -108,3 +108,5 @@ TestTimeNanoSeconds_SOURCES=TestTimeNanoSeconds.cpp
 LazyScopedPtr_SOURCES=LazyScopedPtr.cpp
 Optional_SOURCES=Optional.cpp
 
+include_HEADERS=TestSetup.h TestServer.h
+
