@@ -85,8 +85,16 @@ bool ServerManager::ProcessLine(IServerConnection *Connection, const std::string
 		try
 		{
 			int retvalue = RaiseRequest(Connection, req, res);
-			res["_ERRNO"] = retvalue;
-			res["_ERROR"] = strerror(abs(retvalue));
+			if (retvalue < 0)
+			{
+				res["_ERRNO"] = retvalue;
+				res["_ERROR"] = strerror(abs(retvalue));
+			}
+			else
+			{
+				res["_ERRNO"] = 0;
+				res["_ERROR"] = strerror(abs(retvalue));
+			}
 		}
 		catch(ServerException &e)
 		{
