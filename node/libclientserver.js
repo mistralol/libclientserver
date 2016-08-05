@@ -128,6 +128,10 @@ exports.Client = function (path)
 						
 						if (self.RequestMap[ID] != undefined)
 						{
+							delete args["_ERROR"];
+							delete args["_ERRNO"];
+							delete args["_ID"];
+							delete args["_EXCEPTION"];
 							self.RequestMap[ID](args, error);
 							delete self.RequestMap[ID];
 						}
