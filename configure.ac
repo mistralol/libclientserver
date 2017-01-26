@@ -6,6 +6,7 @@ AC_CONFIG_FILES([libclientserver.pc])
 
 LT_INIT
 AM_INIT_AUTOMAKE([foreign])
+AM_SILENT_RULES([yes])
 
 AC_PROG_CC
 AC_PROG_CXX
