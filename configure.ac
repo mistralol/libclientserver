@@ -73,16 +73,12 @@ PKG_CHECK_MODULES(JSON, [
 	])
 ])
 
-nodedir="/usr/lib/node_modules"
-AC_SUBST(nodedir)
-
 AC_CHECK_HEADER_STDBOOL()
 
 AC_TYPE_SIZE_T
 AC_TYPE_UINT64_T
 
 AC_CHECK_FUNCS([localtime_r])
-
 
 AC_ARG_ENABLE([docs], AS_HELP_STRING([--enable-docs], [Enable docs to be built using doxygen]))
 AS_IF([test "x$enable_docs" = "xyes"], [
@@ -92,9 +88,7 @@ AS_IF([test "x$enable_docs" = "xyes"], [
   fi
 ])
 
-
 AM_CONDITIONAL([HAVE_DOXYGEN], [test -n "$DOXYGEN"])AM_COND_IF([HAVE_DOXYGEN], [AC_CONFIG_FILES([docs/Doxyfile])])
 
-
-AC_OUTPUT(Makefile src/Makefile node/Makefile examples/Makefile tests/Makefile docs/Makefile)
+AC_OUTPUT(Makefile src/Makefile examples/Makefile tests/Makefile docs/Makefile)
 
