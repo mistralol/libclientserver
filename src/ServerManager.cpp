@@ -170,13 +170,12 @@ int ServerManager::RaiseCommand(IServerConnection *Connection, Json::Value &req)
 
 void ServerManager::SendEvent(Json::Value &event)
 {
-	ScopedLock lock(&m_ServersMutex);
-	
 	std::stringstream ss;		
 	Json::FastWriter writer;
 	ss << "EVENT " << writer.write(event);
 	std::string str = ss.str();
 
+	ScopedLock lock(&m_ServersMutex);
 	std::list<IServer *>::iterator it;
 	for(it = m_Servers.begin(); it != m_Servers.end(); it++)
 	{
