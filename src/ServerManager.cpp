@@ -43,6 +43,23 @@ void ServerManager::ServerRemoveAll()
 	}
 }
 
+void ServerManager::ConnectionAdd(IServerConnection *Conn)
+{
+	ScopedLock lock(&m_ConnectionMutex);
+	m_ConnectionNextID++;
+	Conn->SetConnID(m_ConnectionNextID);
+	m_ConnectionMap[m_ConnectionNextID] = Conn;
+}
+
+void ServerManager::ConnectionRemove(IServerConnection *Conn)
+{
+	ScopedLock lock(&m_ConnectionMutex);
+	auto it = m_ConnectionMap.find(Conn->GetConnID());
+	if (it == m_ConnectionMap.end())
+		abort(); //Should never happen. Connection tracking failed if it did
+	m_ConnectionMap.erase(it);
+}
+
 bool ServerManager::ProcessLine(IServerConnection *Connection, const std::string *line)
 {
 	std::string command = "";
@@ -145,12 +162,14 @@ void ServerManager::RaisePreNewConnection()
 
 void ServerManager::RaisePostNewConnection(IServerConnection *Connection)
 {
+	ConnectionAdd(Connection);
 	m_handler->OnPostNewConnection(Connection);
 }
 
 void ServerManager::RaiseDisconnect(IServerConnection *Connection)
 {
 	m_handler->OnDisconnect(Connection);
+	ConnectionRemove(Connection);
 }
 
 void ServerManager::RaiseBadLine(IServerConnection *Connection, const std::string *line)
@@ -183,4 +202,22 @@ void ServerManager::SendEvent(Json::Value &event)
 	}
 }
 
+int ServerManager::SendEvent(uint64_t ConnID, Json::Value &event)
+{
+	std::stringstream ss;		
+	Json::FastWriter writer;
+        ss << "EVENT " << writer.write(event);
+        std::string str = ss.str();
+
+	ScopedLock lock1(&m_ServersMutex);
+	ScopedLock lock2(&m_ConnectionMutex);
+	auto it = m_ConnectionMap.find(ConnID);
+	if (it == m_ConnectionMap.end())
+	{
+		return -ENOTCONN;
+	}
+
+	it->second->SendEvent(str);
+	return 0;
+}
 

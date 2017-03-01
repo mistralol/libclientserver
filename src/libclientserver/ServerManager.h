@@ -35,16 +35,27 @@ class ServerManager
 		int RaiseCommand(IServerConnection *Connection, Json::Value &req);
 
 		void SendEvent(Json::Value &event);
+		int SendEvent(uint64_t ConnID, Json::Value &event);
+
+	protected:
+
+		void ConnectionAdd(IServerConnection *Conn);
+		void ConnectionRemove(IServerConnection *Conn);
+
 	
 	private:
 		IServerHandler *m_handler;
 		std::list<IServer *> m_Servers;
 		Mutex m_ServersMutex;
 
+		//Connection Tracking
+		Mutex m_ConnectionMutex;
+		std::map<uint64_t, IServerConnection *> m_ConnectionMap;
+		uint64_t m_ConnectionNextID; //Next number to assignt o a connection
+
+		//Stats
 		uint64_t m_TotalRequests;
 		uint64_t m_TotalCommands;
-
 };
-
 
 

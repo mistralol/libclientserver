@@ -19,6 +19,16 @@ class IServerConnection
 			SendLine(&event);
 		}
 
-		void *m_private;
+		virtual void SendResponse(const std::string &response)
+		{
+			SendLine(&response);
+		}
+
+		uint64_t GetConnID() { return m_connid; };
+		void SetConnID(uint64_t id) { m_connid = id; };
+
+	private:
+		uint64_t m_connid;
+
 };
 
