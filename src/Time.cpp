@@ -590,8 +590,10 @@ std::string Time::ToHuman(const struct timespec *ts)
 			else
 			{
 				if (Minutes)
+				{
 					ss << "1 Minute ";
-					if (Seconds > 1)
+				}
+				if (Seconds > 1)
 				{
 					ss << Seconds << " Seconds";
 				}
