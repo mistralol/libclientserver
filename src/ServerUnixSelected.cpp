@@ -49,7 +49,7 @@ void ServerUnixSelected::Stop()
 void ServerUnixSelected::CreateNewConnection(int fd)
 {
 	m_Manager->RaisePreNewConnection();
-	ServerUnixSelectedConnection *tmp = new ServerUnixSelectedConnection(m_Manager, this, fd);
+	ServerUnixSelectedConnection *tmp = new ServerUnixSelectedConnection(m_Manager, this, m_Selector, fd);
 	m_Selector->Add(tmp);
 }
 

@@ -3,7 +3,7 @@
 class ServerUnixPolledConnection : public IServerConnection, public IPollable, Thread
 {
 	public:
-		ServerUnixPolledConnection(ServerManager *Manager, IServer *Server, int fd);
+		ServerUnixPolledConnection(ServerManager *Manager, IServer *Server, Poller *poller, int fd);
 		virtual ~ServerUnixPolledConnection();
 
 		bool CanRead(const Poller *);
@@ -27,6 +27,7 @@ class ServerUnixPolledConnection : public IServerConnection, public IPollable, T
 	private:
 		ServerManager *m_Manager;
 		IServer *m_Server;
+		Poller *m_poller;
 		int m_fd;
 		Buffer m_ReadBuffer;
 

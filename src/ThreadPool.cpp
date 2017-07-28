@@ -4,7 +4,12 @@
 
 ThreadPool::ThreadPool()
 {
-	Init(5, 64);
+	Init(1, 0);
+}
+
+ThreadPool::ThreadPool(int nthreads)
+{
+	Init(nthreads, 0);
 }
 
 ThreadPool::ThreadPool(int nthread, size_t maxqueue)

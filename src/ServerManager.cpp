@@ -3,12 +3,16 @@
 
 ServerManager::ServerManager(IServerHandler *Handler)
 {
+	m_pool = 0;
 	m_handler = Handler;
 }
 
 ServerManager::~ServerManager()
 {
 	ServerRemoveAll();
+	if (m_pool) {
+		delete m_pool;
+	}
 }
 	
 void ServerManager::ServerAdd(IServer *Server)
@@ -53,6 +57,11 @@ void ServerManager::ConnectionAdd(IServerConnection *Conn)
 
 void ServerManager::ConnectionRemove(IServerConnection *Conn)
 {
+	if (m_pool != 0) {
+		//Make sure nothing has a reference to this connection
+		//it does this by making sure everything has been processed
+		m_pool->Flush();
+	}
 	ScopedLock lock(&m_ConnectionMutex);
 	auto it = m_ConnectionMap.find(Conn->GetConnID());
 	if (it == m_ConnectionMap.end())
@@ -60,7 +69,43 @@ void ServerManager::ConnectionRemove(IServerConnection *Conn)
 	m_ConnectionMap.erase(it);
 }
 
-bool ServerManager::ProcessLine(IServerConnection *Connection, const std::string *line)
+void ServerManager::SetThreads(int nthreads) {
+	static bool First = true;
+	if (First == false)
+		abort(); //Cannot currently call this twice.
+	First = false;
+	m_pool = new ThreadPool(nthreads);
+}
+
+struct ThreadPoolArgs {
+	ServerManager *context;
+	IServerConnection *Conn;
+	std::string line;
+};
+
+static void CallProcessLine(void *arg) {
+	ThreadPoolArgs *tmp = (ThreadPoolArgs *) arg;
+	try {
+		tmp->context->ProcessLineInline(tmp->Conn, &tmp->line);
+	} catch(std::exception &e) {
+		abort();
+	}
+	delete tmp;
+}
+
+bool ServerManager::ProcessLine(IServerConnection *Connection, const std::string *line) {
+	if (m_pool != 0) {
+		ThreadPoolArgs *tmp = new ThreadPoolArgs();
+		tmp->context = this;
+		tmp->Conn = Connection;
+		tmp->line = *line;
+		return m_pool->Add(CallProcessLine, tmp);
+	} else {
+		return ProcessLineInline(Connection, line);
+	}
+}
+
+bool ServerManager::ProcessLineInline(IServerConnection *Connection, const std::string *line)
 {
 	std::string command = "";
 	std::string args = "";

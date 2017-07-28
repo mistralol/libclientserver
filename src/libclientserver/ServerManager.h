@@ -24,6 +24,7 @@ class ServerManager
 		void ServerRemoveAll();
 
 		bool ProcessLine(IServerConnection *Connection, const std::string *line);
+		bool ProcessLineInline(IServerConnection *Connection, const std::string *line);
 
 		void RaisePreNewConnection();
 		void RaisePostNewConnection(IServerConnection *Connection);
@@ -37,12 +38,14 @@ class ServerManager
 		void SendEvent(Json::Value &event);
 		int SendEvent(uint64_t ConnID, Json::Value &event);
 
+		void SetThreads(int nthreads);
+
 	protected:
 
 		void ConnectionAdd(IServerConnection *Conn);
 		void ConnectionRemove(IServerConnection *Conn);
 
-	
+
 	private:
 		IServerHandler *m_handler;
 		std::list<IServer *> m_Servers;
@@ -52,6 +55,7 @@ class ServerManager
 		Mutex m_ConnectionMutex;
 		std::map<uint64_t, IServerConnection *> m_ConnectionMap;
 		uint64_t m_ConnectionNextID; //Next number to assignt o a connection
+		ThreadPool *m_pool;
 
 		//Stats
 		uint64_t m_TotalRequests;

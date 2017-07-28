@@ -9,6 +9,7 @@ class ThreadPoolThread;
 class ThreadPool {
 	public:
 		ThreadPool();
+		ThreadPool(int nthread);
 		ThreadPool(int nthread, size_t maxqueue);
 		~ThreadPool();
 

@@ -103,7 +103,7 @@ static void Start()
 {
 	Handler SrvHandler;
 	ServerManager Manager(&SrvHandler);
-	
+	Manager.SetThreads(4);
 //	ServerUnix Unix("/tmp/SimpleServer");
 //	ServerUnixSelected Unix("/tmp/SimpleServer");
 	ServerUnixPolled Unix("/tmp/SimpleServer");

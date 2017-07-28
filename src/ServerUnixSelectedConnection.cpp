@@ -1,10 +1,11 @@
 
 #include <libclientserver.h>
 
-ServerUnixSelectedConnection::ServerUnixSelectedConnection(ServerManager *Manager, IServer *Server, int fd)
+ServerUnixSelectedConnection::ServerUnixSelectedConnection(ServerManager *Manager, IServer *Server, Selector *sel, int fd)
 {
 	m_Manager = Manager;
 	m_Server = Server;
+	m_selector = sel;
 	m_fd = fd;
 
 	if (m_ReadBuffer.Init() < 0)
@@ -116,6 +117,8 @@ bool ServerUnixSelectedConnection::SendLine(const std::string *str)
 	ScopedLock lock = ScopedLock(&m_WriteMutex);
 	if (m_WriteBuffer.PushData(str->c_str(), str->size()) < 0)
 		return false;
+	lock.Unlock();
+	m_selector.Update(this);
 	return true;
 }
 

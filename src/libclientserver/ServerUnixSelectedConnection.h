@@ -3,7 +3,7 @@
 class ServerUnixSelectedConnection : public IServerConnection, public ISelectable, Thread
 {
 	public:
-		ServerUnixSelectedConnection(ServerManager *Manager, IServer *Server, int fd);
+		ServerUnixSelectedConnection(ServerManager *Manager, IServer *Server, Selector *sel, int fd);
 		virtual ~ServerUnixSelectedConnection();
 
 		bool CanRead(const Selector *);
@@ -27,6 +27,7 @@ class ServerUnixSelectedConnection : public IServerConnection, public ISelectabl
 	private:
 		ServerManager *m_Manager;
 		IServer *m_Server;
+		Selector *m_selector;
 		int m_fd;
 		Buffer m_ReadBuffer;
 

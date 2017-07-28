@@ -1,10 +1,11 @@
 
 #include <libclientserver.h>
 
-ServerUnixPolledConnection::ServerUnixPolledConnection(ServerManager *Manager, IServer *Server, int fd)
+ServerUnixPolledConnection::ServerUnixPolledConnection(ServerManager *Manager, IServer *Server, Poller *poller, int fd)
 {
 	m_Manager = Manager;
 	m_Server = Server;
+	m_poller = poller;
 	m_fd = fd;
 
 	if (m_ReadBuffer.Init() < 0)
@@ -116,6 +117,8 @@ bool ServerUnixPolledConnection::SendLine(const std::string *str)
 	ScopedLock lock = ScopedLock(&m_WriteMutex);
 	if (m_WriteBuffer.PushData(str->c_str(), str->size()) < 0)
 		return false;
+	lock.Unlock();
+	m_poller->Update(this);
 	return true;
 }
 
