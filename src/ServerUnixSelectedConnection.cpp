@@ -118,7 +118,7 @@ bool ServerUnixSelectedConnection::SendLine(const std::string *str)
 	if (m_WriteBuffer.PushData(str->c_str(), str->size()) < 0)
 		return false;
 	lock.Unlock();
-	m_selector.Update(this);
+	m_selector->Update(this);
 	return true;
 }
 
