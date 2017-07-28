@@ -72,3 +72,4 @@ tests/LazyScopedPtr
 tests/Optional
 examples/PollerListen
 
+.vscode/
