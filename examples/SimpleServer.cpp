@@ -118,6 +118,8 @@ int main(int argc, char **argv)
 	std::string PFilename = "/tmp/SimpleServer.pid";
 	PIDFile PFile(PFilename);
 	
+	signal(SIGPIPE, SIG_IGN);
+
 	if (PFile.Create() == false)
 	{
 		printf("Cannot Create PID File '%s'\n", PFilename.c_str());
