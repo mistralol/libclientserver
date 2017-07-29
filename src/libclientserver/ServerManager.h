@@ -24,7 +24,7 @@ class ServerManager
 		void ServerRemoveAll();
 
 		bool ProcessLine(IServerConnection *Connection, const std::string *line);
-		bool ProcessLineInline(IServerConnection *Connection, const std::string *line);
+		bool ProcessLineInline(uint64_t ConnID, const std::string *line);
 
 		void RaisePreNewConnection();
 		void RaisePostNewConnection(IServerConnection *Connection);
@@ -52,7 +52,7 @@ class ServerManager
 		Mutex m_ServersMutex;
 
 		//Connection Tracking
-		Mutex m_ConnectionMutex;
+		RWLock m_ConnectionLock;
 		std::map<uint64_t, IServerConnection *> m_ConnectionMap;
 		uint64_t m_ConnectionNextID; //Next number to assignt o a connection
 		ThreadPool *m_pool;

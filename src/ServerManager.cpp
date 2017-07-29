@@ -49,7 +49,7 @@ void ServerManager::ServerRemoveAll()
 
 void ServerManager::ConnectionAdd(IServerConnection *Conn)
 {
-	ScopedLock lock(&m_ConnectionMutex);
+	ScopedWriteLock lock(&m_ConnectionLock);
 	m_ConnectionNextID++;
 	Conn->SetConnID(m_ConnectionNextID);
 	m_ConnectionMap[m_ConnectionNextID] = Conn;
@@ -62,7 +62,7 @@ void ServerManager::ConnectionRemove(IServerConnection *Conn)
 		//it does this by making sure everything has been processed
 		m_pool->Flush();
 	}
-	ScopedLock lock(&m_ConnectionMutex);
+	ScopedWriteLock lock(&m_ConnectionLock);
 	auto it = m_ConnectionMap.find(Conn->GetConnID());
 	if (it == m_ConnectionMap.end())
 		abort(); //Should never happen. Connection tracking failed if it did
@@ -79,14 +79,14 @@ void ServerManager::SetThreads(int nthreads) {
 
 struct ThreadPoolArgs {
 	ServerManager *context;
-	IServerConnection *Conn;
+	uint64_t ConnID;
 	std::string line;
 };
 
 static void CallProcessLine(void *arg) {
 	ThreadPoolArgs *tmp = (ThreadPoolArgs *) arg;
 	try {
-		tmp->context->ProcessLineInline(tmp->Conn, &tmp->line);
+		tmp->context->ProcessLineInline(tmp->ConnID, &tmp->line);
 	} catch(std::exception &e) {
 		abort();
 	}
@@ -97,16 +97,25 @@ bool ServerManager::ProcessLine(IServerConnection *Connection, const std::string
 	if (m_pool != 0) {
 		ThreadPoolArgs *tmp = new ThreadPoolArgs();
 		tmp->context = this;
-		tmp->Conn = Connection;
+		tmp->ConnID = Connection->GetConnID();
 		tmp->line = *line;
 		return m_pool->Add(CallProcessLine, tmp);
 	} else {
-		return ProcessLineInline(Connection, line);
+		return ProcessLineInline(Connection->GetConnID(), line);
 	}
 }
 
-bool ServerManager::ProcessLineInline(IServerConnection *Connection, const std::string *line)
+bool ServerManager::ProcessLineInline(uint64_t ConnID, const std::string *line)
 {
+	IServerConnection *Connection = NULL;
+	//Stop the connection from being removed while we are doing this.
+	//This really only happens in thread pooled mode.
+	ScopedReadLock ConnLock(&m_ConnectionLock);
+	auto it = m_ConnectionMap.find(ConnID);
+	if (it == m_ConnectionMap.end())
+		return false; //Just got disconnected. Do not process command. We cannot sent a response.
+	Connection = it->second;
+
 	std::string command = "";
 	std::string args = "";
 
@@ -255,7 +264,7 @@ int ServerManager::SendEvent(uint64_t ConnID, Json::Value &event)
         std::string str = ss.str();
 
 	ScopedLock lock1(&m_ServersMutex);
-	ScopedLock lock2(&m_ConnectionMutex);
+	ScopedReadLock lock2(&m_ConnectionLock);
 	auto it = m_ConnectionMap.find(ConnID);
 	if (it == m_ConnectionMap.end())
 	{
