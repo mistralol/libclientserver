@@ -27,6 +27,7 @@ TESTS=PIDFile \
 	TestProcess \
 	TestSelector \
 	TestServer \
+	TestServerDisconnects \
 	TestSignalHandler \
 	TestTimers \
 	ThreadPool \
@@ -62,6 +63,7 @@ check_PROGRAMS=PIDFile \
 	TestProcess \
 	TestSelector \
 	TestServer \
+	TestServerDisconnects \
 	TestSignalHandler \
 	TestTimers \
 	ThreadPool \
@@ -97,6 +99,7 @@ TestPoller_SOURCES=TestPoller.cpp
 TestProcess_SOURCES=TestProcess.cpp
 TestSelector_SOURCES=TestSelector.cpp
 TestServer_SOURCES=TestServer.cpp
+TestServerDisconnects_SOURCES=TestServerDisconnects.cpp
 TestSignalHandler_SOURCES=TestSignalHandler.cpp
 TestTimers_SOURCES=TestTimers.cpp
 ThreadPool_SOURCES=ThreadPool.cpp
