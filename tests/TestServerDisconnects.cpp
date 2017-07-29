@@ -143,8 +143,7 @@ class TestClient : Thread {
 
         virtual void Run() {
             while(m_quit == false) {
-                if (Ping(m_cli) != 0)
-                    retval = 1;
+                Ping(m_cli);
             }
         }
 
