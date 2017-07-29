@@ -59,6 +59,7 @@ tests/TestPoller
 tests/TestProcess
 tests/TestSelector
 tests/TestServer
+tests/TestServerDisconnects
 tests/TestSignalHandler
 tests/TestTimers
 tests/ThreadPool
