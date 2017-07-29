@@ -28,7 +28,7 @@ void ServerManager::ServerRemove(IServer *Server)
 	Server->Stop();
 
 	std::list<IServer *>::iterator it;
-	for(it = m_Servers.begin(); it != m_Servers.end(); it++)
+	for(it = m_Servers.begin(); it != m_Servers.end(); ++it)
 	{
 		if (*it == Server)
 		{
