@@ -249,10 +249,9 @@ void ServerManager::SendEvent(Json::Value &event)
 	std::string str = ss.str();
 
 	ScopedLock lock(&m_ServersMutex);
-	std::list<IServer *>::iterator it;
-	for(it = m_Servers.begin(); it != m_Servers.end(); it++)
+	for(auto it : m_Servers)
 	{
-		(*it)->SendEvent(str);
+		it->SendEvent(str);
 	}
 }
 
