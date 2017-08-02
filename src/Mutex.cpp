@@ -70,7 +70,7 @@ Mutex::~Mutex() {
  * if there is a bug in the application using the Mutex class
  */
 void Mutex::Lock() {
-	if (pthread_mutex_lock(&m_mutex) < 0)
+	if (pthread_mutex_lock(&m_mutex) != 0)
 		abort(); //Could not lock mutex
 	m_locked = true;
 	m_owner = pthread_self();
@@ -131,7 +131,7 @@ int Mutex::TryLock()
 void Mutex::Unlock() {
 	m_locked = false;
 	m_depth--;
-	if (pthread_mutex_unlock(&m_mutex) < 0)
+	if (pthread_mutex_unlock(&m_mutex) != 0)
 		abort(); //Could not unlock mutex
 }
 
@@ -167,7 +167,7 @@ void Mutex::Wait() {
 
 	m_locked = false;
 	int ret = pthread_cond_wait(&m_cond, &m_mutex);
-	if (ret < 0)
+	if (ret != 0)
 		abort(); //pthread_cond_wait failed
 	m_locked = true;
 	m_owner = pthread_self();
@@ -233,7 +233,7 @@ void Mutex::WakeUp() {
 		abort();
 #endif
 	int ret = pthread_cond_signal(&m_cond);
-	if (ret < 0)
+	if (ret != 0)
 		abort(); //pthread_cond_signal failed
 }
 
@@ -250,7 +250,7 @@ void Mutex::WakeUpAll() {
 		abort();
 #endif
 	int ret = pthread_cond_broadcast(&m_cond);
-	if (ret < 0)
+	if (ret != 0)
 		abort(); //pthread_cond_signal failed
 }
 
