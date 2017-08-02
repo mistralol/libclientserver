@@ -322,5 +322,6 @@ void Poller::Run()
 skip_to_end:
 		ReadControl();
 	}
+	free(fds);
 }
 
