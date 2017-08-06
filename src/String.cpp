@@ -31,7 +31,7 @@ std::string String::ToUpper(const std::string &str)
  * const std::string chk3 = "0123456789";
  * const std::string chk4 = " -";
  */
-bool String::Sanity(const std::string *str)
+bool String::Sanity(const std::string &str)
 {
 	const std::string chk1 = "abcdefghijklmnopqrstuvwxyz";
 	const std::string chk2 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -39,7 +39,7 @@ bool String::Sanity(const std::string *str)
 	const std::string chk4 = " -";
 	const std::string chk = chk1 + chk2 + chk3 + chk4;
 
-	if (Exists(str, &chk) == false)
+	if (Exists(str, chk) == false)
 		return false;
 	return true;
 }
@@ -53,15 +53,15 @@ bool String::Sanity(const std::string *str)
  * Does the same as Sanity but allows some extra chars to pass the test
  *
  */
-bool String::Sanity(const std::string *str, const std::string *extra)
+bool String::Sanity(const std::string &str, const std::string &extra)
 {
 	const std::string chk1 = "abcdefghijklmnopqrstuvwxyz";
 	const std::string chk2 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	const std::string chk3 = "0123456789";
 	const std::string chk4 = " -";
-	const std::string chk = chk1 + chk2 + chk3 + chk4 + *extra;
+	const std::string chk = chk1 + chk2 + chk3 + chk4 + extra;
 
-	if (Exists(str, &chk) == false)
+	if (Exists(str, chk) == false)
 		return false;
 	return true;
 }
@@ -153,13 +153,13 @@ void String::NSort(const std::list<std::string> &lst, std::list<std::string> &re
  * This function will return false if str1 contains a char not in str2
  *
  */
-bool String::Exists(const std::string *str1, const std::string *str2)
+bool String::Exists(const std::string &str1, const std::string &str2)
 {
-	const char *s1 = str1->c_str();
+	const char *s1 = str1.c_str();
 
 	while(*s1 != 0)
 	{
-		const char *s2 = str2->c_str();
+		const char *s2 = str2.c_str();
 		bool found = false;
 		while(*s2 != 0)
 		{
