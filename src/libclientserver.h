@@ -55,6 +55,8 @@
 #include <libclientserver/RWLock.h>
 #include <libclientserver/ScopedReadLock.h>
 #include <libclientserver/ScopedWriteLock.h>
+#include <libclientserver/HashMutex.h>
+#include <libclientserver/ScopedHashLock.h>
 #include <libclientserver/Buffer.h>
 #include <libclientserver/Barrier.h>
 #include <libclientserver/FileUtil.h>
