@@ -35,6 +35,7 @@ TESTS=PIDFile \
 	TestSemaphore \
 	TestUuid \
 	TestSHA1 \
+	TestHashMutex \
 	TestTimeNanoSeconds \
 	LazyScopedPtr \
 	Optional
@@ -71,6 +72,7 @@ check_PROGRAMS=PIDFile \
 	TestSemaphore \
 	TestUuid \
 	TestSHA1 \
+	TestHashMutex \
 	TestTimeNanoSeconds \
 	LazyScopedPtr \
 	Optional
@@ -107,6 +109,7 @@ TimerExit_SOURCES=TimerExit.cpp
 TestSemaphore_SOURCES=TestSemaphore.cpp
 TestUuid_SOURCES=TestUuid.cpp
 TestSHA1_SOURCES=TestSHA1.cpp
+TestHashMutex_SOURCES=TestHashMutex.cpp
 TestTimeNanoSeconds_SOURCES=TestTimeNanoSeconds.cpp
 LazyScopedPtr_SOURCES=LazyScopedPtr.cpp
 Optional_SOURCES=Optional.cpp

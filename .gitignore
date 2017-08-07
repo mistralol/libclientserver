@@ -71,6 +71,6 @@ tests/TestSHA1
 tests/TestTimeNanoSeconds
 tests/LazyScopedPtr
 tests/Optional
+tests/TestHashMutex
 examples/PollerListen
-
 .vscode/

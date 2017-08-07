@@ -90,6 +90,7 @@ otherinclude_HEADERS= libclientserver/LazyScopedPtr.h \
 			libclientserver/ScopedSignalBlock.h \
 			libclientserver/ITimer.h \
 			libclientserver/Mutex.h \
+			libclientserver/HashMutex.h \
 			libclientserver/Semaphore.h \
 			libclientserver/Notify.h \
 			libclientserver/PerfCounter.h \
