@@ -37,6 +37,14 @@ template <class T> class HashMutex {
             }
         }
 
+        void LockAll() {
+            m_mutex.Lock();
+        }
+
+        void UnlockAll() {
+            m_mutex.Unlock();
+        }
+
     private:
         Mutex m_mutex;
         std::map<T, int> m_map;   //Key, Usage

@@ -92,6 +92,7 @@ otherinclude_HEADERS= libclientserver/LazyScopedPtr.h \
 			libclientserver/Mutex.h \
 			libclientserver/HashMutex.h \
 			libclientserver/ScopedHashLock.h \
+			libclientserver/ScopedHashLockAll.h \
 			libclientserver/Semaphore.h \
 			libclientserver/Notify.h \
 			libclientserver/PerfCounter.h \

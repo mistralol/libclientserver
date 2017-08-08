@@ -16,5 +16,10 @@ int main(int argc, char **argv) {
 
     ScopedHashLock<std::string> lock(&mutex, "Key");
 
+    ScopedHashLockAll<std::string> lock2(&mutex);
+
+    ScopedHashLockAll<std::string> lock3(&mutex);
+    lock3.Unlock();
+
     return 0;
 }

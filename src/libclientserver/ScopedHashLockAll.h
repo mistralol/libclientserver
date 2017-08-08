@@ -1,16 +1,15 @@
 
-template <class T> class ScopedHashLock {
+template <class T> class ScopedHashLockAll {
     public:
-        ScopedHashLock(HashMutex<T> *mutex, T key) {
+        ScopedHashLockAll(HashMutex<T> *mutex) {
             m_mutex = mutex;
-            m_key = key;
-            m_mutex->Lock(key);
+            m_mutex->LockAll();
             m_locked = true;
         }
 
-        ~ScopedHashLock() {
+        ~ScopedHashLockAll() {
             if (m_locked) {
-                m_mutex->Unlock(m_key);
+                m_mutex->UnlockAll();
                 m_locked = false;
             }
         }
@@ -18,14 +17,13 @@ template <class T> class ScopedHashLock {
         void Unlock() {
             if (!m_locked)
                 abort();
-            m_mutex->Unlock(m_key);
+            m_mutex->UnlockAll();
             m_locked = false;
         }
 
 
     private:
         HashMutex<T> *m_mutex;
-        T m_key;
         bool m_locked;
 
 };
