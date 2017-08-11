@@ -1,12 +1,11 @@
 
 #include <libclientserver.h>
 
-TimerFunc::TimerFunc(int seconds, void (*func) (void *), void *arg)
+TimerFunc::TimerFunc(int seconds, std::function<void()> func)
 {
 	m_timeout.tv_sec = seconds;
 	m_timeout.tv_nsec = 0;
 	m_func = func;
-	m_arg = arg;
 }
 
 void TimerFunc::GetDelay(struct timespec *ts)
@@ -16,6 +15,6 @@ void TimerFunc::GetDelay(struct timespec *ts)
 
 void TimerFunc::TimerExpired(Timers *timers, ITimer *timer)
 {
-	m_func(m_arg);
+	m_func();
 }
 

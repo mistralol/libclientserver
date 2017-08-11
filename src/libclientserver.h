@@ -8,6 +8,7 @@
 #include <exception>
 #include <stdexcept>
 #include <memory>
+#include <functional>
 
 #include <stdio.h>
 #include <stdlib.h>
