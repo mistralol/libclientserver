@@ -64,6 +64,7 @@ tests/TestSignalHandler
 tests/TestTimers
 tests/ThreadPool
 tests/TimerExit
+tests/TimerExitLamba
 tests/TestSemaphore
 tests/TestUuid
 tests/TestRequestStringVector

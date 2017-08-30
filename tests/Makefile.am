@@ -32,6 +32,7 @@ TESTS=PIDFile \
 	TestTimers \
 	ThreadPool \
 	TimerExit \
+	TimerExitLamba \
 	TestSemaphore \
 	TestUuid \
 	TestSHA1 \
@@ -69,6 +70,7 @@ check_PROGRAMS=PIDFile \
 	TestTimers \
 	ThreadPool \
 	TimerExit \
+	TimerExitLamba \
 	TestSemaphore \
 	TestUuid \
 	TestSHA1 \
@@ -106,6 +108,7 @@ TestSignalHandler_SOURCES=TestSignalHandler.cpp
 TestTimers_SOURCES=TestTimers.cpp
 ThreadPool_SOURCES=ThreadPool.cpp
 TimerExit_SOURCES=TimerExit.cpp
+TimerExitLamba_SOURCES=TimerExitLamba.cpp
 TestSemaphore_SOURCES=TestSemaphore.cpp
 TestUuid_SOURCES=TestUuid.cpp
 TestSHA1_SOURCES=TestSHA1.cpp
