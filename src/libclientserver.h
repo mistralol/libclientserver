@@ -9,6 +9,7 @@
 #include <stdexcept>
 #include <memory>
 #include <functional>
+#include <atomic>
 
 #include <stdio.h>
 #include <stdlib.h>

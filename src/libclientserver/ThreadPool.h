@@ -1,9 +1,4 @@
 
-struct ThreadPoolItem {
-	void (*fp) (void *arg);
-	void *arg;
-};
-
 class ThreadPoolThread;
 
 class ThreadPool {
@@ -13,10 +8,10 @@ class ThreadPool {
 		ThreadPool(int nthread, size_t maxqueue);
 		~ThreadPool();
 
-		bool Add( void (*fp) (void *arg), void *arg );
+		void Add(std::function<void()> func);
 		void Flush();
 
-		ThreadPoolItem *GetNext();
+		void Execute();
 		
 		size_t GetCount();
 		size_t GetHWCount();
@@ -26,8 +21,9 @@ class ThreadPool {
 
 	private:
 		Mutex m_mutex;
-		Queue<ThreadPoolItem *> m_queue;
+		std::atomic<uint64_t> m_totalqueued;
+		std::atomic<uint64_t> m_totalexecuted;
+		Queue<std::function<void()> > m_queue;
 		std::list<ThreadPoolThread *> m_threads;
 };
-
 

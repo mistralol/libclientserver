@@ -16,11 +16,11 @@ class Queue
 			Flush(); //This prevents the queue from being destryoed when it contains items
 		}
 
-		bool Add(T item)
+		void Add(T &item)
 		{
 			ScopedLock lock(&m_mutex);
 			if (m_maxsize != 0 && m_queue.size() >= m_maxsize)
-				return false;
+				throw(std::runtime_error("Queue Full"));
 
 			if (m_queue.size() > m_hwsize)
 				m_hwsize = m_queue.size();
@@ -28,51 +28,48 @@ class Queue
 			m_count++;
 			m_queue.push_back(item);
 			m_mutex.WakeUp();
-			return true;
 		}
 
-		T GetNext()
+		void GetNext(T &val)
 		{
-			T tmp = NULL;
 			ScopedLock lock(&m_mutex);
-			while(tmp == NULL)
+			while(1)
 			{
 				if (m_queue.empty() == false)
 				{
-					tmp = m_queue.front();
+					val = m_queue.front();
 					m_queue.pop_front();
-					return tmp;
+					return;
 				}
 				else
 				{
 					m_mutex.Wait();
 				}
 			}
-			return NULL;
 		}
 
-		T GetNext(struct timespec *ts)
+		bool GetNext(struct timespec *ts, T &val)
 		{
-			T tmp = NULL;
+			bool found = false;
 			ScopedLock lock(&m_mutex);
-			while(tmp == NULL)
+			while(found == false)
 			{
 				if (m_queue.empty() == false)
 				{
-					tmp = m_queue.front();
+					val = m_queue.front();
 					m_queue.pop_front();
 					//Since we are removing items. If the queue is being flushed also do a wakeup
 					if (m_flushing && m_queue.empty() == true)
 						m_mutex.WakeUp();
-					return tmp;
+					return true;
 				}
 				else
 				{
 					if (m_mutex.Wait(ts) == -ETIMEDOUT)
-						return NULL;
+						return false;
 				}
 			}
-			return NULL;
+			return false;
 		}
 
 		void Flush()

@@ -17,11 +17,11 @@ class SQueue
 			Flush();
 		}
 
-		bool Add(T item)
+		void Add(T item)
 		{
 			ScopedLock lock(&m_mutex);
 			if (m_maxsize != 0 && m_queue.size() >= m_maxsize)
-				return false;
+				throw(std::runtime_error("Queue Full"));
 
 			if (m_queue.size() > m_hwsize)
 				m_hwsize = m_queue.size();
@@ -30,22 +30,19 @@ class SQueue
 			m_queue.push_back(item);
 			lock.Unlock();
 			m_sem.Up();
-			return true;
 		}
 
-		T GetNext()
+		void GetNext(T &val)
 		{
 			m_sem.Down();
-			T tmp = NULL;
 			ScopedLock lock(&m_mutex);
 			if (m_queue.empty() == true)
 			{
 				m_mutex.WakeUp(); //WakeUp during flush
-				return NULL;
+				throw(std::runtime_error("No Queue Item"));
 			}
-			tmp = m_queue.front();
+			val = m_queue.front();
 			m_queue.pop_front();
-			return tmp;
 		}
 
 		void Flush()
@@ -53,7 +50,6 @@ class SQueue
 			ScopedLock lock(&m_mutex);
 			while(m_queue.empty() == false)
 			{
-				m_sem.Up();
 				m_mutex.Wait();
 			}
 			

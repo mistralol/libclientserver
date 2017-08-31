@@ -5,9 +5,10 @@ class ThreadPoolThread : public Thread {
 		~ThreadPoolThread();
 
 		void Stop();
+		void SetExit();
 		void Run();
 
-	private:
+private:
 		ThreadPool *m_Pool;
 		volatile bool m_exit;
 };

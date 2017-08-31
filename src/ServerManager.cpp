@@ -83,26 +83,22 @@ struct ThreadPoolArgs {
 	std::string line;
 };
 
-static void CallProcessLine(void *arg) {
-	ThreadPoolArgs *tmp = (ThreadPoolArgs *) arg;
+static void CallProcessLine(ServerManager *context, uint64_t ConnID, std::string line) {
 	try {
-		tmp->context->ProcessLineInline(tmp->ConnID, &tmp->line);
+		context->ProcessLineInline(ConnID, &line);
 	} catch(std::exception &e) {
 		abort();
 	}
-	delete tmp;
 }
 
 bool ServerManager::ProcessLine(IServerConnection *Connection, const std::string *line) {
 	if (m_pool != 0) {
-		ThreadPoolArgs *tmp = new ThreadPoolArgs();
-		tmp->context = this;
-		tmp->ConnID = Connection->GetConnID();
-		tmp->line = *line;
-		return m_pool->Add(CallProcessLine, tmp);
+		std::function<void()> func = std::bind(CallProcessLine, this, Connection->GetConnID(), *line);
+		m_pool->Add(func);
 	} else {
 		return ProcessLineInline(Connection->GetConnID(), line);
 	}
+	return true;
 }
 
 bool ServerManager::ProcessLineInline(uint64_t ConnID, const std::string *line)

@@ -9,16 +9,17 @@ int main(int argc, char **argv)
 
 	for(int i =0;i<items;i++)
 	{
-		Q.Add(NULL);
+		void *p = NULL;
+		Q.Add(p);
 		printf("Add Item\n");
 	}
 	
 	for(int i =0;i<items;i++)
 	{
-		Q.GetNext();
+		void *tmp;
+		Q.GetNext(tmp);
 		printf("Got Item\n");
 	}
-
 
 	return 0;
 };

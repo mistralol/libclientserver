@@ -20,16 +20,37 @@ ThreadPool::ThreadPool(int nthread, size_t maxqueue)
 ThreadPool::~ThreadPool()
 {
 	Flush();
+
+	//Mark all to exit
+	for(auto &it : m_threads) {
+		it->SetExit();
+	}
+
+	//Make them wakeup
+	for(size_t i = 0; i < m_threads.size();i++) {
+		Add(std::bind([]() { }));
+	}
+
+	Flush();
+
+	//Now reap them
 	while(m_threads.size() > 0)
 	{
 		ThreadPoolThread *thd = m_threads.front();
 		m_threads.pop_front();
 		delete thd;
 	}
+
+	//The exit path is a little racy so we need to process anything else left over.
+	while(m_queue.GetCount()) {
+		Execute();
+	}
 }
 
 void ThreadPool::Init(int nthread, size_t maxqueue)
 {
+	m_totalqueued = 0;
+	m_totalexecuted = 0;
 	for(int i =0;i<nthread;i++)
 	{
 		ThreadPoolThread *thd = new ThreadPoolThread(this);
@@ -39,23 +60,25 @@ void ThreadPool::Init(int nthread, size_t maxqueue)
 	m_queue.SetMaxItems(maxqueue);
 }
 
-bool ThreadPool::Add( void (*fp) (void *arg), void *arg )
+void ThreadPool::Add(std::function<void()> func)
 {
-	ThreadPoolItem *tmp = new ThreadPoolItem;
-	tmp->fp = fp;
-	tmp->arg = arg;
-	return m_queue.Add(tmp);
+	m_queue.Add(func);
+	m_totalqueued++;
 }
 
 void ThreadPool::Flush()
 {
-	m_queue.Flush();
+	uint64_t queued = m_totalqueued;
+	while(queued < m_totalexecuted) {
+		m_queue.Flush();
+	}
 }
 
-ThreadPoolItem *ThreadPool::GetNext()
-{
-	struct timespec ts = {1, 0};
-	return m_queue.GetNext(&ts);
+void ThreadPool::Execute() {
+	std::function<void()> func;
+	m_queue.GetNext(func);
+	func();
+	m_totalexecuted++;
 }
 
 size_t ThreadPool::GetCount()

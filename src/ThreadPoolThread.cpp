@@ -14,19 +14,18 @@ ThreadPoolThread::~ThreadPoolThread()
 
 void ThreadPoolThread::Stop()
 {
-	m_exit = true;
 	Thread::Stop();
+}
+
+void ThreadPoolThread::SetExit() {
+	m_exit = true;
 }
 
 void ThreadPoolThread::Run()
 {
 	while(m_exit == false)
 	{
-		ThreadPoolItem *item = m_Pool->GetNext();
-		if (item == NULL)
-			continue;
-		item->fp(item->arg);
-		delete item;
+		m_Pool->Execute();
 	}
 }
 
