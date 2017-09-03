@@ -69,7 +69,7 @@ void ThreadPool::Add(std::function<void()> func)
 void ThreadPool::Flush()
 {
 	uint64_t queued = m_totalqueued;
-	while(queued <= m_totalexecuted) {
+	while(queued < m_totalexecuted) {
 		m_queue.Flush();
 	}
 }
