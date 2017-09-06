@@ -94,6 +94,8 @@
 #include <libclientserver/ServerUnix.h>
 #include <libclientserver/ServerUnixSelected.h>
 #include <libclientserver/ServerUnixSelectedListener.h>
+#include <libclientserver/ServerTCPSelected.h>
+#include <libclientserver/ServerTCPSelectedListener.h>
 
 #include <libclientserver/ServerUnixPolled.h>
 #include <libclientserver/ServerUnixPolledListener.h>
@@ -103,7 +105,7 @@
 
 #include <libclientserver/IServerConnection.h>
 #include <libclientserver/ServerUnixConnection.h>
-#include <libclientserver/ServerUnixSelectedConnection.h>
+#include <libclientserver/ServerSelectedConnection.h>
 #include <libclientserver/ServerPolledConnection.h>
 
 #include <libclientserver/IServerHandler.h>
@@ -137,6 +139,4 @@
 #include <libclientserver/Crypto.h>
 
 #include <libclientserver/RateLimit.h>
-
-
 

@@ -107,9 +107,12 @@ static void Start()
 //	ServerUnix Unix("/tmp/SimpleServer");
 //	ServerUnixSelected Unix("/tmp/SimpleServer");
 	ServerUnixPolled Unix("/tmp/SimpleServer");
+	ServerTCPPolled TCP(6001);
 	
 	Manager.ServerAdd(&Unix);
+	Manager.ServerAdd(&TCP);
 	SrvHandler.Wait();
+	Manager.ServerRemove(&TCP);
 	Manager.ServerRemove(&Unix);
 }
 

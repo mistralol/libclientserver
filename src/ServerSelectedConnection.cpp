@@ -1,7 +1,7 @@
 
 #include <libclientserver.h>
 
-ServerUnixSelectedConnection::ServerUnixSelectedConnection(ServerManager *Manager, IServer *Server, Selector *sel, int fd)
+ServerSelectedConnection::ServerSelectedConnection(ServerManager *Manager, IServer *Server, Selector *sel, int fd)
 {
 	m_Manager = Manager;
 	m_Server = Server;
@@ -21,18 +21,18 @@ ServerUnixSelectedConnection::ServerUnixSelectedConnection(ServerManager *Manage
 	Manager->RaisePostNewConnection(this);
 }
 
-ServerUnixSelectedConnection::~ServerUnixSelectedConnection()
+ServerSelectedConnection::~ServerSelectedConnection()
 {
 	if (close(m_fd) < 0)
 		abort();
 }
 
-bool ServerUnixSelectedConnection::CanRead(const Selector *)
+bool ServerSelectedConnection::CanRead(const Selector *)
 {
 	return true;
 }
 
-bool ServerUnixSelectedConnection::CanWrite(const Selector *)
+bool ServerSelectedConnection::CanWrite(const Selector *)
 {
 	ScopedLock lock = ScopedLock(&m_WriteMutex);
 	if (m_WriteBuffer.GetDataLength() > 0)
@@ -40,17 +40,17 @@ bool ServerUnixSelectedConnection::CanWrite(const Selector *)
 	return false;
 }
 
-bool ServerUnixSelectedConnection::CanExcept(const Selector *)
+bool ServerSelectedConnection::CanExcept(const Selector *)
 {
 	return false;
 }
 
-bool ServerUnixSelectedConnection::CanTimeout(const Selector *)
+bool ServerSelectedConnection::CanTimeout(const Selector *)
 {
 	return true;
 }
 
-void ServerUnixSelectedConnection::DoRead(Selector *sel)
+void ServerSelectedConnection::DoRead(Selector *sel)
 {
 	if (m_ReadBuffer.Read(m_fd) < 0)
 	{
@@ -68,7 +68,7 @@ void ServerUnixSelectedConnection::DoRead(Selector *sel)
 	}
 }
 
-void ServerUnixSelectedConnection::DoWrite(Selector *sel)
+void ServerSelectedConnection::DoWrite(Selector *sel)
 {
 	ScopedLock lock = ScopedLock(&m_WriteMutex);
 	if (m_WriteBuffer.Write(m_fd) < 0)
@@ -78,33 +78,33 @@ void ServerUnixSelectedConnection::DoWrite(Selector *sel)
 	}
 }
 
-void ServerUnixSelectedConnection::DoExcept(Selector *)
+void ServerSelectedConnection::DoExcept(Selector *)
 {
 
 }
 
-void ServerUnixSelectedConnection::DoTimeout(Selector *sel)
-{
-	Destroy(sel);
-}
-
-void ServerUnixSelectedConnection::DoClose(Selector *sel)
+void ServerSelectedConnection::DoTimeout(Selector *sel)
 {
 	Destroy(sel);
 }
 
-int ServerUnixSelectedConnection::GetFD(const Selector *)
+void ServerSelectedConnection::DoClose(Selector *sel)
+{
+	Destroy(sel);
+}
+
+int ServerSelectedConnection::GetFD(const Selector *)
 {
 	return m_fd;
 }
 
-void ServerUnixSelectedConnection::GetTimeout(const Selector *, struct timespec *tv)
+void ServerSelectedConnection::GetTimeout(const Selector *, struct timespec *tv)
 {
 	tv->tv_sec = 300;
 	tv->tv_nsec = 0;
 }
 
-void ServerUnixSelectedConnection::Destroy(Selector *sel)
+void ServerSelectedConnection::Destroy(Selector *sel)
 {
 	sel->Remove(this);
 	m_Server->ConnectionRemove(this);
@@ -112,7 +112,7 @@ void ServerUnixSelectedConnection::Destroy(Selector *sel)
 	delete this;
 }
 
-bool ServerUnixSelectedConnection::SendLine(const std::string *str)
+bool ServerSelectedConnection::SendLine(const std::string *str)
 {
 	ScopedLock lock = ScopedLock(&m_WriteMutex);
 	if (m_WriteBuffer.PushData(str->c_str(), str->size()) < 0)

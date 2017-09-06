@@ -1,10 +1,10 @@
 
 
-class ServerUnixSelectedConnection : public IServerConnection, public ISelectable, Thread
+class ServerSelectedConnection : public IServerConnection, public ISelectable, Thread
 {
 	public:
-		ServerUnixSelectedConnection(ServerManager *Manager, IServer *Server, Selector *sel, int fd);
-		virtual ~ServerUnixSelectedConnection();
+		ServerSelectedConnection(ServerManager *Manager, IServer *Server, Selector *sel, int fd);
+		virtual ~ServerSelectedConnection();
 
 		bool CanRead(const Selector *);
 		bool CanWrite(const Selector *);
