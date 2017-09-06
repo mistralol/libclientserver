@@ -25,11 +25,13 @@ libclientserver_la_SOURCES= Barrier.cpp \
 			    RWLock.cpp \
 			    ServerUnixConnection.cpp \
 			    ServerUnixSelected.cpp \
-    			    ServerUnixSelectedConnection.cpp \
-    			    ServerUnixSelectedListener.cpp \
-    			    ServerUnixPolled.cpp \
-    			    ServerUnixPolledConnection.cpp \
-    			    ServerUnixPolledListener.cpp \
+    			ServerUnixSelectedConnection.cpp \
+    			ServerUnixSelectedListener.cpp \
+    			ServerUnixPolled.cpp \
+				ServerTCPPolled.cpp \
+    			ServerPolledConnection.cpp \
+    			ServerUnixPolledListener.cpp \
+				ServerTCPPolledListener.cpp \
 			    SignalHandler.cpp \
 			    ScopedSignalBlock.cpp \
 			    TimerFunc.cpp \
@@ -118,9 +120,11 @@ otherinclude_HEADERS= libclientserver/LazyScopedPtr.h \
 			libclientserver/ServerUnixSelectedConnection.h \
 			libclientserver/ServerUnixSelected.h \
 			libclientserver/ServerUnixSelectedListener.h \
-			libclientserver/ServerUnixPolledConnection.h \
+			libclientserver/ServerPolledConnection.h \
 			libclientserver/ServerUnixPolled.h \
 			libclientserver/ServerUnixPolledListener.h \
+			libclientserver/ServerTCPPolled.h \
+			libclientserver/ServerTCPPolledListener.h \
 			libclientserver/SetGid.h \
 			libclientserver/SetUid.h \
 			libclientserver/SetUser.h \

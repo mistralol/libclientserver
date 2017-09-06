@@ -1,7 +1,7 @@
 
 #include <libclientserver.h>
 
-ServerUnixPolledConnection::ServerUnixPolledConnection(ServerManager *Manager, IServer *Server, Poller *poller, int fd)
+ServerPolledConnection::ServerPolledConnection(ServerManager *Manager, IServer *Server, Poller *poller, int fd)
 {
 	m_Manager = Manager;
 	m_Server = Server;
@@ -21,18 +21,18 @@ ServerUnixPolledConnection::ServerUnixPolledConnection(ServerManager *Manager, I
 	Manager->RaisePostNewConnection(this);
 }
 
-ServerUnixPolledConnection::~ServerUnixPolledConnection()
+ServerPolledConnection::~ServerPolledConnection()
 {
 	if (close(m_fd) < 0)
 		abort();
 }
 
-bool ServerUnixPolledConnection::CanRead(const Poller *)
+bool ServerPolledConnection::CanRead(const Poller *)
 {
 	return true;
 }
 
-bool ServerUnixPolledConnection::CanWrite(const Poller *)
+bool ServerPolledConnection::CanWrite(const Poller *)
 {
 	ScopedLock lock = ScopedLock(&m_WriteMutex);
 	if (m_WriteBuffer.GetDataLength() > 0)
@@ -40,17 +40,17 @@ bool ServerUnixPolledConnection::CanWrite(const Poller *)
 	return false;
 }
 
-bool ServerUnixPolledConnection::CanExcept(const Poller *)
+bool ServerPolledConnection::CanExcept(const Poller *)
 {
 	return false;
 }
 
-bool ServerUnixPolledConnection::CanTimeout(const Poller *)
+bool ServerPolledConnection::CanTimeout(const Poller *)
 {
 	return true;
 }
 
-void ServerUnixPolledConnection::DoRead(Poller *sel)
+void ServerPolledConnection::DoRead(Poller *sel)
 {
 	if (m_ReadBuffer.Read(m_fd) < 0)
 	{
@@ -68,7 +68,7 @@ void ServerUnixPolledConnection::DoRead(Poller *sel)
 	}
 }
 
-void ServerUnixPolledConnection::DoWrite(Poller *sel)
+void ServerPolledConnection::DoWrite(Poller *sel)
 {
 	ScopedLock lock = ScopedLock(&m_WriteMutex);
 	if (m_WriteBuffer.Write(m_fd) < 0)
@@ -78,33 +78,33 @@ void ServerUnixPolledConnection::DoWrite(Poller *sel)
 	}
 }
 
-void ServerUnixPolledConnection::DoExcept(Poller *)
+void ServerPolledConnection::DoExcept(Poller *)
 {
 	//Should never be called
 }
 
-void ServerUnixPolledConnection::DoTimeout(Poller *sel)
+void ServerPolledConnection::DoTimeout(Poller *sel)
 {
 	Destroy(sel);
 }
 
-void ServerUnixPolledConnection::DoClose(Poller *sel)
+void ServerPolledConnection::DoClose(Poller *sel)
 {
 	Destroy(sel);
 }
 
-int ServerUnixPolledConnection::GetFD(const Poller *)
+int ServerPolledConnection::GetFD(const Poller *)
 {
 	return m_fd;
 }
 
-void ServerUnixPolledConnection::GetTimeout(const Poller *, struct timespec *tv)
+void ServerPolledConnection::GetTimeout(const Poller *, struct timespec *tv)
 {
 	tv->tv_sec = 300;
 	tv->tv_nsec = 0;
 }
 
-void ServerUnixPolledConnection::Destroy(Poller *sel)
+void ServerPolledConnection::Destroy(Poller *sel)
 {
 	sel->Remove(this);
 	m_Server->ConnectionRemove(this);
@@ -112,7 +112,7 @@ void ServerUnixPolledConnection::Destroy(Poller *sel)
 	delete this;
 }
 
-bool ServerUnixPolledConnection::SendLine(const std::string *str)
+bool ServerPolledConnection::SendLine(const std::string *str)
 {
 	ScopedLock lock = ScopedLock(&m_WriteMutex);
 	if (m_WriteBuffer.PushData(str->c_str(), str->size()) < 0)

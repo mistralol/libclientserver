@@ -43,6 +43,7 @@
 #include <sys/un.h>
 
 #include <netinet/in.h>
+#include <arpa/inet.h>
 
 #include <json/json.h>
 
@@ -97,10 +98,13 @@
 #include <libclientserver/ServerUnixPolled.h>
 #include <libclientserver/ServerUnixPolledListener.h>
 
+#include <libclientserver/ServerTCPPolled.h>
+#include <libclientserver/ServerTCPPolledListener.h>
+
 #include <libclientserver/IServerConnection.h>
 #include <libclientserver/ServerUnixConnection.h>
 #include <libclientserver/ServerUnixSelectedConnection.h>
-#include <libclientserver/ServerUnixPolledConnection.h>
+#include <libclientserver/ServerPolledConnection.h>
 
 #include <libclientserver/IServerHandler.h>
 #include <libclientserver/ServerManager.h>

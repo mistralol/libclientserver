@@ -1,10 +1,10 @@
 
 
-class ServerUnixPolledConnection : public IServerConnection, public IPollable, Thread
+class ServerPolledConnection : public IServerConnection, public IPollable, Thread
 {
 	public:
-		ServerUnixPolledConnection(ServerManager *Manager, IServer *Server, Poller *poller, int fd);
-		virtual ~ServerUnixPolledConnection();
+		ServerPolledConnection(ServerManager *Manager, IServer *Server, Poller *poller, int fd);
+		virtual ~ServerPolledConnection();
 
 		bool CanRead(const Poller *);
 		bool CanWrite(const Poller *);

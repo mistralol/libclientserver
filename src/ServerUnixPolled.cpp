@@ -47,7 +47,6 @@ void ServerUnixPolled::Stop()
 void ServerUnixPolled::CreateNewConnection(int fd)
 {
 	m_Manager->RaisePreNewConnection();
-	ServerUnixPolledConnection *tmp = new ServerUnixPolledConnection(m_Manager, this, m_Poller, fd);
+	ServerPolledConnection *tmp = new ServerPolledConnection(m_Manager, this, m_Poller, fd);
 	m_Poller->Add(tmp);
 }
-
