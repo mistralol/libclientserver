@@ -25,7 +25,13 @@ ClientBase *Client::CreateUnixSelected(const std::string &ConnectionString)
 
 ClientBase *Client::CreateTcp(const std::string &ConnectionString)
 {
-	return NULL;
+	std::vector<std::string> lst;
+	String::Split(&ConnectionString, ":", &lst);
+
+	if (lst.size() != 3)
+		return NULL;
+
+	return new ClientTCP(atoi(lst[2].c_str()), lst[1]);
 }
 
 ClientBase *Client::Create(const std::string &ConnectionString)

@@ -84,7 +84,8 @@ class Bench : public Thread
 
 int main(int argc, char **argv)
 {
-	ClientBase *Client = Client::Create("unix:/tmp/SimpleServer");
+	//ClientBase *Client = Client::Create("unix:/tmp/SimpleServer");
+	ClientBase *Client = Client::Create("tcp:pi.stev.org:6001");
 	bool Fail = false;
 
 	Client->Connect();
@@ -143,7 +144,7 @@ int main(int argc, char **argv)
 		}
 		
 		Time::MonoTonic(&tend);
-		
+
 		struct timespec ttime, tsingle;
 		Time::Sub(&tend, &tstart, &ttime);
 		Time::Divide(&ttime, count, &tsingle);

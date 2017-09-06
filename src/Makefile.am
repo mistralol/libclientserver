@@ -51,6 +51,7 @@ libclientserver_la_SOURCES= Barrier.cpp \
 			    Thread.cpp \
 			    UserID.cpp \
 			    ClientUnix.cpp \
+				ClientTCP.cpp \
 			    ClientUnixSelected.cpp \
 			    ClientUnixSelectedConnection.cpp \
 			    Mutex.cpp \
@@ -76,6 +77,7 @@ otherinclude_HEADERS= libclientserver/LazyScopedPtr.h \
 			libclientserver/ClientBase.h \
 			libclientserver/Client.h \
 			libclientserver/ClientUnix.h \
+			libclientserver/ClientTCP.h \
 			libclientserver/ClientUnixSelected.h \
 			libclientserver/ClientUnixSelectedConnection.h \
 			libclientserver/Errno.h \

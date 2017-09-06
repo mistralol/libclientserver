@@ -22,6 +22,7 @@
 #include <poll.h>
 #include <dirent.h>
 #include <pwd.h>
+#include <netdb.h>
 
 #include <uuid.h>
 
@@ -115,6 +116,7 @@
 #include <libclientserver/IClientHandler.h>
 #include <libclientserver/ClientBase.h>
 #include <libclientserver/ClientUnix.h>
+#include <libclientserver/ClientTCP.h>
 #include <libclientserver/ClientUnixSelectedConnection.h>
 #include <libclientserver/ClientUnixSelected.h>
 #include <libclientserver/Client.h>
