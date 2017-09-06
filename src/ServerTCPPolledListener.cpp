@@ -26,6 +26,12 @@ void ServerTCPPolledListener::Init(int port, const std::string &address)
 		throw(err);
 	}
 
+	int enable = 1;
+	if (setsockopt(m_fd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0) {
+		std::string err = "setsockopt(SO_REUSEADDR): " + std::string(strerror(errno));
+		throw(std::runtime_error("setsockopt(SO_REUSEADDR) failed"));
+	}
+
 	memset(&addr, 0, addr_len);
 
 	addr.sin_family = AF_INET;
@@ -34,17 +40,17 @@ void ServerTCPPolledListener::Init(int port, const std::string &address)
 
 	if(bind(m_fd, (struct sockaddr *) &addr, addr_len) < 0)
 	{
-		std::string err = strerror(errno);
+		std::string err = "bind: " + std::string(strerror(errno));
 		if (close(m_fd) < 0)
 			abort();
-		throw(err);
+		throw(std::runtime_error(err));
 	}
     
 	if(listen(m_fd, 512) < 0) {
-		std::string err = strerror(errno);
+		std::string err = "listen: " + std::string(strerror(errno));
 		if (close(m_fd) < 0)
 			abort();
-		throw(err);
+		throw(std::runtime_error(err));
 	}
 }
 
