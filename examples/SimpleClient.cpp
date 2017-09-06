@@ -85,7 +85,7 @@ class Bench : public Thread
 int main(int argc, char **argv)
 {
 	//ClientBase *Client = Client::Create("unix:/tmp/SimpleServer");
-	ClientBase *Client = Client::Create("tcp:pi.stev.org:6001");
+	ClientBase *Client = Client::Create("tcp:localhost:6001");
 	bool Fail = false;
 
 	Client->Connect();
