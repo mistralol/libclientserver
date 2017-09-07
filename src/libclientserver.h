@@ -103,6 +103,7 @@
 
 #include <libclientserver/ServerTCPPolled.h>
 #include <libclientserver/ServerTCPPolledListener.h>
+#include <libclientserver/ServerTCP6PolledListener.h>
 
 #include <libclientserver/IServerConnection.h>
 #include <libclientserver/ServerUnixConnection.h>
