@@ -29,6 +29,7 @@ libclientserver_la_SOURCES= Barrier.cpp \
     			    ServerSelectedConnection.cpp \
     			    ServerUnixSelectedListener.cpp \
 			    ServerTCPSelectedListener.cpp \
+			    ServerTCP6SelectedListener.cpp \
     			    ServerUnixPolled.cpp \
 			    ServerTCPPolled.cpp \
     			    ServerPolledConnection.cpp \
@@ -127,6 +128,7 @@ otherinclude_HEADERS= libclientserver/LazyScopedPtr.h \
 			libclientserver/ServerUnixSelectedListener.h \
 			libclientserver/ServerTCPSelected.h \
 			libclientserver/ServerTCPSelectedListener.h \
+			libclientserver/ServerTCP6SelectedListener.h \
 			libclientserver/ServerPolledConnection.h \
 			libclientserver/ServerUnixPolled.h \
 			libclientserver/ServerUnixPolledListener.h \

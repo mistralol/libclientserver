@@ -1,18 +1,18 @@
 
 #include <libclientserver.h>
 
-ServerTCP6PolledListener::ServerTCP6PolledListener(ServerTCPPolled *Server)
+ServerTCP6SelectedListener::ServerTCP6SelectedListener(ServerTCPSelected *Server)
 {
 	m_Server = Server;
 }
 
-ServerTCP6PolledListener::~ServerTCP6PolledListener()
+ServerTCP6SelectedListener::~ServerTCP6SelectedListener()
 {
 	if (close(m_fd) < 0)
 		abort();
 }
 
-void ServerTCP6PolledListener::Init(int port, const std::string &address)
+void ServerTCP6SelectedListener::Init(int port, const std::string &address)
 {
 	m_port = port;
 	m_addr = address;
@@ -33,7 +33,7 @@ void ServerTCP6PolledListener::Init(int port, const std::string &address)
 	}
 
 	memset(&addr, 0, addr_len);
-
+	
 	addr.sin6_family = AF_INET6;
 	if (inet_pton(AF_INET6, address.c_str(), &addr.sin6_addr) != 1) {
 		throw(std::runtime_error("Cannot parse IPv6 address"));
@@ -54,29 +54,30 @@ void ServerTCP6PolledListener::Init(int port, const std::string &address)
 			abort();
 		throw(std::runtime_error(err));
 	}
+
 }
 
-bool ServerTCP6PolledListener::CanRead(const Poller *)
+bool ServerTCP6SelectedListener::CanRead(const Selector *)
 {
 	return true;
 }
 
-bool ServerTCP6PolledListener::CanWrite(const Poller *)
+bool ServerTCP6SelectedListener::CanWrite(const Selector *)
 {
 	return false;
 }
 
-bool ServerTCP6PolledListener::CanExcept(const Poller *)
+bool ServerTCP6SelectedListener::CanExcept(const Selector *)
 {
 	return false;
 }
 
-bool ServerTCP6PolledListener::CanTimeout(const Poller *)
+bool ServerTCP6SelectedListener::CanTimeout(const Selector *)
 {
 	return false;
 }
 
-void ServerTCP6PolledListener::DoRead(Poller *sel)
+void ServerTCP6SelectedListener::DoRead(Selector *sel)
 {
 	struct sockaddr_in6 addr;
 	socklen_t addr_len = sizeof(addr);
@@ -88,31 +89,31 @@ void ServerTCP6PolledListener::DoRead(Poller *sel)
 	m_Server->CreateNewConnection(fd);
 }
 
-void ServerTCP6PolledListener::DoWrite(Poller *)
+void ServerTCP6SelectedListener::DoWrite(Selector *)
 {
 	//Should never be called
 }
 
-void ServerTCP6PolledListener::DoExcept(Poller *)
+void ServerTCP6SelectedListener::DoExcept(Selector *)
 {
 	//Should never be called
 }
 
-void ServerTCP6PolledListener::DoTimeout(Poller *)
+void ServerTCP6SelectedListener::DoTimeout(Selector *)
 {
 	//Should never be called
 }
 
-void ServerTCP6PolledListener::DoClose(Poller *sel)
+void ServerTCP6SelectedListener::DoClose(Selector *sel)
 {
 }
 
-int ServerTCP6PolledListener::GetFD(const Poller *)
+int ServerTCP6SelectedListener::GetFD(const Selector *)
 {
 	return m_fd;
 }
 
-void ServerTCP6PolledListener::GetTimeout(const Poller *, struct timespec *tv)
+void ServerTCP6SelectedListener::GetTimeout(const Selector *, struct timespec *tv)
 {
 	//Should never be called
 }

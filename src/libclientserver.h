@@ -97,6 +97,7 @@
 #include <libclientserver/ServerUnixSelectedListener.h>
 #include <libclientserver/ServerTCPSelected.h>
 #include <libclientserver/ServerTCPSelectedListener.h>
+#include <libclientserver/ServerTCP6SelectedListener.h>
 
 #include <libclientserver/ServerUnixPolled.h>
 #include <libclientserver/ServerUnixPolledListener.h>
