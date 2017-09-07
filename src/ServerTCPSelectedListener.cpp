@@ -29,7 +29,7 @@ void ServerTCPSelectedListener::Init(int port, const std::string &address)
 	int enable = 1;
 	if (setsockopt(m_fd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0) {
 		std::string err = "setsockopt(SO_REUSEADDR): " + std::string(strerror(errno));
-		throw(std::runtime_error("setsockopt(SO_REUSEADDR) failed"));
+		throw(std::runtime_error(err));
 	}
 
 	memset(&addr, 0, addr_len);
@@ -77,7 +77,7 @@ bool ServerTCPSelectedListener::CanTimeout(const Selector *)
 
 void ServerTCPSelectedListener::DoRead(Selector *sel)
 {
-	struct sockaddr_un addr;
+	struct sockaddr_in addr;
 	socklen_t addr_len = sizeof(addr);
 
 	int fd = accept(m_fd, (struct sockaddr *) &addr, &addr_len);
