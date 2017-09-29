@@ -124,6 +124,7 @@
 #include <libclientserver/Client.h>
 
 #include <libclientserver/UDPMCast.h>
+#include <libclientserver/UDPMCastClient.h>
 
 #include <libclientserver/PIDFile.h>
 

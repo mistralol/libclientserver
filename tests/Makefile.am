@@ -40,6 +40,7 @@ TESTS=PIDFile \
 	TestTimeNanoSeconds \
 	LazyScopedPtr \
 	Optional \
+	TestUDPMCast \
 	TestUDPMCast
 
 check_PROGRAMS=PIDFile \
@@ -79,7 +80,8 @@ check_PROGRAMS=PIDFile \
 	TestTimeNanoSeconds \
 	LazyScopedPtr \
 	Optional \
-	TestUDPMCast
+	TestUDPMCast \
+	TestUDPMCastClient
 
 PIDFile_SOURCES=PIDFile.cpp
 Queueing_SOURCES=Queueing.cpp
@@ -119,6 +121,7 @@ TestTimeNanoSeconds_SOURCES=TestTimeNanoSeconds.cpp
 LazyScopedPtr_SOURCES=LazyScopedPtr.cpp
 Optional_SOURCES=Optional.cpp
 TestUDPMCast_SOURCES=TestUDPMCast.cpp
+TestUDPMCastClient_SOURCES=TestUDPMCastClient.cpp
 
 include_HEADERS=TestSetup.h TestServer.h
 

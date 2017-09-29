@@ -74,5 +74,6 @@ tests/LazyScopedPtr
 tests/Optional
 tests/TestHashMutex
 tests/TestUDPMCast
+tests/TestUDPMCastClient
 examples/PollerListen
 .vscode/
