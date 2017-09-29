@@ -6,18 +6,28 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-UDPMCast::UDPMCast() {
+UDPMCast::UDPMCast() :
+    m_port(0),
+    m_interval({30, 0}),
+    m_running(false)
+{
 
 }
 
 UDPMCast::~UDPMCast() {
-
+    if (m_running) {
+        Stop();
+    }
 }
 
 void UDPMCast::Start() {
     ScopedLock lock(&m_mutex);
     if (m_running)
         abort();
+    if (m_ip4_group.empty() && m_ip6_group.empty())
+        throw(std::runtime_error("UDPMCast must set ip4 or ip6 group"));
+    if (m_port == 0)
+        throw(std::runtime_error("UDPMCast must set port"));
     m_running = true;
     Thread::Start();
 }
