@@ -123,6 +123,8 @@
 #include <libclientserver/ClientUnixSelected.h>
 #include <libclientserver/Client.h>
 
+#include <libclientserver/UDPMCast.h>
+
 #include <libclientserver/PIDFile.h>
 
 #include <libclientserver/PerfManager.h>

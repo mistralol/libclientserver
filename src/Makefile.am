@@ -64,7 +64,8 @@ libclientserver_la_SOURCES= Barrier.cpp \
 			    Notify.cpp \
 			    Selector.cpp \
 			    ThreadPoolThread.cpp \
-			    Crypto.cpp
+			    Crypto.cpp \
+				UDPMCast.cpp
 
 
 include_HEADERS=libclientserver.h
@@ -149,7 +150,6 @@ otherinclude_HEADERS= libclientserver/LazyScopedPtr.h \
 			libclientserver/Timers.h \
 			libclientserver/UserID.h \
 			libclientserver/Uuid.h \
-			libclientserver/Crypto.h
-
-
+			libclientserver/Crypto.h \
+			libclientserver/UDPMCast.h
 

@@ -39,7 +39,8 @@ TESTS=PIDFile \
 	TestHashMutex \
 	TestTimeNanoSeconds \
 	LazyScopedPtr \
-	Optional
+	Optional \
+	TestUDPMCast
 
 check_PROGRAMS=PIDFile \
 	Queueing \
@@ -77,7 +78,8 @@ check_PROGRAMS=PIDFile \
 	TestHashMutex \
 	TestTimeNanoSeconds \
 	LazyScopedPtr \
-	Optional
+	Optional \
+	TestUDPMCast
 
 PIDFile_SOURCES=PIDFile.cpp
 Queueing_SOURCES=Queueing.cpp
@@ -116,6 +118,7 @@ TestHashMutex_SOURCES=TestHashMutex.cpp
 TestTimeNanoSeconds_SOURCES=TestTimeNanoSeconds.cpp
 LazyScopedPtr_SOURCES=LazyScopedPtr.cpp
 Optional_SOURCES=Optional.cpp
+TestUDPMCast_SOURCES=TestUDPMCast.cpp
 
 include_HEADERS=TestSetup.h TestServer.h
 
