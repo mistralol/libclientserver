@@ -38,7 +38,7 @@ void UDPMCast::Stop() {
         abort();
     m_running = false;
     m_mutex.WakeUpAll();
-    m_mutex.Unlock();
+    lock.Unlock();
     Thread::Stop();
 }
 
