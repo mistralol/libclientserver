@@ -54,6 +54,7 @@
 #include <libclientserver/String.h>
 #include <libclientserver/Time.h>
 #include <libclientserver/Mutex.h>
+#include <libclientserver/ThreadFunction.h>
 #include <libclientserver/ScopedLock.h>
 #include <libclientserver/Semaphore.h>
 #include <libclientserver/RWLock.h>

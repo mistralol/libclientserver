@@ -51,6 +51,7 @@ libclientserver_la_SOURCES= Barrier.cpp \
 			    Process.cpp \
 			    ScopedReadLock.cpp \
 			    Thread.cpp \
+				ThreadFunction.cpp \
 			    UserID.cpp \
 			    ClientUnix.cpp \
 				ClientTCP.cpp \
@@ -143,6 +144,7 @@ otherinclude_HEADERS= libclientserver/LazyScopedPtr.h \
 			libclientserver/SignalHandler.h \
 			libclientserver/String.h \
 			libclientserver/Thread.h \
+			libclientserver/ThreadFunction.h \
 			libclientserver/ThreadPool.h \
 			libclientserver/ThreadPoolThread.h \
 			libclientserver/Time.h \
