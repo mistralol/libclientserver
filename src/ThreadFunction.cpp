@@ -34,6 +34,7 @@ ThreadFunction::~ThreadFunction() {
 }
 
 void ThreadFunction::Run() {
+    ScopedLock lock(&m_mutex);
     while(m_running) {
         m_func();
 
