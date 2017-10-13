@@ -48,6 +48,7 @@
 
 #include <json/json.h>
 
+#include <libclientserver/Exception.h>
 #include <libclientserver/LazyScopedPtr.h>
 #include <libclientserver/Thread.h>
 #include <libclientserver/Errno.h>

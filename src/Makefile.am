@@ -5,7 +5,8 @@ lib_LTLIBRARIES=libclientserver.la
 libclientserver_la_CPPFLAGS=$(UUID_CFLAGS) $(OPENSSL_CFLAGS) $(JSON_CFLAGS)
 libclientserver_la_LDFLAGS=$(UUID_LIBS) $(OPENSSL_LIBS) $(JSON_LIBS) -version-info 1:2
 
-libclientserver_la_SOURCES= Barrier.cpp \
+libclientserver_la_SOURCES= Exception.cpp \
+				Barrier.cpp \
 			    PerfCounter.cpp \
 			    ServerException.cpp \
 			    SetGid.cpp \
@@ -74,7 +75,8 @@ include_HEADERS=libclientserver.h
 
 otherincludedir = $(includedir)/libclientserver
 
-otherinclude_HEADERS= libclientserver/LazyScopedPtr.h \
+otherinclude_HEADERS= libclientserver/Exception.h \
+			libclientserver/LazyScopedPtr.h \
 			libclientserver/Optional.h \
 			libclientserver/Barrier.h \
 			libclientserver/Buffer.h \
