@@ -55,6 +55,8 @@ bool ClientBase::WaitForConnect(const struct timespec *Timeout)
 		{
 			if (IsConnected())
 				return true;
+		} else {
+			return false;
 		}
 	}
 
