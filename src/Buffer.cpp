@@ -22,7 +22,7 @@ Buffer::~Buffer()
  */
 int Buffer::Init()
 {
-	m_buffer = (char *) malloc(m_buffer_length * sizeof(m_buffer));
+	m_buffer = (char *) malloc(m_buffer_length * sizeof(*m_buffer));
 	if (!m_buffer)
 		return -ENOMEM;
 	return 0;
@@ -421,7 +421,7 @@ bool Buffer::ReSize(size_t newsize)
 	if (m_max_size != 0 && newsize > m_max_size)
 		return false;
 
-	char *nbuf = (char *) realloc(m_buffer, newsize * sizeof(m_buffer));
+	char *nbuf = (char *) realloc(m_buffer, newsize * sizeof(*m_buffer));
 	if (!nbuf)
 		return false;
 	m_buffer = nbuf;
