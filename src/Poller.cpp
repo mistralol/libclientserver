@@ -192,12 +192,14 @@ void Poller::Run()
 		do
 		{
 			ScopedLock lock = ScopedLock(&m_mutex);
-			if (fds_size != m_map.size() + 1)
+			if (fds_size != m_map.size() + 1 || fds == NULL)
 			{
 				fds_size = m_map.size() + 1;
 				fds = (struct pollfd * ) realloc(fds, sizeof(*fds) * fds_size);
-				if (fds == NULL)
+				if (fds == NULL) {
 					abort(); //malloc failure.
+					continue; //Hides clang static analyser warning for null deref
+				}
 			}
 			
 			//First item is special case for control

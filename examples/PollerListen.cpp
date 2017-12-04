@@ -68,6 +68,7 @@ class TcpConnection : public IPollable
 			{
 				sel->Remove(this);
 				delete this;
+				return;
 			}
 			
 			if (m_buffer.Write(m_null) < 0)
@@ -75,6 +76,7 @@ class TcpConnection : public IPollable
 				printf("Failed to write to /dev/null %s\n", strerror(errno));
 				sel->Remove(this);
 				delete this;
+				return;
 			}
 		}
 
