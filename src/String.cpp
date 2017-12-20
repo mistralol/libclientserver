@@ -1,6 +1,18 @@
 
 #include <libclientserver.h>
 
+bool String::StartsWith(const std::string &str, const std::string &needle) {
+	if (str.compare(0, needle.size(), needle) == 0)
+		return true;
+	return false;
+}
+
+bool String::Contains(const std::string &str, const std::string &needle) {
+	if (str.find(needle) == std::string::npos)
+		return false;
+	return true;
+}
+
 std::string String::ToLower(const std::string &str)
 {
 	std::string tmp = "";
