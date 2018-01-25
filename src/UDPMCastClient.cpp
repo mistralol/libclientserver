@@ -32,6 +32,8 @@ void UDPMCastClient::Stop() {
         abort();
     lock.Unlock();
     Thread::Stop();
+    if (close(m_eventfd) < 0)
+        abort();
 }
 
 void UDPMCastClient::Run() {
