@@ -1,4 +1,7 @@
 
+#ifndef _LIBCLIENTSERVER_H
+#define _LIBCLIENTSERVER_H
+
 #include <string>
 #include <sstream>
 #include <map>
@@ -148,4 +151,6 @@
 #include <libclientserver/Crypto.h>
 
 #include <libclientserver/RateLimit.h>
+
+#endif
 
