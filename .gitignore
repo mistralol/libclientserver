@@ -46,6 +46,7 @@ tests/StringSplitList
 tests/StringSplitMap
 tests/StringSplitOne
 tests/StringSplitVector
+tests/StringRot13
 tests/TestClient
 tests/TestClientConnection
 tests/TestClientEvents

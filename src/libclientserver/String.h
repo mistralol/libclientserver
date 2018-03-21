@@ -44,6 +44,8 @@ class String
 
 		static bool ToInt(const std::string *str, int *value);
 		static bool ToLong(const std::string *str, long *value);
+
+		static std::string Rot13(const std::string &str);
 };
 
 

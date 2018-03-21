@@ -528,4 +528,21 @@ bool String::ToLong(const std::string *str, long *value)
 	return false;
 }
 
+std::string String::Rot13(const std::string &str) {
+	std::string out;
+
+	for(size_t i=0;i<str.size();i++) {
+		if (isalpha(str[i])) {
+			char c = tolower(str[i]);
+			if (c >= 'a' && c < 'n') {
+				out.append(1, str[i] + 13);
+			} else {
+				out.append(1, str[i] - 13);
+			}
+		} else {
+			out.append(1, str[i]);
+		}
+	}
+	return out;
+}
 

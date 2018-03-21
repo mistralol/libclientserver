@@ -14,6 +14,7 @@ TESTS=PIDFile \
 	StringSplitMap \
 	StringSplitOne \
 	StringSplitVector \
+	StringRot13 \
 	TestClientConnection \
 	TestClient \
 	TestClientEvents \
@@ -55,6 +56,7 @@ check_PROGRAMS=PIDFile \
 	StringSplitMap \
 	StringSplitOne \
 	StringSplitVector \
+	StringRot13 \
 	TestClientConnection \
 	TestClient \
 	TestClientEvents \
@@ -96,6 +98,7 @@ StringSplitList_SOURCES=StringSplitList.cpp
 StringSplitMap_SOURCES=StringSplitMap.cpp
 StringSplitOne_SOURCES=StringSplitOne.cpp
 StringSplitVector_SOURCES=StringSplitVector.cpp
+StringRot13_SOURCES=StringRot13.cpp
 TestClientConnection_SOURCES=TestClientConnection.cpp
 TestClient_SOURCES=TestClient.cpp
 TestClientEvents_SOURCES=TestClientEvents.cpp
