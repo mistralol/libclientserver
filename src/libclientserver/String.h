@@ -1,5 +1,5 @@
 
-/** 
+/**
  * @class String
  * @brief Utility / Helper Functions for strings
  *
@@ -15,7 +15,7 @@ class String
 
 		static std::string ToLower(const std::string &str);
 		static std::string ToUpper(const std::string &str);
-	
+
 		static bool Sanity(const std::string &str);
 		static bool Sanity(const std::string &str, const std::string &extra);
 
@@ -41,7 +41,7 @@ class String
 
 		static std::string Random(const std::string charset, int length);
 		static std::string Random(int length);
-		
+
 		static bool ToInt(const std::string *str, int *value);
 		static bool ToLong(const std::string *str, long *value);
 };
