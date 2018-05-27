@@ -23,7 +23,7 @@ m4_ifdef([AX_COMPILER_FLAGS],
         ]
 )
 
-AX_CXX_COMPILE_STDCXX_11(noext, optional)
+AX_CXX_COMPILE_STDCXX_11(noext, mandatory)
 
 dnl Check for libcap
 PKG_CHECK_MODULES(CAP, [
