@@ -95,10 +95,25 @@ void Poller::Remove(IPollable *p)
 
 void Poller::WakeUp(int fd) {
 	struct ControlPacket packet = { 1, fd };
+restart:
 	if (write(m_controlfd, &packet, sizeof(packet)) != sizeof(packet))
 	{
-		printf("m_controlfd: %d, fd: %d sizeof(x): %lu\n", m_controlfd, fd, sizeof(packet));
-		abort();
+		switch(errno) {
+			case EAGAIN:
+				struct pollfd tmp;
+				tmp.fd = m_controlfd;
+				tmp.events = POLLOUT;
+				tmp.revents = 0;
+				if (ppoll(&tmp, 1, NULL, NULL) < 0) {
+					perror("ppoll");
+					abort();
+				}
+				goto restart;
+				break;
+			default:
+				printf("m_controlfd: %d, fd: %d sizeof(x): %lu error: %s\n", m_controlfd, fd, sizeof(packet), strerror(errno));
+				abort();
+		}
 	}
 }
 
