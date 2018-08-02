@@ -1,6 +1,11 @@
 
 #include <libclientserver.h>
 
+struct ControlPacket {
+	uint32_t Command;
+	int32_t fd;
+};
+
 Poller::Poller()
 {
 	m_loop = true;
@@ -35,7 +40,7 @@ Poller::~Poller()
 	{
 		abort(); //Tried to delete selector with items left in it
 	}
-	
+
 	if (close(m_controlfd) < 0)
 		abort();
 }
@@ -56,12 +61,17 @@ void Poller::Add(IPollable *p)
 	WakeUp();
 }
 
-void Poller::Update(IPollable *p)
-{
-	ScopedLock lock = ScopedLock(&m_mutex);
-	m_modified = true;
-	UpdateMap(p->GetFD(this));
-	WakeUp();
+void Poller::Update(IPollable *p) {
+	//This can deadlock under strange conditions.
+	//To attempt to take the lock if we can't. Send it to the ioloop to be updated (take slightly longer)
+	if (false && m_mutex.TryLock()) {
+		m_modified = true;
+		UpdateMap(p->GetFD(this));
+		m_mutex.Unlock();
+		WakeUp();
+	} else {
+		WakeUp(p->GetFD(this));
+	}
 }
 
 void Poller::Remove(IPollable *p)
@@ -83,13 +93,11 @@ void Poller::Remove(IPollable *p)
 	WakeUp();
 }
 
-void Poller::WakeUp()
-{
-	uint64_t x = 1;
-
-	ScopedLock lock = ScopedLock(&m_mutex);
-	if (write(m_controlfd, &x, sizeof(x)) != sizeof(x))
+void Poller::WakeUp(int fd) {
+	struct ControlPacket packet = { 1, fd };
+	if (write(m_controlfd, &packet, sizeof(packet)) != sizeof(packet))
 	{
+		printf("m_controlfd: %d, fd: %d sizeof(x): %lu\n", m_controlfd, fd, sizeof(packet));
 		abort();
 	}
 }
@@ -98,7 +106,7 @@ void Poller::UpdateMap(int fd)
 {
 	std::map<int, IPollable *>::iterator it = m_map.find(fd);
 	if (it == m_map.end())
-		abort();
+		return; /* fd may have disappeared */
 
 	if (it->second->CanTimeout(this))
 	{
@@ -130,10 +138,10 @@ void Poller::UpdateMap(int fd)
 
 void Poller::ReadControl()
 {
-	uint64_t x = 1;
+	struct ControlPacket packet = { 1, -1 };
 	int size = 0;
 	do {
-		size = read(m_controlfd, &x, sizeof(x));
+		size = read(m_controlfd, &packet, sizeof(packet));
 		if (size < 0)
 		{
 			switch(errno)
@@ -145,6 +153,13 @@ void Poller::ReadControl()
 					abort();
 					break;
 			}
+		} else {
+			if (size != sizeof(packet))
+				abort();
+			ScopedLock lock = ScopedLock(&m_mutex);
+			m_modified = true;
+			if (packet.fd >= 0)
+			UpdateMap(packet.fd);
 		}
 	} while(size != 0);
 }
@@ -201,7 +216,7 @@ void Poller::Run()
 					continue; //Hides clang static analyser warning for null deref
 				}
 			}
-			
+
 			//First item is special case for control
 			fds[0].fd = m_controlfd;
 			fds[0].events = POLLIN;

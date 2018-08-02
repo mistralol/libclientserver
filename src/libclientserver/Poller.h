@@ -32,9 +32,9 @@ class Poller : private Thread
 		void Add(IPollable *p);
 		void Update(IPollable *p);
 		void Remove(IPollable *p);
-	
+
 	protected:
-		void WakeUp();
+		void WakeUp(int fd = -1);
 		void UpdateMap(int fd);
 		void ReadControl();
 		void CalcTimeout(struct timespec *tv);
