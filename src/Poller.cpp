@@ -20,7 +20,7 @@ Poller::Poller()
 Poller::~Poller()
 {
 	m_loop = false;
-	WakeUp();
+	WakeUp(false);
 	Thread::Stop();
 
 	do
@@ -93,7 +93,7 @@ void Poller::Remove(IPollable *p)
 	WakeUp();
 }
 
-void Poller::WakeUp(int fd) {
+void Poller::WakeUp(int fd, bool block) {
 	struct ControlPacket packet = { 1, fd };
 restart:
 	if (write(m_controlfd, &packet, sizeof(packet)) != sizeof(packet))
@@ -108,7 +108,9 @@ restart:
 					perror("ppoll");
 					abort();
 				}
-				goto restart;
+				if (block) {
+					goto restart;
+				}
 				break;
 			default:
 				printf("m_controlfd: %d, fd: %d sizeof(x): %lu error: %s\n", m_controlfd, fd, sizeof(packet), strerror(errno));

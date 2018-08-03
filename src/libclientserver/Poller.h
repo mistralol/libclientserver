@@ -34,7 +34,7 @@ class Poller : private Thread
 		void Remove(IPollable *p);
 
 	protected:
-		void WakeUp(int fd = -1);
+		void WakeUp(int fd = -1, bool block = true);
 		void UpdateMap(int fd);
 		void ReadControl();
 		void CalcTimeout(struct timespec *tv);
