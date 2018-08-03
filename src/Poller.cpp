@@ -58,6 +58,8 @@ void Poller::Add(IPollable *p)
 	m_modified = true;
 	m_map[fd] = p;
 	UpdateMap(fd);
+
+	lock.Unlock();
 	WakeUp();
 }
 
@@ -90,6 +92,7 @@ void Poller::Remove(IPollable *p)
 	if (it != m_timeout.end())
 		m_timeout.erase(it);
 
+	lock.Unlock();
 	WakeUp();
 }
 
@@ -153,8 +156,7 @@ void Poller::UpdateMap(int fd)
 	}
 }
 
-void Poller::ReadControl()
-{
+void Poller::ReadControl() {
 	struct ControlPacket packet = { 1, -1 };
 	int size = 0;
 	do {
@@ -272,6 +274,10 @@ void Poller::Run()
 					abort();
 					break;
 			}
+		}
+
+		if (fds[0].revents & POLLIN) {
+			ReadControl();
 		}
 
 		do {
