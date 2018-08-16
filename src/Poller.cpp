@@ -98,6 +98,8 @@ void Poller::Remove(IPollable *p)
 
 void Poller::WakeUp(int fd, bool block) {
 	struct ControlPacket packet = { 1, fd };
+	if (!IsRunning())
+		return;
 restart:
 	if (write(m_controlfd, &packet, sizeof(packet)) != sizeof(packet))
 	{
