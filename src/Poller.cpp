@@ -118,7 +118,7 @@ restart:
 				}
 				break;
 			default:
-				printf("m_controlfd: %d, fd: %d sizeof(x): %lu error: %s\n", m_controlfd, fd, sizeof(packet), strerror(errno));
+				//printf("m_controlfd: %d, fd: %d sizeof(x): %lu error: %s\n", m_controlfd, fd, sizeof(packet), strerror(errno));
 				abort();
 		}
 	}
