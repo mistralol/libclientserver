@@ -20,7 +20,6 @@ class ThreadPool {
 		void Init(int nthread, size_t maxqueue);
 
 	private:
-		Mutex m_mutex;
 		std::atomic<uint64_t> m_totalqueued;
 		std::atomic<uint64_t> m_totalexecuted;
 		Queue<std::function<void()> > m_queue;
