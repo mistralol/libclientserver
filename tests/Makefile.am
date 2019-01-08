@@ -32,6 +32,7 @@ TESTS=PIDFile \
 	TestSignalHandler \
 	TestTimers \
 	TestThreadFunction \
+	TaskPool \
 	ThreadPool \
 	TimerExit \
 	TimerExitLamba \
@@ -74,6 +75,7 @@ check_PROGRAMS=PIDFile \
 	TestSignalHandler \
 	TestTimers \
 	TestThreadFunction \
+	TaskPool \
 	ThreadPool \
 	TimerExit \
 	TimerExitLamba \
@@ -116,6 +118,7 @@ TestServerDisconnects_SOURCES=TestServerDisconnects.cpp
 TestSignalHandler_SOURCES=TestSignalHandler.cpp
 TestTimers_SOURCES=TestTimers.cpp
 TestThreadFunction_SOURCES=TestThreadFunction.cpp
+TaskPool_SOURCES=TaskPool.cpp
 ThreadPool_SOURCES=ThreadPool.cpp
 TimerExit_SOURCES=TimerExit.cpp
 TimerExitLamba_SOURCES=TimerExitLamba.cpp

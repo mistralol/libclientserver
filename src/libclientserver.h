@@ -6,12 +6,17 @@
 #include <sstream>
 #include <map>
 #include <list>
+#include <queue>
 #include <vector>
 #include <stack>
 #include <exception>
 #include <stdexcept>
 #include <memory>
 #include <functional>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+#include <future>
 #include <atomic>
 
 #include <stdio.h>
@@ -84,6 +89,7 @@
 #include <libclientserver/Queue.h>
 #include <libclientserver/SQueue.h>
 
+#include <libclientserver/TaskPool.h>
 #include <libclientserver/ThreadPool.h>
 #include <libclientserver/ThreadPoolThread.h>
 

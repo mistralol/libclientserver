@@ -64,6 +64,7 @@ tests/TestServerDisconnects
 tests/TestSignalHandler
 tests/TestTimers
 tests/TestThreadFunction
+tests/TaskPool
 tests/ThreadPool
 tests/TimerExit
 tests/TimerExitLamba

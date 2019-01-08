@@ -147,6 +147,7 @@ otherinclude_HEADERS= libclientserver/Exception.h \
 			libclientserver/String.h \
 			libclientserver/Thread.h \
 			libclientserver/ThreadFunction.h \
+			libclientserver/TaskPool.h \
 			libclientserver/ThreadPool.h \
 			libclientserver/ThreadPoolThread.h \
 			libclientserver/Time.h \
