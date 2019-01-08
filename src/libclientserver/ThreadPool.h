@@ -2,27 +2,27 @@
 class ThreadPoolThread;
 
 class ThreadPool {
-	public:
-		ThreadPool();
-		ThreadPool(int nthread);
-		ThreadPool(int nthread, size_t maxqueue);
-		~ThreadPool();
+    public:
+        ThreadPool();
+        ThreadPool(int nthread);
+        ThreadPool(int nthread, size_t maxqueue);
+        ~ThreadPool();
 
-		void Add(std::function<void()> func);
-		void Flush();
+        void Add(std::function<void()> func);
+        void Flush();
 
-		void Execute();
-		
-		size_t GetCount();
-		size_t GetHWCount();
+        void Execute();
 
-	protected:
-		void Init(int nthread, size_t maxqueue);
+        size_t GetCount();
+        size_t GetHWCount();
 
-	private:
-		std::atomic<uint64_t> m_totalqueued;
-		std::atomic<uint64_t> m_totalexecuted;
-		Queue<std::function<void()> > m_queue;
-		std::list<ThreadPoolThread *> m_threads;
+    protected:
+        void Init(int nthread, size_t maxqueue);
+
+    private:
+        std::atomic<uint64_t> m_totalqueued;
+        std::atomic<uint64_t> m_totalexecuted;
+        Queue<std::function<void()> > m_queue;
+        std::list<ThreadPoolThread *> m_threads;
 };
 
