@@ -20,7 +20,7 @@ Poller::Poller()
 Poller::~Poller()
 {
 	m_loop = false;
-	WakeUp(-1, false);
+	WakeUp();
 	Thread::Stop();
 
 	do
@@ -54,22 +54,15 @@ void Poller::Add(IPollable *p)
 		abort(); //Duplicate FD?
 
 	ScopedLock lock = ScopedLock(&m_mutex);
-
 	m_modified = true;
 	m_map[fd] = p;
-	UpdateMap(fd);
-
 	lock.Unlock();
-	if (m_threadid != pthread_self())
-		WakeUp();
+
+	WakeUp();
 }
 
 void Poller::Update(IPollable *p) {
-	if (m_threadid != pthread_self()) {
-		WakeUp();
-	} else {
-		m_modified = true;
-	}
+	WakeUp();
 }
 
 void Poller::Remove(IPollable *p)
@@ -89,30 +82,17 @@ void Poller::Remove(IPollable *p)
 		m_timeout.erase(it);
 
 	lock.Unlock();
-	if (m_threadid != pthread_self())
-		WakeUp();
+	WakeUp();
 }
 
-void Poller::WakeUp(int fd, bool block) {
-	struct ControlPacket packet = { 1, fd };
+void Poller::WakeUp() {
+	struct ControlPacket packet = { 1, -1 };
 	if (!IsRunning())
 		return;
-restart:
-	if (write(m_controlfd, &packet, sizeof(packet)) != sizeof(packet))
-	{
+	if (write(m_controlfd, &packet, sizeof(packet)) != sizeof(packet)) {
 		switch(errno) {
 			case EAGAIN:
-				struct pollfd tmp;
-				tmp.fd = m_controlfd;
-				tmp.events = POLLOUT;
-				tmp.revents = 0;
-				if (ppoll(&tmp, 1, NULL, NULL) < 0) {
-					perror("ppoll");
-					abort();
-				}
-				if (block) {
-					goto restart;
-				}
+				/* WakeUp going to happen anyway */
 				break;
 			default:
 				//printf("m_controlfd: %d, fd: %d sizeof(x): %lu error: %s\n", m_controlfd, fd, sizeof(packet), strerror(errno));
@@ -171,13 +151,6 @@ void Poller::ReadControl() {
 					abort();
 					break;
 			}
-		} else {
-			if (size != sizeof(packet))
-				abort();
-			ScopedLock lock = ScopedLock(&m_mutex);
-			m_modified = true;
-			if (packet.fd >= 0)
-			UpdateMap(packet.fd);
 		}
 	} while(size != 0);
 }
@@ -217,7 +190,6 @@ void Poller::Run()
 {
 	struct pollfd *fds = NULL;
 	size_t fds_size = 0;
-	m_threadid = pthread_self();
 
 	while(m_loop)
 	{

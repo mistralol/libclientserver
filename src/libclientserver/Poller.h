@@ -34,7 +34,7 @@ class Poller : private Thread
 		void Remove(IPollable *p);
 
 	protected:
-		void WakeUp(int fd = -1, bool block = true);
+		void WakeUp();
 		void UpdateMap(int fd);
 		void ReadControl();
 		void CalcTimeout(struct timespec *tv);
@@ -48,7 +48,6 @@ class Poller : private Thread
 		std::map<int, struct timespec> m_timeout;
 		bool m_modified;
 		int m_err_ebadf;
-		pthread_t m_threadid;
 };
 
 
