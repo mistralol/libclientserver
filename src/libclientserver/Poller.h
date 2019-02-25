@@ -48,6 +48,7 @@ class Poller : private Thread
 		std::map<int, struct timespec> m_timeout;
 		bool m_modified;
 		int m_err_ebadf;
+		pthread_t m_threadid;
 };
 
 

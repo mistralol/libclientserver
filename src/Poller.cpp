@@ -60,19 +60,15 @@ void Poller::Add(IPollable *p)
 	UpdateMap(fd);
 
 	lock.Unlock();
-	WakeUp();
+	if (m_threadid != pthread_self())
+		WakeUp();
 }
 
 void Poller::Update(IPollable *p) {
-	//This can deadlock under strange conditions.
-	//To attempt to take the lock if we can't. Send it to the ioloop to be updated (take slightly longer)
-	if (false && m_mutex.TryLock()) {
-		m_modified = true;
-		UpdateMap(p->GetFD(this));
-		m_mutex.Unlock();
+	if (m_threadid != pthread_self()) {
 		WakeUp();
 	} else {
-		WakeUp(p->GetFD(this));
+		m_modified = true;
 	}
 }
 
@@ -93,7 +89,8 @@ void Poller::Remove(IPollable *p)
 		m_timeout.erase(it);
 
 	lock.Unlock();
-	WakeUp();
+	if (m_threadid != pthread_self())
+		WakeUp();
 }
 
 void Poller::WakeUp(int fd, bool block) {
@@ -220,6 +217,7 @@ void Poller::Run()
 {
 	struct pollfd *fds = NULL;
 	size_t fds_size = 0;
+	m_threadid = pthread_self();
 
 	while(m_loop)
 	{
