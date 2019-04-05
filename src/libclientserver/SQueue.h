@@ -6,10 +6,12 @@ template <class T>
 class SQueue
 {
 	public:
-		SQueue()
+		SQueue() :
+			m_maxsize(0),
+			m_hwsize(0),
+			m_count(0)
 		{
-			m_maxsize = 0;
-			m_hwsize = 0;
+
 		}
 
 		~SQueue()
@@ -52,7 +54,6 @@ class SQueue
 			{
 				m_mutex.Wait();
 			}
-			
 		}
 
 		size_t GetCount()

@@ -4,11 +4,13 @@ template <class T>
 class Queue
 {
 	public:
-		Queue()
+		Queue() :
+			m_maxsize(0),
+			m_hwsize(0),
+			m_count(0),
+			m_flushing(false)
 		{
-			m_maxsize = 0;
-			m_hwsize = 0;
-			m_flushing = false;
+
 		}
 
 		~Queue()
