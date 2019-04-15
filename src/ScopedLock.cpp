@@ -7,6 +7,15 @@ ScopedLock::ScopedLock(Mutex *m) {
 	m_locked = true;
 }
 
+ScopedLock::ScopedLock(Mutex *m, std::function<void()> ErrorHandler) :
+	m_mutex(m)
+{
+	if (m->TryLock()) {
+		ErrorHandler();
+	}
+	m_locked = true;
+}
+
 ScopedLock::~ScopedLock() {
 	if (m_locked)
 	{

@@ -11,6 +11,7 @@
 class ScopedLock {
 	public:
 		ScopedLock(Mutex *m);
+		ScopedLock(Mutex *m, std::function<void()> ErrorHandler);
 		~ScopedLock();
 
 		void Lock();
