@@ -1,8 +1,9 @@
 
 #include <libclientserver.h>
 
-ScopedLock::ScopedLock(Mutex *m) {
-    m_mutex = m;
+ScopedLock::ScopedLock(Mutex *m) :
+    m_mutex(m)
+{
     m_mutex->Lock();
     m_locked = true;
 }
