@@ -9,17 +9,17 @@
  */
 
 class ScopedLock {
-	public:
-		ScopedLock(Mutex *m);
-		ScopedLock(Mutex *m, std::function<void()> ErrorHandler);
-		~ScopedLock();
+    public:
+        ScopedLock(Mutex *m);
+        ScopedLock(Mutex *m, std::function<void()> ErrorHandler);
+        ~ScopedLock();
 
-		void Lock();
-		void Unlock();
+        void Lock();
+        void Unlock();
 
-		private:
-			Mutex *m_mutex;
-			bool m_locked;
+        private:
+            Mutex *m_mutex;
+            bool m_locked;
 };
 
 

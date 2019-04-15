@@ -7,39 +7,39 @@
  * Constructor for Mutex. If it fails it will call abort since these functions should *NEVER* fail.
  */
 Mutex::Mutex() {
-	pthread_mutexattr_t mattr;
-	m_clocktype = CLOCK_REALTIME;
+    pthread_mutexattr_t mattr;
+    m_clocktype = CLOCK_REALTIME;
 
-	if (pthread_mutexattr_init(&mattr) != 0)
-		abort();
+    if (pthread_mutexattr_init(&mattr) != 0)
+        abort();
 
-	if (pthread_mutexattr_settype(&mattr, PTHREAD_MUTEX_RECURSIVE) != 0)
-		abort();
+    if (pthread_mutexattr_settype(&mattr, PTHREAD_MUTEX_RECURSIVE) != 0)
+        abort();
 
-	if (pthread_mutex_init(&m_mutex, &mattr) != 0)
-		abort();
+    if (pthread_mutex_init(&m_mutex, &mattr) != 0)
+        abort();
 
-	if (pthread_mutexattr_destroy(&mattr) != 0)
-		abort();
+    if (pthread_mutexattr_destroy(&mattr) != 0)
+        abort();
 
-	pthread_condattr_t cattr;
+    pthread_condattr_t cattr;
 
-	if (pthread_condattr_init(&cattr) != 0)
-		abort();
+    if (pthread_condattr_init(&cattr) != 0)
+        abort();
 
-	//Try to use monotonic clock so date time change do not effect us if we are sleeping on a condition
-	if (pthread_condattr_setclock(&cattr, CLOCK_MONOTONIC) == 0)
-		m_clocktype = CLOCK_MONOTONIC;
+    //Try to use monotonic clock so date time change do not effect us if we are sleeping on a condition
+    if (pthread_condattr_setclock(&cattr, CLOCK_MONOTONIC) == 0)
+        m_clocktype = CLOCK_MONOTONIC;
 
 
-	if (pthread_cond_init(&m_cond, &cattr) != 0)
-		abort();
+    if (pthread_cond_init(&m_cond, &cattr) != 0)
+        abort();
 
-	if (pthread_condattr_destroy(&cattr) != 0)
-		abort();
+    if (pthread_condattr_destroy(&cattr) != 0)
+        abort();
 
-	m_locked = false;
-	m_depth = 0;
+    m_locked = false;
+    m_depth = 0;
 }
 
 /**
@@ -52,15 +52,15 @@ Mutex::Mutex() {
  */
 Mutex::~Mutex() {
 #ifdef DEBUG
-	if (m_locked)
-		abort(); //Attempts to free mutex that is locked
+    if (m_locked)
+        abort(); //Attempts to free mutex that is locked
 #endif
 
-	if (pthread_cond_destroy(&m_cond) != 0)
-		abort();
+    if (pthread_cond_destroy(&m_cond) != 0)
+        abort();
 
-	if (pthread_mutex_destroy(&m_mutex) != 0)
-		abort();
+    if (pthread_mutex_destroy(&m_mutex) != 0)
+        abort();
 }
 
 /**
@@ -70,11 +70,11 @@ Mutex::~Mutex() {
  * if there is a bug in the application using the Mutex class
  */
 void Mutex::Lock() {
-	if (pthread_mutex_lock(&m_mutex) != 0)
-		abort(); //Could not lock mutex
-	m_locked = true;
-	m_owner = pthread_self();
-	m_depth++;
+    if (pthread_mutex_lock(&m_mutex) != 0)
+        abort(); //Could not lock mutex
+    m_locked = true;
+    m_owner = pthread_self();
+    m_depth++;
 }
 
 /**
@@ -89,22 +89,22 @@ void Mutex::Lock() {
  */
 int Mutex::TimedLock(const struct timespec *Timeout)
 {
-	struct timespec now, then;
+    struct timespec now, then;
 
-	if (clock_gettime(m_clocktype, &now) < 0)
-		abort();
+    if (clock_gettime(m_clocktype, &now) < 0)
+        abort();
 
-	Time::Add(Timeout, &now, &then);
+    Time::Add(Timeout, &now, &then);
 
-	int ret = pthread_mutex_timedlock(&m_mutex, Timeout);
-	if (ret == 0)
-	{
-		m_locked = true;
-		m_owner = pthread_self();
-		m_depth++;
-		return 0;
-	}
-	return -errno;
+    int ret = pthread_mutex_timedlock(&m_mutex, Timeout);
+    if (ret == 0)
+    {
+        m_locked = true;
+        m_owner = pthread_self();
+        m_depth++;
+        return 0;
+    }
+    return -errno;
 }
 
 /**
@@ -115,8 +115,8 @@ int Mutex::TimedLock(const struct timespec *Timeout)
  */
 int Mutex::TryLock()
 {
-	struct timespec ts = {0, 0};
-	return TimedLock(&ts);
+    struct timespec ts = {0, 0};
+    return TimedLock(&ts);
 }
 
 /**
@@ -129,10 +129,10 @@ int Mutex::TryLock()
  *
  */
 void Mutex::Unlock() {
-	m_locked = false;
-	m_depth--;
-	if (pthread_mutex_unlock(&m_mutex) != 0)
-		abort(); //Could not unlock mutex
+    m_locked = false;
+    m_depth--;
+    if (pthread_mutex_unlock(&m_mutex) != 0)
+        abort(); //Could not unlock mutex
 }
 
 /**
@@ -142,11 +142,11 @@ void Mutex::Unlock() {
  */
 bool Mutex::IsOwner()
 {
-	if (m_locked == false)
-		return false;
-	if (pthread_equal(m_owner, pthread_self()))
-		return true;
-	return false;
+    if (m_locked == false)
+        return false;
+    if (pthread_equal(m_owner, pthread_self()))
+        return true;
+    return false;
 }
 
 /**
@@ -159,18 +159,18 @@ bool Mutex::IsOwner()
  */
 void Mutex::Wait() {
 #ifdef DEBUG
-	if (m_locked == false)
-		abort();
-	if (m_depth > 1)
-		abort(); //Does not work well with recursive mutex
+    if (m_locked == false)
+        abort();
+    if (m_depth > 1)
+        abort(); //Does not work well with recursive mutex
 #endif
 
-	m_locked = false;
-	int ret = pthread_cond_wait(&m_cond, &m_mutex);
-	if (ret != 0)
-		abort(); //pthread_cond_wait failed
-	m_locked = true;
-	m_owner = pthread_self();
+    m_locked = false;
+    int ret = pthread_cond_wait(&m_cond, &m_mutex);
+    if (ret != 0)
+        abort(); //pthread_cond_wait failed
+    m_locked = true;
+    m_owner = pthread_self();
 }
 
 /**
@@ -188,36 +188,36 @@ void Mutex::Wait() {
  */
 int Mutex::Wait(const struct timespec *Timeout) {
 #ifdef DEBUG
-	if (m_locked == false)
-		abort();
-	if (m_depth > 1)
-		abort(); //Does not work well with recursive mutex
+    if (m_locked == false)
+        abort();
+    if (m_depth > 1)
+        abort(); //Does not work well with recursive mutex
 #endif
-	struct timespec now, then;
+    struct timespec now, then;
 
-	if (clock_gettime(m_clocktype, &now) < 0)
-		abort();
+    if (clock_gettime(m_clocktype, &now) < 0)
+        abort();
 
-	Time::Add(Timeout, &now, &then);
+    Time::Add(Timeout, &now, &then);
 
-	m_locked = false;
-	int ret = pthread_cond_timedwait(&m_cond, &m_mutex, &then);
-	m_locked = true;
-	m_owner = pthread_self();
-	if (ret != 0) {
-		switch(ret) {
-			case ETIMEDOUT:
-				return -ETIMEDOUT;
-				break;
-			case EBUSY:
-			case EINTR:
-				return 0;
-			default:
-				abort(); //pthread_cond_timedwait failed
-				break;
-		}
-	}
-	return ret; /* Unreachable! */
+    m_locked = false;
+    int ret = pthread_cond_timedwait(&m_cond, &m_mutex, &then);
+    m_locked = true;
+    m_owner = pthread_self();
+    if (ret != 0) {
+        switch(ret) {
+            case ETIMEDOUT:
+                return -ETIMEDOUT;
+                break;
+            case EBUSY:
+            case EINTR:
+                return 0;
+            default:
+                abort(); //pthread_cond_timedwait failed
+                break;
+        }
+    }
+    return ret; /* Unreachable! */
 }
 
 /**
@@ -229,12 +229,12 @@ int Mutex::Wait(const struct timespec *Timeout) {
  */
 void Mutex::WakeUp() {
 #ifdef DEBUG
-	if (IsOwner() == false)
-		abort();
+    if (IsOwner() == false)
+        abort();
 #endif
-	int ret = pthread_cond_signal(&m_cond);
-	if (ret != 0)
-		abort(); //pthread_cond_signal failed
+    int ret = pthread_cond_signal(&m_cond);
+    if (ret != 0)
+        abort(); //pthread_cond_signal failed
 }
 
 /**
@@ -246,11 +246,11 @@ void Mutex::WakeUp() {
  */
 void Mutex::WakeUpAll() {
 #ifdef DEBUG
-	if (IsOwner() == false)
-		abort();
+    if (IsOwner() == false)
+        abort();
 #endif
-	int ret = pthread_cond_broadcast(&m_cond);
-	if (ret != 0)
-		abort(); //pthread_cond_signal failed
+    int ret = pthread_cond_broadcast(&m_cond);
+    if (ret != 0)
+        abort(); //pthread_cond_signal failed
 }
 
