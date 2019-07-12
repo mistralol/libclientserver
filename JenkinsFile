@@ -1,0 +1,49 @@
+pipeline {
+    agent any
+    stages {
+        stage('Prep') {
+            steps {
+                sh('mkdir -p build-debug build-release')
+		sh('rm -rf build-debug/*')
+		sh('rm -rf build-release/*')
+            }
+        }
+        stage('Build Debug') {
+            steps {
+                dir('build-debug') {
+                    sh('cmake -DCMAKE_BUILD_TYPE=Debug -DENABLE_CPPCHECK=ON ../')
+                    sh('make')
+                }
+            }
+        }
+        stage('Test Debug') {
+            steps {
+                dir('build-debug') {
+                    sh('ctest')
+                }
+            }
+        }
+        stage('Build Release') {
+            steps {
+                dir('build-release') {
+                    sh('cmake -DCMAKE_BUILD_TYPE=Release ../')
+                    sh('make')
+                }
+            }
+        }
+        stage('Test Release') {
+            steps {
+                dir('build-release') {
+                    sh('ctest')
+                }
+            }
+        }
+        stage('Package') {
+            steps {
+                dir('build-release') {
+                    sh('cpack')
+                }
+            }
+        }
+    }
+}
