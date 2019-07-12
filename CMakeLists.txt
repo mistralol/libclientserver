@@ -58,6 +58,7 @@ set(FLAGS "${FLAGS} -Wno-switch -Wno-error=unused-parameter")
 set(FLAGS "${FLAGS} -Wno-error=missing-field-initializers")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${FLAGS} -Wno-overloaded-virtual")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${FLAGS}")
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 find_package(Threads REQUIRED)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
