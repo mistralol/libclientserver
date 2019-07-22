@@ -46,4 +46,12 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            recordIssues(tools: [cppCheck(), cmake(), gcc(), clang()])
+        }
+        failure {
+            emailext(body: "Check console output at ${env.BUILD_URL} to view the results.", subject: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}", to: "james@stev.org")
+        }
+    }
 }
