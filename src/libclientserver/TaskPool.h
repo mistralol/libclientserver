@@ -46,8 +46,8 @@ class TaskPool {
                 // so it can be stored in the queue. the future will still
                 // contain the correct type
                 queue.push(std::packaged_task<void()>(std::move(task)));
+            	condvar.notify_one();
             }
-            condvar.notify_one();
             return future;
         }
 
